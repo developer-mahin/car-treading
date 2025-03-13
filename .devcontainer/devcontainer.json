@@ -1,0 +1,29 @@
+{
+	"name": "car_treading",
+	"image": "node:20",
+	"workspaceFolder": "/app",
+	"mounts": [
+		{
+			"source": "/d/Work/car_treading",
+			"target": "/app",
+			"type": "bind"
+		},
+		{
+			"source": "car-treading-logs",
+			"target": "/app/logs",
+			"type": "volume"
+		},
+		{
+			"target": "/app/node_modules",
+			"type": "volume"
+		}
+	],
+	"runArgs": [
+		"--name",
+		"car_treading_container",
+		"-p",
+		"8010:8000",
+		"--rm"
+	],
+	"postCreateCommand": "npm install"
+}
