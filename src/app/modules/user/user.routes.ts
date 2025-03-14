@@ -6,8 +6,8 @@ import { UserController } from './user.controller';
 const router = Router();
 
 router
-  .get('/user_list', auth(USER_ROLE.ADMIN), UserController.getAllUsersList)
-  .get('/user_ratio', auth(USER_ROLE.ADMIN), UserController.getUserRatio)
-  .patch('/action/:userId', auth(USER_ROLE.ADMIN), UserController.userAction);
+  .get('/user_list', auth(USER_ROLE.admin), UserController.getAllUsersList)
+  .get('/user_ratio', auth(USER_ROLE.admin), UserController.getUserRatio)
+  .patch('/action/:userId', auth(USER_ROLE.admin), UserController.userAction);
 
 export const UserRoutes = router;

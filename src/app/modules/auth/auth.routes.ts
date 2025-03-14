@@ -55,10 +55,5 @@ router
   .post('/resend_otp', AuthController.resendOtp)
   .post('/logout', AuthController.logOutUser)
   .post('/social_login', AuthController.socialLogin)
-  .post(
-    '/assign_restaurant',
-    auth(USER_ROLE.dealer, USER_ROLE.private_user),
-    AuthController.assignRestaurant,
-  );
 
 export const AuthRoutes = router;
