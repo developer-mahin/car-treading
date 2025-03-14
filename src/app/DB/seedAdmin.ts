@@ -1,17 +1,15 @@
+import colors from 'colors';
+import httpStatus from 'http-status';
+import mongoose from 'mongoose';
 import config from '../../config';
 import { USER_ROLE } from '../constant';
-import User from '../modules/user/user.model';
-import colors from 'colors';
-import generateUID from '../utils/generateUID';
-import mongoose from 'mongoose';
-import AppError from '../utils/AppError';
-import httpStatus from 'http-status';
 import Profile from '../modules/profile/profile.model';
+import User from '../modules/user/user.model';
+import AppError from '../utils/AppError';
 
 const seedAdmin = async () => {
   // if admin is not exist
   const admin = {
-    UID: await generateUID(),
     email: config.admin.admin_email,
     password: config.admin.admin_password,
     role: USER_ROLE.admin,

@@ -54,6 +54,6 @@ router
   )
   .post('/resend_otp', AuthController.resendOtp)
   .post('/logout', AuthController.logOutUser)
-  .post('/social_login', AuthController.socialLogin)
+  .post('/social_login', AuthController.socialLogin);
 
 export const AuthRoutes = router;

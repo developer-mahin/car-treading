@@ -4,6 +4,8 @@ import { ConversationRoutes } from '../modules/conversation/conversation.routes'
 import { ProfileRoutes } from '../modules/profile/profile.routes';
 import { StaticContentRoutes } from '../modules/staticContent/staticContent.routes';
 import { UserRoutes } from '../modules/user/user.routes';
+import { TaskRoutes } from '../modules/task/task.routes';
+import { TaskResolveRoutes } from '../modules/taskResolve/taskResolve.routes';
 const router = Router();
 
 type TRoutes = {
@@ -28,6 +30,16 @@ const routes: TRoutes[] = [
   {
     path: '/static_content',
     route: StaticContentRoutes,
+  },
+
+  {
+    path: '/task',
+    route: TaskRoutes,
+  },
+
+  {
+    path: '/task_resolve',
+    route: TaskResolveRoutes,
   },
 
   {

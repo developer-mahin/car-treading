@@ -1,8 +1,7 @@
-import { ObjectId } from "mongoose";
+import { ObjectId } from 'mongoose';
 
 export type TTaskResolve = {
-    taskId: ObjectId,
-    taskFile: string,
-    solutionDetails: string,
-}
-
+  taskId: ObjectId;
+  taskFile: string;
+  solutionDetails: string;
+};

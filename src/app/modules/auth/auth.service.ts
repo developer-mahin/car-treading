@@ -9,7 +9,6 @@ import { USER_STATUS } from '../../constant';
 import AppError from '../../utils/AppError';
 import { decodeToken } from '../../utils/decodeToken';
 import generateToken from '../../utils/generateToken';
-import { isMatchedPassword } from '../../utils/matchPassword';
 import { OtpService } from '../otp/otp.service';
 import Profile from '../profile/profile.model';
 import { IUser } from '../user/user.interface';
@@ -108,7 +107,6 @@ const verifyEmail = async (token: string, otp: { otp: number }) => {
     token,
     config.jwt.sing_up_token as Secret,
   ) as JwtPayload;
-
 
   if (!decodedUser) {
     throw new AppError(httpStatus.UNAUTHORIZED, 'Invalid token');
@@ -210,7 +208,6 @@ const loginUser = async (payload: Pick<IUser, 'email' | 'password'>) => {
     throw new AppError(httpStatus.FORBIDDEN, 'This user is deleted !');
   }
 
-
   const checkUserStatus = user?.status;
   if (
     checkUserStatus === USER_STATUS.blocked ||
@@ -221,7 +218,7 @@ const loginUser = async (payload: Pick<IUser, 'email' | 'password'>) => {
 
   //  await isMatchedPassword(password, user?.password);
 
-  const matchPassword = await User.isMatchedPassword(password, user?.password)
+  const matchPassword = await User.isMatchedPassword(password, user?.password);
 
   if (!matchPassword) {
     throw new AppError(httpStatus.FORBIDDEN, 'password not matched');
@@ -372,7 +369,7 @@ const changePassword = async (
     throw new AppError(httpStatus.NOT_FOUND, 'User not found');
   }
 
-  const matchPassword = await isMatchedPassword(
+  const matchPassword = await User.isMatchedPassword(
     payload.oldPassword,
     user?.password,
   );
@@ -469,8 +466,6 @@ const socialLogin = async (payload: any) => {
   };
 };
 
-
-
 export const AuthService = {
   resendOtp,
   loginUser,
@@ -482,5 +477,5 @@ export const AuthService = {
   registerUser,
   resetPassword,
   forgotPassword,
-  changePassword
+  changePassword,
 };

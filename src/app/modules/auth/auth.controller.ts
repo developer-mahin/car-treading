@@ -164,5 +164,5 @@ export const AuthController = {
   registerUser,
   resetPassword,
   changePassword,
-  forgotPassword
+  forgotPassword,
 };
