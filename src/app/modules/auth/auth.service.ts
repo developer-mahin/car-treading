@@ -9,30 +9,21 @@ import { USER_STATUS } from '../../constant';
 import AppError from '../../utils/AppError';
 import { decodeToken } from '../../utils/decodeToken';
 import generateToken from '../../utils/generateToken';
-import generateUID from '../../utils/generateUID';
-import { hashPassword } from '../../utils/hashPassword';
 import { isMatchedPassword } from '../../utils/matchPassword';
 import { OtpService } from '../otp/otp.service';
 import Profile from '../profile/profile.model';
 import { IUser } from '../user/user.interface';
 import User from '../user/user.model';
+import { TRegister, TUserCreateData } from './auth.interface';
 
-const registerUser = async (
-  payload: Omit<IUser, 'role' | 'status' | 'isDeleted'>,
-) => {
+const registerUser = async (payload: TRegister) => {
   const isUserExist = await User.findOne({ email: payload.email });
   if (isUserExist) {
     throw new AppError(httpStatus.CONFLICT, 'User already exist');
   }
 
-  const signUpData = {
-    email: payload.email,
-    password: payload.password,
-    myRestaurant: payload.myRestaurant,
-  };
-
   const signUpToken = generateToken(
-    signUpData,
+    payload,
     config.jwt.sing_up_token as Secret,
     config.jwt.sing_up_expires_in as string,
   );
@@ -49,7 +40,7 @@ const registerUser = async (
     email: payload.email,
     html: emailVerifyHtml('Email Verification', otp),
   };
-  const otpExpiryTime = parseInt(config.otp_expire_in as string) || 3;
+  const otpExpiryTime = 2;
 
   await OtpService.sendOTP(
     emailBody,
@@ -62,11 +53,62 @@ const registerUser = async (
   return { signUpToken };
 };
 
+const createUser = async (payload: TUserCreateData) => {
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    const userData = {
+      email: payload.email,
+      password: config.default_password as string,
+      role: payload.role,
+      needPasswordChange: true,
+    };
+
+    const user = await User.create([userData], { session });
+    if (!user || user.length === 0) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'User not created');
+    }
+
+    const profileData = {
+      first_name: payload.first_name,
+      last_name: payload.last_name,
+      phoneNumber: payload.phoneNumber,
+      address: payload.address,
+      regNo: payload.regNo,
+      kontoNr: payload.kontoNr,
+      websiteLink: payload.websiteLink,
+      profileImage: payload.profileImage,
+      cvrNumber: payload.cvrNumber,
+      userId: user[0]._id,
+    };
+
+    const profile = await Profile.create([profileData], { session });
+    if (!profile || profile.length === 0) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Profile not created');
+    }
+
+    await User.findByIdAndUpdate(
+      user[0]._id,
+      { profileId: profile[0]._id },
+      { new: true },
+    );
+
+    await session.commitTransaction();
+    session.endSession();
+    return user;
+  } catch (error) {
+    session.abortTransaction();
+    session.endSession();
+    throw new AppError(httpStatus.BAD_REQUEST, 'User not created');
+  }
+};
+
 const verifyEmail = async (token: string, otp: { otp: number }) => {
   const decodedUser = decodeToken(
     token,
     config.jwt.sing_up_token as Secret,
   ) as JwtPayload;
+
 
   if (!decodedUser) {
     throw new AppError(httpStatus.UNAUTHORIZED, 'Invalid token');
@@ -91,10 +133,10 @@ const verifyEmail = async (token: string, otp: { otp: number }) => {
     session.startTransaction();
 
     const createUserData = {
-      UID: await generateUID(),
       email: decodedUser.email,
       password: decodedUser.password,
-      myRestaurant: decodedUser.myRestaurant,
+      role: decodedUser.role,
+      isUseTransport: decodedUser.isUseTransport,
     };
 
     const user = await User.create([createUserData], { session });
@@ -107,6 +149,8 @@ const verifyEmail = async (token: string, otp: { otp: number }) => {
 
     const createProfileData = {
       userId: userId,
+      first_name: decodedUser.first_name,
+      last_name: decodedUser.last_name,
     };
 
     const profile = await Profile.create([createProfileData], { session });
@@ -166,15 +210,18 @@ const loginUser = async (payload: Pick<IUser, 'email' | 'password'>) => {
     throw new AppError(httpStatus.FORBIDDEN, 'This user is deleted !');
   }
 
+
   const checkUserStatus = user?.status;
   if (
-    checkUserStatus === USER_STATUS.BLOCKED ||
-    checkUserStatus === USER_STATUS.INACTIVATED
+    checkUserStatus === USER_STATUS.blocked ||
+    checkUserStatus === USER_STATUS.deactivated
   ) {
     throw new AppError(httpStatus.FORBIDDEN, 'This user is blocked!');
   }
 
-  const matchPassword = await isMatchedPassword(password, user?.password);
+  //  await isMatchedPassword(password, user?.password);
+
+  const matchPassword = await User.isMatchedPassword(password, user?.password)
 
   if (!matchPassword) {
     throw new AppError(httpStatus.FORBIDDEN, 'password not matched');
@@ -183,8 +230,8 @@ const loginUser = async (payload: Pick<IUser, 'email' | 'password'>) => {
   const userData = {
     email: user?.email,
     userId: user?._id,
-    UID: user?.UID,
     role: user?.role,
+    profile: user?.profile,
   };
 
   const accessToken = generateToken(
@@ -289,8 +336,9 @@ const resetPassword = async (
     throw new AppError(httpStatus.UNAUTHORIZED, 'Invalid token');
   }
 
-
-  const user = await User.findOne({ email: decodedUser?.user?.email }).select('+password');
+  const user = await User.findOne({ email: decodedUser?.user?.email }).select(
+    '+password',
+  );
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'User not found');
   }
@@ -335,7 +383,7 @@ const changePassword = async (
 
   // const passwordHash = await hashPassword(payload.newPassword, 10);
   // user.password = passwordHash as string;
-  user.password = payload.newPassword
+  user.password = payload.newPassword;
   user.needPasswordChange = false;
   await user.save();
   return true;
@@ -380,22 +428,26 @@ const socialLogin = async (payload: any) => {
   let user;
   user = await User.findOne({ email: payload.email });
   if (!user) {
-    user = await User.create({ ...payload, isSocialLogin: true });
+    user = await User.create({ email: payload.email, isSocialLogin: true });
     const createProfileData = {
       userId: user._id,
+      ...payload,
     };
 
     const profile = await Profile.create(createProfileData);
     if (!profile) {
-      throw new AppError(httpStatus.BAD_REQUEST, "")
+      throw new AppError(httpStatus.BAD_REQUEST, '');
     }
-    await User.findByIdAndUpdate(user._id, { profile: profile._id }, { new: true })
+    await User.findByIdAndUpdate(
+      user._id,
+      { profile: profile._id },
+      { new: true },
+    );
   }
 
   const userData = {
     email: user?.email,
     userId: user?._id,
-    UID: user?.UID,
     role: user?.role,
   };
 
@@ -417,15 +469,12 @@ const socialLogin = async (payload: any) => {
   };
 };
 
-const assignRestaurant = async (userId: string, payload: { myRestaurant: string }) => {
 
-  return await User.findByIdAndUpdate(userId, { ...payload, isSocialLogin: false }, { new: true })
-
-}
 
 export const AuthService = {
   resendOtp,
   loginUser,
+  createUser,
   verifyOtp,
   logOutUser,
   verifyEmail,
@@ -433,6 +482,5 @@ export const AuthService = {
   registerUser,
   resetPassword,
   forgotPassword,
-  changePassword,
-  assignRestaurant
+  changePassword
 };

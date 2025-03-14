@@ -20,7 +20,7 @@ const createStaticContent = catchAsync(async (req, res) => {
 
 const getStaticContent = catchAsync(async (req, res) => {
   const result = await StaticContentService.getStaticContent(req.query);
- 
+
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,

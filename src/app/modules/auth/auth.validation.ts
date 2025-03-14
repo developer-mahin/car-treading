@@ -8,12 +8,35 @@ const registration = z.object({
       confirmPassword: z.string({
         required_error: 'Confirm password is required',
       }),
-      myRestaurant: z.string({ required_error: 'My Restaurant is required' }),
+      first_name: z.string({ required_error: 'first name is required' }),
+      last_name: z.string({ required_error: 'last name is required' }),
+      role: z.enum(['dealer', 'private_user'], {
+        required_error: 'Role is required',
+      }),
+      isUseTransport: z.boolean().optional(),
     })
     .refine((data) => data.password === data.confirmPassword, {
       message: 'Passwords do not match',
       path: ['confirmPassword'],
     }),
+});
+
+const userCreateValidation = z.object({
+  first_name: z.string().min(1, 'First name is required').max(50),
+  last_name: z.string().min(1, 'Last name is required').max(50),
+  phoneNumber: z
+    .string()
+    .min(10, 'Phone number must be at least 10 digits')
+    .max(15),
+  address: z.string().min(1, 'Address is required'),
+  email: z.string().email('Invalid email format'),
+  regNo: z.string().min(1, 'Registration number is required'),
+  kontoNr: z.string().min(1, 'Account number is required'),
+  websiteLink: z.string().url('Invalid URL format'),
+  cvrNumber: z.string().optional(),
+  role: z.enum(['dealer', 'private_user'], {
+    required_error: 'Role is required',
+  }),
 });
 
 const otpValidation = z.object({
@@ -36,13 +59,15 @@ const forgotPasswordValidation = z.object({
 });
 
 const resetPasswordValidation = z.object({
-  body: z.object({
-    confirmPassword: z.string({ required_error: 'Email is required' }).min(8),
-    password: z.string({ required_error: 'Password is required' }).min(8),
-  }).refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords do not match',
-    path: ['confirmPassword'],
-  }),
+  body: z
+    .object({
+      confirmPassword: z.string({ required_error: 'Email is required' }).min(8),
+      password: z.string({ required_error: 'Password is required' }).min(8),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: 'Passwords do not match',
+      path: ['confirmPassword'],
+    }),
 });
 
 const changePasswordValidation = z.object({
@@ -68,6 +93,7 @@ export const AuthValidation = {
   registration,
   loginValidation,
   otpValidation,
+  userCreateValidation,
   forgotPasswordValidation,
   resetPasswordValidation,
   changePasswordValidation,

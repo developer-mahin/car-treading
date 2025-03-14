@@ -12,6 +12,6 @@ export type TProfile = {
   zip?: string;
   websiteLink?: string;
   regNo?: string;
-  kontoNr?: string
-  companyLogo?: string
+  kontoNr?: string;
+  companyLogo?: string;
 };

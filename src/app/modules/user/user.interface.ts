@@ -3,7 +3,7 @@ import { Model, ObjectId } from 'mongoose';
 
 export type TRole = 'admin' | 'dealer' | 'private_user';
 export type TStatus = 'active' | 'deactivated' | 'blocked';
-export type TGender = 'MALE' | 'FEMALE' | 'OTHERS';
+export type TGender = 'male' | 'female' | 'others';
 
 export type IUser = {
   email: string;
@@ -14,7 +14,9 @@ export type IUser = {
   isDeleted: boolean;
   isTransportAdd: boolean;
   isSocialLogin: boolean;
-  profileId: ObjectId
+  profile: ObjectId;
+  needPasswordChange: boolean;
+  isUseTransport: boolean;
 };
 
 export interface UserModel extends Model<IUser> {

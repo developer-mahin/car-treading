@@ -4,17 +4,18 @@ import { TProfile } from './profile.interface';
 const profileSchema = new Schema<TProfile>(
   {
     userId: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
-    name: {
-      type: String,
-      trim: true,
-    },
-    contactNo: { type: String },
+    first_name: { type: String },
+    last_name: { type: String },
+    phoneNumber: { type: String },
     profileImage: { type: String },
-    facebook: { type: String },
-    instagram: { type: String },
-    queryCount: { type: Number, default: 0 },
-    totalQuery: { type: Number, default: 0 },
-    feedback: { type: Number, default: 0 },
+    cvrNumber: { type: String },
+    address: { type: String },
+    city: { type: String },
+    zip: { type: String },
+    websiteLink: { type: String },
+    regNo: { type: String },
+    kontoNr: { type: String },
+    companyLogo: { type: String },
   },
   {
     timestamps: true,

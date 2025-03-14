@@ -1,9 +1,8 @@
 import httpStatus from 'http-status';
+import config from '../../../config';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { AuthService } from './auth.service';
-import config from '../../../config';
-import generateUID from '../../utils/generateUID';
 
 const registerUser = catchAsync(async (req, res) => {
   const result = await AuthService.registerUser(req.body);
@@ -15,6 +14,18 @@ const registerUser = catchAsync(async (req, res) => {
     data: {
       signUpToken: result.signUpToken,
     },
+  });
+});
+
+const createUser = catchAsync(async (req, res) => {
+  req.body.profileImage = req?.file?.path;
+  const result = await AuthService.createUser(req.body);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: 'User created successfully',
+    data: result,
   });
 });
 
@@ -105,7 +116,7 @@ const resetPassword = catchAsync(async (req, res) => {
 });
 
 const changePassword = catchAsync(async (req, res) => {
-  const token = req.headers.authorization;
+  const token = req.headers.authorization?.split(' ')[1];
   if (!token) {
     throw new Error('Token not found');
   }
@@ -132,7 +143,6 @@ const resendOtp = catchAsync(async (req, res) => {
 });
 
 const socialLogin = catchAsync(async (req, res) => {
-  req.body.UID = await generateUID();
   const result = await AuthService.socialLogin(req.body);
 
   sendResponse(res, {
@@ -143,29 +153,16 @@ const socialLogin = catchAsync(async (req, res) => {
   });
 });
 
-const assignRestaurant = catchAsync(async (req, res) => {
-  const result = await AuthService.assignRestaurant(req.user.userId, req.body);
-
-  sendResponse(res, {
-    success: true,
-    statusCode: httpStatus.OK,
-    message: 'Restaurent Assign successfully',
-    data: result,
-  });
-});
-
-
-
 export const AuthController = {
   resendOtp,
   verifyOtp,
   loginUser,
   logOutUser,
+  createUser,
   verifyEmail,
   socialLogin,
   registerUser,
   resetPassword,
   changePassword,
-  forgotPassword,
-  assignRestaurant
+  forgotPassword
 };

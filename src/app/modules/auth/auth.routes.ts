@@ -4,6 +4,8 @@ import { AuthController } from './auth.controller';
 import { AuthValidation } from './auth.validation';
 import { auth } from '../../middleware/auth';
 import { USER_ROLE } from '../../constant';
+import upload from '../../utils/uploadImage';
+import parseFormData from '../../middleware/parsedData';
 
 const router = Router();
 
@@ -12,6 +14,13 @@ router
     '/register',
     validateRequest(AuthValidation.registration),
     AuthController.registerUser,
+  )
+  .post(
+    '/create_user',
+    auth(USER_ROLE.admin),
+    upload.single('profileImage'),
+    parseFormData,
+    AuthController.createUser,
   )
   .post(
     '/verify_email',
@@ -45,6 +54,11 @@ router
   )
   .post('/resend_otp', AuthController.resendOtp)
   .post('/logout', AuthController.logOutUser)
-  .post('/social_login', AuthController.socialLogin).post("/assign_restaurant", auth(USER_ROLE.STAFF), AuthController.assignRestaurant);
+  .post('/social_login', AuthController.socialLogin)
+  .post(
+    '/assign_restaurant',
+    auth(USER_ROLE.dealer, USER_ROLE.private_user),
+    AuthController.assignRestaurant,
+  );
 
 export const AuthRoutes = router;

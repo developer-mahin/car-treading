@@ -18,12 +18,10 @@ export const userSchema = new mongoose.Schema<IUser, UserModel>(
       minlength: [8, 'Password must be at least 8 characters long'],
       select: 0,
     },
-
-    profileId: {
+    profile: {
       type: Schema.Types.ObjectId,
       ref: 'Profile',
     },
-
     role: {
       type: String,
       enum: Object.values(USER_ROLE),
@@ -34,10 +32,17 @@ export const userSchema = new mongoose.Schema<IUser, UserModel>(
       enum: Object.values(USER_STATUS),
       default: USER_STATUS.active,
     },
-
     isSocialLogin: {
       type: Boolean,
-      default: false
+      default: false,
+    },
+    needPasswordChange: {
+      type: Boolean,
+      default: false,
+    },
+    isUseTransport: {
+      type: Boolean,
+      default: false,
     },
     isDeleted: {
       type: Boolean,

@@ -31,4 +31,5 @@ export default {
   otp_expire_in: process.env.OTP_EXPIRE_IN,
   smtp_username: process.env.SMTP_USERNAME,
   smtp_password: process.env.SMTP_PASSWORD,
+  default_password: process.env.DEFAULT_PASSWORD,
 };

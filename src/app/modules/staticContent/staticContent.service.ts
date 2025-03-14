@@ -13,9 +13,7 @@ const createStaticContent = async (
   return result;
 };
 
-const getStaticContent = async (
-  query: Record<string, unknown>,
-) => {
+const getStaticContent = async (query: Record<string, unknown>) => {
   const result = await StaticContent.find({ ...query });
   return result;
 };

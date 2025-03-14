@@ -14,10 +14,10 @@ const seedAdmin = async () => {
     UID: await generateUID(),
     email: config.admin.admin_email,
     password: config.admin.admin_password,
-    role: USER_ROLE.ADMIN,
+    role: USER_ROLE.admin,
   };
 
-  const isAdminExist = await User.findOne({ role: USER_ROLE.ADMIN });
+  const isAdminExist = await User.findOne({ role: USER_ROLE.admin });
 
   if (!isAdminExist) {
     const session = await mongoose.startSession();
