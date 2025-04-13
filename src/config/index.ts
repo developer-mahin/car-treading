@@ -27,7 +27,10 @@ export default {
     forgot_password_expires_in: process.env.FORGOT_PASSWORD_EXPIRE_IN,
     refresh_token: process.env.REFRESH_KEY,
     refresh_expires_in: process.env.REFRESH_EXPIRE_IN,
+    reset_password_token: process.env.RESET_PASSWORD_KEY,
+    reset_password_expires_in: process.env.RESET_PASSWORD_EXPIRE_IN,
   },
+
   otp_expire_in: process.env.OTP_EXPIRE_IN,
   smtp_username: process.env.SMTP_USERNAME,
   smtp_password: process.env.SMTP_PASSWORD,

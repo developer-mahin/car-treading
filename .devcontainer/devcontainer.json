@@ -23,6 +23,8 @@
 		"car_treading_container",
 		"-p",
 		"8010:8000",
+		"-p",
+		"3001:3001",
 		"--rm"
 	],
 	"postCreateCommand": "npm install"

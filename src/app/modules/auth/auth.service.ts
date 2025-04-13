@@ -88,8 +88,8 @@ const createUser = async (payload: TUserCreateData) => {
 
     await User.findByIdAndUpdate(
       user[0]._id,
-      { profileId: profile[0]._id },
-      { new: true },
+      { profile: profile[0]._id },
+      { new: true, session },
     );
 
     await session.commitTransaction();
@@ -317,23 +317,28 @@ const verifyOtp = async (token: string, otp: { otp: number }) => {
   }
 
   await OtpService.deleteOtpById(checkOtpExist?._id.toString());
-  return true;
+  const tokenGenerate = generateToken(
+    decodedUser.user,
+    config.jwt.reset_password_token as Secret,
+    config.jwt.reset_password_expires_in as string,
+  );
+  return { resetPasswordToken: tokenGenerate };
 };
 
 const resetPassword = async (
   token: string,
-  payload: { confirmassword: string; password: string },
+  payload: { confirmPassword: string; password: string },
 ) => {
   const decodedUser = decodeToken(
     token,
-    config.jwt.forgot_password_token as Secret,
+    config.jwt.reset_password_token as Secret,
   ) as any;
 
   if (!decodedUser) {
     throw new AppError(httpStatus.UNAUTHORIZED, 'Invalid token');
   }
 
-  const user = await User.findOne({ email: decodedUser?.user?.email }).select(
+  const user = await User.findOne({ email: decodedUser?.email }).select(
     '+password',
   );
   if (!user) {
@@ -378,8 +383,6 @@ const changePassword = async (
     throw new AppError(httpStatus.FORBIDDEN, 'password not matched');
   }
 
-  // const passwordHash = await hashPassword(payload.newPassword, 10);
-  // user.password = passwordHash as string;
   user.password = payload.newPassword;
   user.needPasswordChange = false;
   await user.save();

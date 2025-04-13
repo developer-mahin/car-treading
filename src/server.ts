@@ -1,55 +1,77 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
 import colors from 'colors';
-import { Server } from 'http';
+import { createServer, Server } from 'http';
 import mongoose from 'mongoose';
-import app from './app';
+import { Server as SocketIOServer } from 'socket.io'; // For better type safety
+import app from './app'; // Your express app
 import seedAdmin from './app/DB/seedAdmin';
-import config from './config';
-import { errorLogger, logger } from './shared/logger';
-let server: Server;
+import config from './config'; // Ensure config has the right properties for your setup
+import socketIO from './socket/socket';
 
-// Connect to database and start the server
+const socketServer = createServer(); // HTTP server for Socket.IO
+
+// Initialize Socket.IO with type safety
+let server: Server;
+export const IO: SocketIOServer = new SocketIOServer(socketServer, {
+  cors: {
+    origin: '*', // Change this to the actual client URL in production
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  },
+});
+
 async function main() {
   try {
-    await mongoose.connect(config.database_url as string).then(() => {
-      console.log('Database connected successfully');
+    // Connect to MongoDB
+    await mongoose.connect(config.database_url as string);
+    console.log(colors.yellow('✅ Database connected successfully').bold);
+
+    // Start Express server
+    server = app.listen(Number(config.port), () => {
+      console.log(
+        colors.green(`App is listening on ${config.ip}:${config.port}`).bold,
+      );
     });
 
-    server = app.listen(config.port, () => {
+    // Start Socket.IO server
+    socketServer.listen(config.socket_port || 6000, () => {
       console.log(
         colors.green(
-          `Server is running successfully ${config.ip}:${config.port}`,
+          `✅ Socket server is running on ${config.ip}:${config.socket_port}`,
         ).bold,
       );
-      logger.info(`Server is running on port ${config.port}`);
     });
-  } catch (error) {
-    console.log(error);
+
+    // Pass Socket.IO instance to socketIO module
+    socketIO(IO);
+    globalThis.io = IO; // Store io in global for access throughout your app
+
+  } catch (err) {
+    console.error('Error starting the server:', err);
+    process.exit(1); // Exit after error
   }
 }
 
 main();
-// Seed Admin in database if not exist
-seedAdmin();
+seedAdmin(); // Seed admin if needed
 
-// Handle unhandled promise rejection
-process.on('unhandledRejection', (err: any) => {
-  console.log(`👹 unhandledRejection is detected, shuting down....`, err);
-  errorLogger.error(err);
+// Graceful shutdown for unhandled rejections
+process.on('unhandledRejection', (err) => {
+  console.error(`Unhandled rejection detected: ${err}`);
   if (server) {
     server.close(() => {
       process.exit(1);
     });
   }
-  process.exit(1);
+  process.exit(1); // Ensure process exits
 });
 
-// Handle uncaught exception
-process.on('uncaughtException', (err: any) => {
-  console.log(`👹 uncaughtException is detected, shuting down....`, err);
-  errorLogger.error(err);
-  process.exit(1);
+// Graceful shutdown for uncaught exceptions
+process.on('uncaughtException', (err) => {
+  console.error(`Uncaught exception detected: ${err}`);
+  if (server) {
+    server.close(() => {
+      process.exit(1);
+    });
+  }
 });

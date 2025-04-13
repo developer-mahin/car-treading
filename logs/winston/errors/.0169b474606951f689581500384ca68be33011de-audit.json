@@ -1,0 +1,35 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "D:\\Work\\car_treading\\logs\\winston\\errors\\.0169b474606951f689581500384ca68be33011de-audit.json",
+    "files": [
+        {
+            "date": 1742090161455,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\errors\\docker-2025-03-16-07-error.log",
+            "hash": "74ac3124812eae9acfbc107ea84836c4939d968c92d400df8d3e78d139726817"
+        },
+        {
+            "date": 1742091636985,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\errors\\docker-2025-03-16-08-error.log",
+            "hash": "17b4263a9055c8e4e6e253cb561c0a374f4c9406ccc2b8741b7e6bb0c486c42b"
+        },
+        {
+            "date": 1742095897619,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\errors\\docker-2025-03-16-09-error.log",
+            "hash": "31ec4616bfa22660530925993fbf14807062264f1c050b9d0f82a207e384d350"
+        },
+        {
+            "date": 1742112917460,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\errors\\docker-2025-03-16-14-error.log",
+            "hash": "581066131750efba4d8a170b29e9b8e3cfcc1d5f4111e0671fd057d9cd2a8f06"
+        },
+        {
+            "date": 1742126451131,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\errors\\docker-2025-03-16-18-error.log",
+            "hash": "31e0576ebb3e0ca71a9239ffce7714d5f219a3a901391ba7ac9aa1ac1300f734"
+        }
+    ],
+    "hashType": "sha256"
+}

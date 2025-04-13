@@ -1,0 +1,1155 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "D:\\Work\\car_treading\\logs\\winston\\successes\\.db22fc09f7265f8bf6edd939d0fed0a5f28a6684-audit.json",
+    "files": [
+        {
+            "date": 1742090161453,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-07-56-01-success.log",
+            "hash": "c71fd459e6529e16235467b9d7503b14ec08ac30af7d470c9713d3e054848bb8"
+        },
+        {
+            "date": 1742090162546,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-07-56-02-success.log",
+            "hash": "ac9663c428a31c644aae8d6f056a4ac16a295eb9d2c9d3c7c8b2ee31545c02bf"
+        },
+        {
+            "date": 1742090240334,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-07-57-20-success.log",
+            "hash": "7c47d39e6a7d34931da9e9de66b5164b2a0ecd753bc2ff0e20ef634285fcef0d"
+        },
+        {
+            "date": 1742090241271,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-07-57-21-success.log",
+            "hash": "71d46da750f5fe3960b8aa8dcd0a823e13a9aaa1514fed279d6626a5b8ccdc10"
+        },
+        {
+            "date": 1742091636983,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-20-36-success.log",
+            "hash": "11d458c7f8ce1c468f04060eac3effcbee429c092818f1108b86b4c77166241b"
+        },
+        {
+            "date": 1742091637985,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-20-37-success.log",
+            "hash": "60ba76a819bd21f1cb70ce26280c637a40da3e6c6dd8b3b99e60d63ef94cfa01"
+        },
+        {
+            "date": 1742091640113,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-20-40-success.log",
+            "hash": "ce179dc3d21587ce555eef229ef2baa81cc08c565868fad6c94089cd81f6ed59"
+        },
+        {
+            "date": 1742091641128,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-20-41-success.log",
+            "hash": "6566e46a50e74d446483dde7450fd16dad62d6f0c493c601839b07929a6c4404"
+        },
+        {
+            "date": 1742091691155,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-21-31-success.log",
+            "hash": "be4a892655e787932f6ed6b5224623c17b3848471628da362065afd32ad31946"
+        },
+        {
+            "date": 1742091692026,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-21-32-success.log",
+            "hash": "b2d506c67e417142e4ef3249b433aa071b0c9ca1c75a6da7a070c43f860ccf7c"
+        },
+        {
+            "date": 1742091709913,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-21-49-success.log",
+            "hash": "3c498e214dea402ffc15b73eb67668bb6b80126af5ba4bf5921e7e6500a6852f"
+        },
+        {
+            "date": 1742091710837,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-21-50-success.log",
+            "hash": "1d1277fe364f09e2e8b1e3417fd71da8b4559dcccb03caf1e771c7ea03325438"
+        },
+        {
+            "date": 1742091726654,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-22-06-success.log",
+            "hash": "915cd997296beae220a06a1afb9799ec8fa257cdab1412cbcdeec49b9b9bee4a"
+        },
+        {
+            "date": 1742091727568,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-22-07-success.log",
+            "hash": "72d67dedd5e5e86fd06653581a65c5cbb6e6db3f726570d5dcf1dd0a460f3342"
+        },
+        {
+            "date": 1742091749289,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-22-29-success.log",
+            "hash": "facbf1750a9243e355ed6af518d6a92091c61f1ac1e61d81b70637ba3085ed34"
+        },
+        {
+            "date": 1742091750205,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-22-30-success.log",
+            "hash": "b6b699d4fe4d6c164960236043a860e7d1f58776707ad753bbe6e036b7b2b36b"
+        },
+        {
+            "date": 1742091761792,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-22-41-success.log",
+            "hash": "6abd93d4038f1726805de719a0e10938e6b8d4448a83c673cd98442b692391af"
+        },
+        {
+            "date": 1742091762794,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-22-42-success.log",
+            "hash": "3460486d4a430acdef851bce218c073e0fc3883e2426da5ac48fb9274f9374d5"
+        },
+        {
+            "date": 1742091793004,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-23-13-success.log",
+            "hash": "a6a24b108d61c9447666b94dd12882d3212b4aa6c4396982d68e052af027f254"
+        },
+        {
+            "date": 1742091817524,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-23-37-success.log",
+            "hash": "33266a6df4b1dad9bfd6f1d5354349f979a01e4afbd1ec41efaeafd2ce913d7b"
+        },
+        {
+            "date": 1742091818536,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-23-38-success.log",
+            "hash": "bd5000fcf9f00579bda03addeafb1b87648a97f8058dac87dd99b141ecee2e56"
+        },
+        {
+            "date": 1742091830665,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-23-50-success.log",
+            "hash": "d0a69ac198cfd062bdee666a2ff7ea9740acd103418f6dc22f9cff064175fc3a"
+        },
+        {
+            "date": 1742091832886,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-23-52-success.log",
+            "hash": "7c1ee1853e994f69311f2ea3c44fbf847b8e717fd682a4ceaf43c4a8e24e4950"
+        },
+        {
+            "date": 1742091833594,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-23-53-success.log",
+            "hash": "12e927ca359afc3a687b958f6c189ee0df5e519be82f38dd1448676bc10b6ba0"
+        },
+        {
+            "date": 1742091834513,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-23-54-success.log",
+            "hash": "78a769bc89818fb0227ce97e15bc8630b922af3b7942bdd43e6c97b467c9b5f7"
+        },
+        {
+            "date": 1742091843754,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-24-03-success.log",
+            "hash": "a1634d91c9ae9b4a369e427b78459e130792fbc4c24e0a74d40d4e60208fdbcd"
+        },
+        {
+            "date": 1742091845088,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-24-05-success.log",
+            "hash": "fb9285f317153bead5c5bd8cb0c4c1805019198ef838060ca59ec73040ce16a4"
+        },
+        {
+            "date": 1742091846542,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-24-06-success.log",
+            "hash": "94e04ebf3740869b6952848469c85b943b0aecd585768cd1c8af92259ecc67de"
+        },
+        {
+            "date": 1742091847477,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-24-07-success.log",
+            "hash": "532bb4743675865d552cb7cbda417bd0d30e9c90d898d53c9bfb71083c73ae92"
+        },
+        {
+            "date": 1742091857126,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-24-17-success.log",
+            "hash": "d3d9f2ea6461fcf4163134016d8c5611a352c36117cab5635ce7963e27f19b8d"
+        },
+        {
+            "date": 1742091858022,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-24-18-success.log",
+            "hash": "566598105ac572f9083fa220f7669a8aa0a424d65ab659f843e828dbf4bd11db"
+        },
+        {
+            "date": 1742091873357,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-24-33-success.log",
+            "hash": "884aaa546d6bd861f063f893517e95b30ff39fdf9c2910d0f465e4b151d90907"
+        },
+        {
+            "date": 1742091874235,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-24-34-success.log",
+            "hash": "3acb90aad2e39ed3128bed7a7271d065757e38a8811659a52d664d798047e20f"
+        },
+        {
+            "date": 1742091881601,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-24-41-success.log",
+            "hash": "bee574f3a0561e78f0a511d14fa9ce2d08966f3493e752a82789b6e853de2eae"
+        },
+        {
+            "date": 1742091882462,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-24-42-success.log",
+            "hash": "436e68a5d517f67136d92cd79ef55224748120589edc5bee3a2dbf643931f893"
+        },
+        {
+            "date": 1742091932469,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-25-32-success.log",
+            "hash": "56c0f24eaa50e42c51b1f21a1746643e2f92837013a3ec0ae4ee8c66b2776e21"
+        },
+        {
+            "date": 1742091933346,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-25-33-success.log",
+            "hash": "e636d76014a16323c223918c54c1a37c992e2105d2cecc09d3f8566106217503"
+        },
+        {
+            "date": 1742091940925,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-25-40-success.log",
+            "hash": "a123c4370e525dd0b5cc091998ae55ca849551b8aba7a8b20c92e39695aaf519"
+        },
+        {
+            "date": 1742091941831,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-25-41-success.log",
+            "hash": "00ffc985c4a3202556afe91857d64244fabb204003c2c1eca605f1904296e35d"
+        },
+        {
+            "date": 1742091948320,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-25-48-success.log",
+            "hash": "a42d0e2109599697019bbeab3d57e5ca644b19693ede8ff55bbc7758e88268ef"
+        },
+        {
+            "date": 1742091949335,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-25-49-success.log",
+            "hash": "3f95eaf95ea91b87e78209b751f183b02c5a981158bde4206677fcd99e3cd880"
+        },
+        {
+            "date": 1742091951928,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-25-51-success.log",
+            "hash": "200e4ccf2e693c395c9ce499dcde2cc685d6d7a5ff4621c07e01e950d91d7f12"
+        },
+        {
+            "date": 1742091952878,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-25-52-success.log",
+            "hash": "ba8b7c852de9492b9e30bc5503da164abfd96a8331747cd9a63309d7d162acf0"
+        },
+        {
+            "date": 1742091957820,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-25-57-success.log",
+            "hash": "fd1bec883c0d20a426e79b9c5f5211c0189e4326993b19099d4cba2c2dc88d01"
+        },
+        {
+            "date": 1742091958700,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-25-58-success.log",
+            "hash": "bab9ab6b8d82387abaa1db4c1c0e4920018590f3d1fbb99e5a811fc4751edfae"
+        },
+        {
+            "date": 1742091973109,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-26-13-success.log",
+            "hash": "a680a567b7d7cb99ff6047c69ca376011d4dc76ed800c2441ae91921b512ac95"
+        },
+        {
+            "date": 1742091982506,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-26-22-success.log",
+            "hash": "c026f1b91a693b77c1b30fb4d4ad7153067b1c94a03d63b8d2037dd0916b96bf"
+        },
+        {
+            "date": 1742091983374,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-26-23-success.log",
+            "hash": "e46f58bebc7de23760aaa5e4c81fd81be6a6e46f6654bd14eb0930c678fb11fb"
+        },
+        {
+            "date": 1742091996075,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-26-36-success.log",
+            "hash": "2380919df50fb4ae0677ab145e4018ee4c52fef7da8f0e06816e37a2852dec80"
+        },
+        {
+            "date": 1742091997525,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-26-37-success.log",
+            "hash": "5f3b380d0196f3d591fc52161cbba050948b2a3fd3feaaf62d9fa7f997d7ba26"
+        },
+        {
+            "date": 1742091998490,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-26-38-success.log",
+            "hash": "1064c47c18066575cb1c3ebbbcd69de70454fd5528208e8421d053709e664efa"
+        },
+        {
+            "date": 1742092000360,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-26-40-success.log",
+            "hash": "8ee15556760c43800d1a0b1b21a18a88603dc3fe63f664ae7f67dc5b2d723ba7"
+        },
+        {
+            "date": 1742092001316,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-26-41-success.log",
+            "hash": "94bf687d633c63c0cd8fbd657cb3c1a5bcde80cc7b8dc828768623eb2ec50b9c"
+        },
+        {
+            "date": 1742092015257,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-26-55-success.log",
+            "hash": "fa05d693552f3c2695a62c62226d5b5e9de2b8c4b4910f52ed06c13ab15900af"
+        },
+        {
+            "date": 1742092016209,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-26-56-success.log",
+            "hash": "73c524b384a5d64162250c3f98d94af78b0adf2a923d770989d59b0a7e1d2c68"
+        },
+        {
+            "date": 1742092037284,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-27-17-success.log",
+            "hash": "dc8613f10af68aa90df3a2af76b805f39fee93d45dd60612511e52795c037a19"
+        },
+        {
+            "date": 1742092038346,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-27-18-success.log",
+            "hash": "e2d78ce38dd2d04f0c6cd5625e0e559cc0a37c5d7faef1315e36a8725d5393cd"
+        },
+        {
+            "date": 1742092039474,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-27-19-success.log",
+            "hash": "b40462c4f3fd8e6cb917f0e4330adf9a8a18d6f2cbea6db091fcdb3f21b8365f"
+        },
+        {
+            "date": 1742092040395,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-27-20-success.log",
+            "hash": "5638ba6899f42f59c5975d1d59f9bdbbe82d4f0eca775ef602a264c23369dee9"
+        },
+        {
+            "date": 1742092041886,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-27-21-success.log",
+            "hash": "30e7a87f0d592a1cc7473bfe53263ae0774d739dd4d258274461855a12b56475"
+        },
+        {
+            "date": 1742092043306,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-27-23-success.log",
+            "hash": "97a9cf20e52fa1f4d9136dc2280d55cb6e42379285d29235831ba85671953536"
+        },
+        {
+            "date": 1742092044168,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-27-24-success.log",
+            "hash": "870b1d48d06eeb7d4bb407d712ada0c03fca8558cff4853f3843c16587d4f0cb"
+        },
+        {
+            "date": 1742092045390,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-27-25-success.log",
+            "hash": "2393d23828c03ed92ed5336e0fbf0131c8d3f010451284ba5266ffd8f4d9f9f2"
+        },
+        {
+            "date": 1742092046322,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-27-26-success.log",
+            "hash": "81d0e450bb8d527c032812057a5ac5ec4e539ed65f7d17651fd61eb8a5a757d1"
+        },
+        {
+            "date": 1742092066116,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-27-46-success.log",
+            "hash": "cdde8011cb82a4396c6a6654369b4bfe8d2ed6ce5543d8e3387b485756743e18"
+        },
+        {
+            "date": 1742092067047,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-27-47-success.log",
+            "hash": "06880ec95857a21ecdc87b7b70779b797075e95121709d0509714c36157de85a"
+        },
+        {
+            "date": 1742092106329,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-28-26-success.log",
+            "hash": "b94227077c5a41fd4cf3bf8e41c0cc7d3f24c9b62bf83767c5a1740919b417a5"
+        },
+        {
+            "date": 1742092107238,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-28-27-success.log",
+            "hash": "0d5d9231ac159d431dc9d4f86c2388b9c0c034da442f01656d13d9027c524d9e"
+        },
+        {
+            "date": 1742092111385,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-28-31-success.log",
+            "hash": "15cb9610a516b1f5dc47e51f15dafb03c5f36d6ba7c5d4950af4ed4b385523d8"
+        },
+        {
+            "date": 1742092112623,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-28-32-success.log",
+            "hash": "32fbd9df67b278dcc2eda68a84aadb49472bdc5426684024b1bc64cbc03a5417"
+        },
+        {
+            "date": 1742092124723,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-28-44-success.log",
+            "hash": "e226547663fd0a0708a3f46c870dd1817b60efd1afb48e3200a99cfa177277c4"
+        },
+        {
+            "date": 1742092125695,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-28-45-success.log",
+            "hash": "d6d6bc674307a663fd848e781012ed318417da6fc749fb3dbe2d11f72e39ee4d"
+        },
+        {
+            "date": 1742092129214,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-28-49-success.log",
+            "hash": "5775aa6be8d557fb52ac8125f2f92c9c5a7473233e7432d688f7977d010bfc76"
+        },
+        {
+            "date": 1742092130114,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-28-50-success.log",
+            "hash": "8889a2d284d257fb815fe331af543415c2f4ccc1aa430536d908378571244b31"
+        },
+        {
+            "date": 1742092138152,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-28-58-success.log",
+            "hash": "d76a108fec52b41f610bca6c6337af8e8e722ec80a2f1017062647568b8a9bdb"
+        },
+        {
+            "date": 1742092139077,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-28-59-success.log",
+            "hash": "171812c70f9973d88e68a6916861b39baf6924dffd46d66d6ffed95cb5af9baf"
+        },
+        {
+            "date": 1742092141033,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-29-01-success.log",
+            "hash": "26877c010a4877748a4a19a60a422ae5cb4c2af6b6be88c3736d4831d2e07339"
+        },
+        {
+            "date": 1742092143126,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-29-03-success.log",
+            "hash": "dc9cde5ec1742e487b71351af8d4ac4b2e60c7fe39a0541a9781a431e61515f1"
+        },
+        {
+            "date": 1742092144001,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-29-04-success.log",
+            "hash": "857c54f3f8a68537a50837c973efc8eb4560490bbe19f9459b75ffc175cb0591"
+        },
+        {
+            "date": 1742092159353,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-29-19-success.log",
+            "hash": "82b989577aa5e8eba2ded9ea7f86a96f43357114bfe9977ae387dcd5e3a8127a"
+        },
+        {
+            "date": 1742092160230,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-29-20-success.log",
+            "hash": "5060b9a39bb63196fc8e903f4c06da926bef1beaad89334d3ede7c343c45e3ee"
+        },
+        {
+            "date": 1742092488246,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-34-48-success.log",
+            "hash": "34da7c4ae91df07d8e15f08501c93990f376224a27a34cf372cc88593886b7ad"
+        },
+        {
+            "date": 1742092489243,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-34-49-success.log",
+            "hash": "6dc91e06b49718fc949addff3ad8de80ae616faf5d1626c193d0682c43c72de8"
+        },
+        {
+            "date": 1742092521395,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-35-21-success.log",
+            "hash": "64bcf2a59a8973ea48b7c5a89f91eab62191107e33c6d911520ea365bb993979"
+        },
+        {
+            "date": 1742092522238,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-35-22-success.log",
+            "hash": "c43c473e0cb3ed2b2c9e1f8b709874fb75825a71c3eb143414a25a4c6333c57b"
+        },
+        {
+            "date": 1742092542018,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-35-42-success.log",
+            "hash": "2d2a692c90181340c4be604ff2cca4a4db671fea40aa19d7a1b037e351d7b4e2"
+        },
+        {
+            "date": 1742092548347,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-35-48-success.log",
+            "hash": "1b94c0b09951eda553ecfc8a02bad412f8ecd09bfc7fbf89abdf59321d9d3d7e"
+        },
+        {
+            "date": 1742092549342,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-35-49-success.log",
+            "hash": "8a3f9babede2363338c56c8eeaac6df285c7eac1c8bc83eaec1f991fadd8a01b"
+        },
+        {
+            "date": 1742092551391,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-35-51-success.log",
+            "hash": "57fe14889fbe7e1ac1e3abd37794d2d7ae668e92bc1feff7b2a251dc9c0e20f2"
+        },
+        {
+            "date": 1742092552518,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-35-52-success.log",
+            "hash": "ce9b4b713a2d88878af82d70d46cc777fa68233590ebc5c21fba16da0e5a6650"
+        },
+        {
+            "date": 1742092615996,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-36-55-success.log",
+            "hash": "56cfa4086656418b1042fc42fdf4e46f448e355dc49319b668a9687f034eb642"
+        },
+        {
+            "date": 1742092617051,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-36-57-success.log",
+            "hash": "9c726c2ffebde39c60cc5fbdbc58d7eea62c71f54dafe8da4ef0c3b289516ad5"
+        },
+        {
+            "date": 1742092624505,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-37-04-success.log",
+            "hash": "9039377240e8903a83ecca9e307ecedf6a2afaced52e450cdd63ad08be1141ca"
+        },
+        {
+            "date": 1742092625417,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-37-05-success.log",
+            "hash": "13561e5971992ff0064bab67041d01c2d3bb818231a84e754fa6eb6341f68ff3"
+        },
+        {
+            "date": 1742092671759,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-37-51-success.log",
+            "hash": "de05a57907d77ea6feb483fb6f760e09165f293ebc9088aa43c33f03e767cc6d"
+        },
+        {
+            "date": 1742092672669,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-37-52-success.log",
+            "hash": "a00f5619285b5878bc5805dd4c704b4d4a3d9da0c4ba215d4d95f1791b6625f3"
+        },
+        {
+            "date": 1742092678374,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-37-58-success.log",
+            "hash": "89d4aad10e2b18e6f4174d6cdeee9b0268d3d9466929c7ee9d722fc7e8180dfa"
+        },
+        {
+            "date": 1742092679351,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-37-59-success.log",
+            "hash": "c19c127bdd11e0a62ff9857834c087d9cfd86d14c0db08754d8e278a332ecf53"
+        },
+        {
+            "date": 1742092682350,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-38-02-success.log",
+            "hash": "57a3b5c79f801c8156b167f434bfd282a56d46b8ec5dca874c065df12a43983c"
+        },
+        {
+            "date": 1742092683560,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-38-03-success.log",
+            "hash": "784d5ec6924c0fec468ae9a42047716a0c0e43e822aa8bda77a43e5128630f9b"
+        },
+        {
+            "date": 1742092684435,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-38-04-success.log",
+            "hash": "060ceffa20a53a04eebb1239d803ee6fc234340bf1e7b617406a23b76696321d"
+        },
+        {
+            "date": 1742092686923,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-38-06-success.log",
+            "hash": "964c14c87a17129c746f567809ed096275d43291a94084d71d3fd625ff5fd718"
+        },
+        {
+            "date": 1742092687896,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-38-07-success.log",
+            "hash": "11528391b688304c4c6dcdba01e34ceb349d5e361d860e431d7bf68ce351b570"
+        },
+        {
+            "date": 1742092691001,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-38-11-success.log",
+            "hash": "1169e63fa97e54439beb953c014d58beda0779f013678ea49e6412f44738b9d9"
+        },
+        {
+            "date": 1742092711313,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-38-31-success.log",
+            "hash": "6acec526d500442031d0fd036dc22ff782b8d9eca69c8195c4d7d9fe06a42f0a"
+        },
+        {
+            "date": 1742092712188,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-38-32-success.log",
+            "hash": "14341edab7fbbbddf66759391a6eae93921e78edebb29cf24c24d66476cde716"
+        },
+        {
+            "date": 1742092718739,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-38-38-success.log",
+            "hash": "0323e6a9210e89b69e336870f0a1f5428a63e1b781112c3e01bdd004e0fbff67"
+        },
+        {
+            "date": 1742092719689,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-38-39-success.log",
+            "hash": "f9b905c9179915eb0ff925f36aadd116653036b9b8ce6d857428bc3003d87593"
+        },
+        {
+            "date": 1742092724418,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-38-44-success.log",
+            "hash": "df02fd62a2fe1b4dcfbd80dae8fbc2bcee1601255bbccf8c52d2168d63613de3"
+        },
+        {
+            "date": 1742092725296,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-38-45-success.log",
+            "hash": "a035af32b0c33e73ce0cc080a273dc9be65f68741dde22c5d41e1fb54528e736"
+        },
+        {
+            "date": 1742092735625,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-38-55-success.log",
+            "hash": "b52d2d2761f0cea48f43495cc1ff3f88911e59e761f6717112406ad5e7b36136"
+        },
+        {
+            "date": 1742092736561,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-38-56-success.log",
+            "hash": "9b407b1f4d995536199c69fb0e0aa356d1ebf31def594841130bda86df404291"
+        },
+        {
+            "date": 1742092756212,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-39-16-success.log",
+            "hash": "222cbef46cc98ca5a7f2c56942f4b18c9c7a5d7c20a024a47ffdc649cd014f6d"
+        },
+        {
+            "date": 1742092757086,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-39-17-success.log",
+            "hash": "0c27f7479630fd6fb7927d5e19009dbd87cb2e558c413d5b06107c24d1488ebe"
+        },
+        {
+            "date": 1742092758409,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-39-18-success.log",
+            "hash": "61ded753c2c19b8a838ea8e6e6307bb91873143c4307072b63e3f8021648e7a9"
+        },
+        {
+            "date": 1742092759263,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-39-19-success.log",
+            "hash": "608bc61168c1f49e39e617fb9808cea5230cf18639a54b8348223e77a331cf5c"
+        },
+        {
+            "date": 1742092783591,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-39-43-success.log",
+            "hash": "d7f91fb2087d37295db39d9614b603f8b2e498c800cacd94eada6ea4b2499fe8"
+        },
+        {
+            "date": 1742092784513,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-39-44-success.log",
+            "hash": "38a30f44fcf8a584c489db7b35e09d9261bcfa010caa33ac15bfe847881bcf63"
+        },
+        {
+            "date": 1742093141518,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-45-41-success.log",
+            "hash": "ed87405ae08ee599b4e44be31d33b698b6588650b77aa8a87a1da27aaf96fe4d"
+        },
+        {
+            "date": 1742093142740,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-45-42-success.log",
+            "hash": "24b9cd8b3b22ce90ce3f8c30f19fcf60f6927e46dd588bb741599b1b45dccffa"
+        },
+        {
+            "date": 1742093143676,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-45-43-success.log",
+            "hash": "e52498279111e23a0112c713e932693d6d872e3519f2687fbd0089dcc8533b94"
+        },
+        {
+            "date": 1742093145769,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-45-45-success.log",
+            "hash": "3468edd154631c4e4c12a37cf466f8b82eb9dd7893978a540a1ee996389d64ea"
+        },
+        {
+            "date": 1742093146643,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-45-46-success.log",
+            "hash": "1e29501b508e91ed256d4b4e84d19818904c17422c9213ebaa0a9d806cb1489c"
+        },
+        {
+            "date": 1742093149940,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-45-49-success.log",
+            "hash": "a9b1b878d94404049ca8c063b4527ae33dfc347a89a02711481ebca6d143eec9"
+        },
+        {
+            "date": 1742093150822,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-45-50-success.log",
+            "hash": "2bc1ec4ad22a90de9fdcc3e0fa401ea77ee14cd27f50547c52f68f0e13510f1c"
+        },
+        {
+            "date": 1742093153859,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-45-53-success.log",
+            "hash": "440e395edfd0414802523cf8d7a67acf9056730a673cb481116dfdc883ea81d3"
+        },
+        {
+            "date": 1742093154851,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-45-54-success.log",
+            "hash": "b894d87b811d5d0faec099bb4568e352639887e4e5b92c6fdfd36818b2a6f8fc"
+        },
+        {
+            "date": 1742093155775,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-45-55-success.log",
+            "hash": "7af2226acc59228d0b738f712f81c992ec647511005419a5b7c7eb3ea1384d6a"
+        },
+        {
+            "date": 1742093165983,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-46-05-success.log",
+            "hash": "3163ccdc59b4e4be5b893ed45339aac3cbf3c708140ba104baeed15c2506d2e1"
+        },
+        {
+            "date": 1742093166852,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-46-06-success.log",
+            "hash": "a645342c1c0c8a5ae5a2076e7f1cc56871cc222535f5ba32604c2e66f9986804"
+        },
+        {
+            "date": 1742093179801,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-46-19-success.log",
+            "hash": "00a663daf7f10a2c9869f6364850816bef182ac544a1d15d7c3ba109ba70f851"
+        },
+        {
+            "date": 1742093180810,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-46-20-success.log",
+            "hash": "8b1f7d031752d71e3d75eb0e58268ae88797240a3a130ad1d1cf100808ccaef2"
+        },
+        {
+            "date": 1742093189777,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-46-29-success.log",
+            "hash": "09f856ca7a1ee3321e4df54bcc62f22ad334b86e7b7c8c9c28e852902c48988a"
+        },
+        {
+            "date": 1742093190650,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-46-30-success.log",
+            "hash": "05f3857fb220204b3c76987d5b0b470c608b4c73c187f841ff5712fbc23e154c"
+        },
+        {
+            "date": 1742093442724,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-50-42-success.log",
+            "hash": "ae3b1a4cdee8d5a42133fbee5a8841cfcf7a1edd4f326821f3f762d4e2238b6d"
+        },
+        {
+            "date": 1742093443721,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-50-43-success.log",
+            "hash": "44f3adbdcd88f11e862ca762832267a8ea2f6c4c055d2126829809752c4bfb27"
+        },
+        {
+            "date": 1742093451066,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-50-51-success.log",
+            "hash": "dd00a8e50408f4b2da9742ba5de3d1340817467ca2512184b844f715623861ea"
+        },
+        {
+            "date": 1742093452114,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-50-52-success.log",
+            "hash": "e3d8bbde0301c5463f847e7ebf840ebb63a7c72778fa29c7fb0eaa9d3cfaa67f"
+        },
+        {
+            "date": 1742093456176,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-50-56-success.log",
+            "hash": "ea3838afe82cd41e36179583fb255fb92c78e0cde025792fcdf8e11e5dfc591c"
+        },
+        {
+            "date": 1742093457100,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-50-57-success.log",
+            "hash": "4c5804ee1bc8e9bce1c16279a01628e8f0dc0d9bd52ba8d9cde35c0a442ef4bd"
+        },
+        {
+            "date": 1742093489967,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-51-29-success.log",
+            "hash": "dc73d6e583a17d8e1f4ddafb13799af8f5be689d8eb8b10a4f39f798cb495af9"
+        },
+        {
+            "date": 1742093491413,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-51-31-success.log",
+            "hash": "f5c162622a6de0e80c1117085b87d66f67a79b3c65f922f71677474a88bb6a9f"
+        },
+        {
+            "date": 1742093493140,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-51-33-success.log",
+            "hash": "8e8084ba9f510c3fbb9ccdd879726f3110aa7db53b3e5a822308987927408282"
+        },
+        {
+            "date": 1742093494261,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-51-34-success.log",
+            "hash": "9d42a035996b70b09a0e25f4fa9830f0271280e4e70f26c14efb302a3f25e29e"
+        },
+        {
+            "date": 1742093495202,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-51-35-success.log",
+            "hash": "009afe77384dcec34bf27b8cfebb35074eea47809b7d8b6a11f3d236570c2677"
+        },
+        {
+            "date": 1742093514379,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-51-54-success.log",
+            "hash": "ee169728f29cf39ac64b8e137897d37cc68535d409aa0a6c369e2e62f8f36c39"
+        },
+        {
+            "date": 1742093515274,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-51-55-success.log",
+            "hash": "0485d14ab89e2a058f2bb05351428cad21bddb39e01378acc2c917851b9d7b57"
+        },
+        {
+            "date": 1742093516020,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-08-51-56-success.log",
+            "hash": "aaa4434e4c4aefcda0ff4d078807ee231355a6232a6d685f1c63fc78c0f8bd66"
+        },
+        {
+            "date": 1742095897616,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-09-31-37-success.log",
+            "hash": "8832f753265a42ada1d4912ca595dd97e55523349688abca68b0a1c3e15be9fd"
+        },
+        {
+            "date": 1742095898972,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-09-31-38-success.log",
+            "hash": "5dee638a76177efa2b610a3fa5fa9905c6f06e3b53a2dc4fd46b1d09a52da7ca"
+        },
+        {
+            "date": 1742095902521,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-09-31-42-success.log",
+            "hash": "d687e2243a8776a66310fb3c395ad3fd458a7b69694dcb8ec255770c6d3aee08"
+        },
+        {
+            "date": 1742095903470,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-09-31-43-success.log",
+            "hash": "bff7fceb0c43e10207c1870567df2ec2dd7753c3199be7225ce330f7f043d5f8"
+        },
+        {
+            "date": 1742112917456,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-15-17-success.log",
+            "hash": "064295e7b7ef25a545479fada838dec135927873a4b801e1bdb3cb07edefb2f3"
+        },
+        {
+            "date": 1742112918527,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-15-18-success.log",
+            "hash": "a3c18e63a0557e51a49282c9c705bfdd1e428bb7b26a9686a205bb64b53d2750"
+        },
+        {
+            "date": 1742113217999,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-20-17-success.log",
+            "hash": "805506204a05c3decc1094401d725f3854ae8cb1aec42db04d730028a3398528"
+        },
+        {
+            "date": 1742113218987,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-20-18-success.log",
+            "hash": "5a2838de8d536d1f75c02492268fae011fe34994369ac4b0a816f17742ef6df6"
+        },
+        {
+            "date": 1742113745110,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-29-05-success.log",
+            "hash": "40869acfcee7921a706b9121e0d203f84cef6e7e3e916ca54b67bcfe989dc032"
+        },
+        {
+            "date": 1742113746093,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-29-06-success.log",
+            "hash": "791af42db2c2f7681347ebd0d2a25f618590d0cb2ec163d830c519d5fbffa11e"
+        },
+        {
+            "date": 1742113768281,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-29-28-success.log",
+            "hash": "e586cba50e9b1694497919b1912132f82bec7e195b032cc1d847b9cd3ef62021"
+        },
+        {
+            "date": 1742113769163,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-29-29-success.log",
+            "hash": "fefe8e69ba19b0e81969469e22b76dba9dceec089e1815b2511c45767025128c"
+        },
+        {
+            "date": 1742113771572,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-29-31-success.log",
+            "hash": "0bed9fd455b62f53a8e73b2c160f64d8a9648abfdbff7a344d6ed6b344f71012"
+        },
+        {
+            "date": 1742113772626,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-29-32-success.log",
+            "hash": "4789d362c99630d54fe1d753d06a81e2726ca493885ba15d708d29b41e1299d1"
+        },
+        {
+            "date": 1742113820627,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-30-20-success.log",
+            "hash": "910e79bf096d353b714d2598be79b1f3ae1ecb7eae4be79ee2c51c43893e37ac"
+        },
+        {
+            "date": 1742113821646,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-30-21-success.log",
+            "hash": "6c3392795faa34410be6143f4f8c56f0c2093677df2c54437a01b9bc1a79c7dd"
+        },
+        {
+            "date": 1742113957233,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-32-37-success.log",
+            "hash": "762a2f18fb405721e5bb78158347f20f1406985586f687140b617102faf8148d"
+        },
+        {
+            "date": 1742113965018,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-32-45-success.log",
+            "hash": "b920afaa482649fa791f64ff298384bf98b33eb3e2e3815272714c570363fa17"
+        },
+        {
+            "date": 1742113966358,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-32-46-success.log",
+            "hash": "545622fb55fcb125c35b3839687feb923f7eed42ed641f9cb789a906b329272f"
+        },
+        {
+            "date": 1742113969200,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-32-49-success.log",
+            "hash": "21eb587db1bd011234f96fc2ab4416832288506298563c1dcd9b3b378dd0b8a3"
+        },
+        {
+            "date": 1742113970413,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-32-50-success.log",
+            "hash": "b999a2661a32150404e692dd7c0814f5a6fd3158c1c5c398b7473edc473d863b"
+        },
+        {
+            "date": 1742113978455,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-32-58-success.log",
+            "hash": "9c07c127b8f851ce9ad24e22794246dec0b30771a9368e546cc5a595348ed0d6"
+        },
+        {
+            "date": 1742113979363,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-32-59-success.log",
+            "hash": "3b0e1d7aa90f41c6eb7bae85e746cc211a8d489846524eaf9e1a09d9f6703b9c"
+        },
+        {
+            "date": 1742113981956,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-01-success.log",
+            "hash": "840d5eba7ebccf46d01fd30bfdb5f09b2982f39a67b520f84041fa77a1fb9a7e"
+        },
+        {
+            "date": 1742113983069,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-03-success.log",
+            "hash": "f11266eb8152be6909d3322ef8ef449825eb70e34e797321c6d138f7c5d016af"
+        },
+        {
+            "date": 1742113986270,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-06-success.log",
+            "hash": "778618696d185b2f49ae0d707263bbbbd138a006614c3803b3eaff5c32dd1150"
+        },
+        {
+            "date": 1742113987714,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-07-success.log",
+            "hash": "6f76206d97d483ec73e26a6513e187904411f1b51f896d6de130f6d70d5022ea"
+        },
+        {
+            "date": 1742113988643,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-08-success.log",
+            "hash": "d2285a69400fca8aa68c35a36b10fd5d1d9f2503e193288fb4063d8f715f2832"
+        },
+        {
+            "date": 1742113989577,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-09-success.log",
+            "hash": "9a957cbb1edb122365dd8b112a4d1d62e2fc3ec1587475f4c877f6a783ff6284"
+        },
+        {
+            "date": 1742113990526,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-10-success.log",
+            "hash": "f5f73624b14e3d54470298ec26e1ee1db3fcf57bb404b04c5721da57882b4a6c"
+        },
+        {
+            "date": 1742113991768,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-11-success.log",
+            "hash": "cf8a7f366cf5c77785742d1d973a8d1f2876e6e99be41643f1838dd22d634c59"
+        },
+        {
+            "date": 1742113992642,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-12-success.log",
+            "hash": "a859629eebe58dc53a4c420a18e664aba28cf97354374b60437f50c7fce317ed"
+        },
+        {
+            "date": 1742113996997,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-16-success.log",
+            "hash": "2e4cc328857bf88979f9d3fbeb7d70ac4056b7394b96f77114ebeff2a6802bc8"
+        },
+        {
+            "date": 1742113997939,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-17-success.log",
+            "hash": "919e216f02ff63cd1165f8325a6711e0ddc6cc24d2b7030e191edbf19d09268f"
+        },
+        {
+            "date": 1742113999399,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-19-success.log",
+            "hash": "297f553876fc1c0a726b609de857046188a8e62ab6bc08baea1646f65cb0269f"
+        },
+        {
+            "date": 1742114000364,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-20-success.log",
+            "hash": "1660d6596d5b3248617a0e165705c2461566b631f41305d8edc824c267c4f1a2"
+        },
+        {
+            "date": 1742114010134,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-30-success.log",
+            "hash": "7c4aee210a69bd410bfe5f2ddb429b3cc5eb69aab331a82e8f2a991b9c5972a3"
+        },
+        {
+            "date": 1742114011017,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-31-success.log",
+            "hash": "8b419efa311a3f0877d95b898224e0b21ccd128f611488722f58ffe9c51a8868"
+        },
+        {
+            "date": 1742114014148,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-34-success.log",
+            "hash": "01fcc798cc2c410f35b9da334935fc457b686f9136b2bca125b9c3c6478c6b03"
+        },
+        {
+            "date": 1742114015047,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-35-success.log",
+            "hash": "db70f4deb666bc6bc8434b8d0ba643c331b5c86b18594af2617b841decb8f62f"
+        },
+        {
+            "date": 1742114025298,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-45-success.log",
+            "hash": "27f8c3ad56ca76aee9a8dd0e611abc56935c97fe619b56a65511b62a6de0e4b4"
+        },
+        {
+            "date": 1742114026280,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-46-success.log",
+            "hash": "c9a9b2cd613cceb890bc32a34ba8667a68f10f041d260b6662d7473595a889fe"
+        },
+        {
+            "date": 1742114027803,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-47-success.log",
+            "hash": "cc062feb35e36e2492c547f171df2afa48d53e6503d1fba86997b68aef3b03ae"
+        },
+        {
+            "date": 1742114028695,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-48-success.log",
+            "hash": "a13637bd6903ce047be209bed1909c7a31d7def678a0c9c405c38160585ad4a6"
+        },
+        {
+            "date": 1742114030547,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-50-success.log",
+            "hash": "6f8e473beeb1aac162d9e1961297455f98567abd60bfcf272ff07a225b1b4673"
+        },
+        {
+            "date": 1742114031468,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-51-success.log",
+            "hash": "53c27c38a47dd466503d110c367eda8b1263d38699c205948fa4a029699fd6c8"
+        },
+        {
+            "date": 1742114038463,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-58-success.log",
+            "hash": "a7b34d6008bc5d53fc077950edc7f526ad3b67e1c3a0a35295570a612df1e50b"
+        },
+        {
+            "date": 1742114039727,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-33-59-success.log",
+            "hash": "922f4c62a5b766e965e1a4e68e46802c75e73c76e031e77125d1095203afa05c"
+        },
+        {
+            "date": 1742114041423,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-34-01-success.log",
+            "hash": "46e8133dbf476e265c21bb9d3a6adfa048add38caa3b069145f6be3a938b52f5"
+        },
+        {
+            "date": 1742114042363,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-34-02-success.log",
+            "hash": "0371240d17bc0e9f082b0c4ce536641e7157bdfea2e8b914908e9746648f912f"
+        },
+        {
+            "date": 1742114043053,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-34-03-success.log",
+            "hash": "fe319464e8fd682d8d2036df3dfac626521c5dadf3e7c903b8296bb38c2446f8"
+        },
+        {
+            "date": 1742114048369,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-34-08-success.log",
+            "hash": "903181ccc9b93d22f42eb0007fc3b180e359d588f299060ac2707e941dc5b231"
+        },
+        {
+            "date": 1742114049229,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-34-09-success.log",
+            "hash": "6699e82e35de61f17972a96fafa42e1aee8bd813d2133ca9e281d03cdd967949"
+        },
+        {
+            "date": 1742114407073,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-40-07-success.log",
+            "hash": "aa8d21555b1b1ab123688735101528ace3d8532fcf7da333ddf081be39586172"
+        },
+        {
+            "date": 1742114408070,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-40-08-success.log",
+            "hash": "7a721f2356c7e1e3d56c2e883c0a5450f4ea9396b2aa7fe865196f269bd4f5cc"
+        },
+        {
+            "date": 1742114420920,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-40-20-success.log",
+            "hash": "9a190aa190850d1aedba42e5e3ea48218a73d1bca1f244f67e2fb4c4084b4ca5"
+        },
+        {
+            "date": 1742114422340,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-40-22-success.log",
+            "hash": "87a7d6fd714c74d511000c34100f4227f6383fdb47817753c776087e6e19eea1"
+        },
+        {
+            "date": 1742114423273,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-40-23-success.log",
+            "hash": "dd2c8fedd146411f67728a9b0a3856afde657ff26f7b9839835d28eadeea8727"
+        },
+        {
+            "date": 1742114434496,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-40-34-success.log",
+            "hash": "b6fd6375138c474ebb6b6708ae8cfb8affc826492b954380fb819f3f26e64cfe"
+        },
+        {
+            "date": 1742114435443,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-40-35-success.log",
+            "hash": "ede2988daf01e410e4b6ed752d8d03c7306bff959ec421367311bbb1bc757d0b"
+        },
+        {
+            "date": 1742114456258,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-40-56-success.log",
+            "hash": "56767f81667174f66c7622fb1ea67074c816424db95f5589b96671adf5656d20"
+        },
+        {
+            "date": 1742114457153,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-40-57-success.log",
+            "hash": "7222137b443611abb34959dc487381bd8c319df7f1102fc3332a8b758c168d77"
+        },
+        {
+            "date": 1742114464676,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-41-04-success.log",
+            "hash": "8b6e46a8ee39bdbcd09ac14c93f0b900584965ad481da4a55df7ca327195d066"
+        },
+        {
+            "date": 1742114465970,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-41-05-success.log",
+            "hash": "b1ffc66a5fa7571df5bf84e88747bd0c5d23f6fea5f0c647618c747d1bdd6922"
+        },
+        {
+            "date": 1742114466904,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-41-06-success.log",
+            "hash": "ed01e396f2702728c1abdedc9586d04d69c5bb4791bea2ebc2b8ac51c8c5bbe6"
+        },
+        {
+            "date": 1742114475742,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-41-15-success.log",
+            "hash": "5a314b3d1dde7365d6ca082edecbb651f11b6436a9c564f2beea33217b29239b"
+        },
+        {
+            "date": 1742114476671,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-41-16-success.log",
+            "hash": "dbca4c13403df5c46fbb59bd25d3e83c80c78c48e3796f6784391089dbe1ad6a"
+        },
+        {
+            "date": 1742114497371,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-41-37-success.log",
+            "hash": "d32b82862fb342c8987eda90ded6e3cf1ae24855beb80e73d3400fb37c918f28"
+        },
+        {
+            "date": 1742114507704,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-41-47-success.log",
+            "hash": "c6e537c007e441d4282c183a37d3f6df6e55aefc42607b1f77a5e97d6a538a97"
+        },
+        {
+            "date": 1742114508678,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-41-48-success.log",
+            "hash": "7baded3f045989e3192e98475d1486b98d40abe25b8070c2cc61df43c181b453"
+        },
+        {
+            "date": 1742114510221,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-41-50-success.log",
+            "hash": "dfb9674da57e3983fef429877b952cdc5b21458f8a3e9f4fe3863f8c6010e7d2"
+        },
+        {
+            "date": 1742114511135,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-41-51-success.log",
+            "hash": "a36261f34f4c796dad10f64e47b28d7ad00ca9d1cde5d77a6fc6a65ef11f50dc"
+        },
+        {
+            "date": 1742114514434,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-41-54-success.log",
+            "hash": "ae41e85f15dd90415598a581c527f1e2ee0bc5a2b0f32d156948cf5f5a5c941b"
+        },
+        {
+            "date": 1742114515361,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-41-55-success.log",
+            "hash": "1619360e94fc8f903af9305539d4a37f8495a0305a64ff02895ae75bf61f0cea"
+        },
+        {
+            "date": 1742114549581,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-42-29-success.log",
+            "hash": "c7216ebbef15ac66ccf68f639a7a1c9040def073be7b707a57685bd94c5bfb92"
+        },
+        {
+            "date": 1742114550783,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-42-30-success.log",
+            "hash": "0bc0345d3fb7e5b4b2de76c87f45f865df001dfcb59e55e7e11eff68c0d9402b"
+        },
+        {
+            "date": 1742114551736,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-42-31-success.log",
+            "hash": "0c9e72a10471c55bca3d5cb30b6466910aaf3c23786651e11a2c46cee682faa5"
+        },
+        {
+            "date": 1742114553716,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-42-33-success.log",
+            "hash": "3ece1226d432fe85079af56cb93910bcd71f963f706c30a77f7aecc021d687af"
+        },
+        {
+            "date": 1742114554657,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-14-42-34-success.log",
+            "hash": "444857e0646788a8e3f2467e4fbf5c9ee63b574ceb87afa5bed961879489fea5"
+        },
+        {
+            "date": 1742126451128,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-18-00-51-success.log",
+            "hash": "25264fba8925c9451fce0ab20a47fbdc667e42dc58d90fd9d7ae66d816f956fb"
+        },
+        {
+            "date": 1742126452091,
+            "name": "D:\\Work\\car_treading\\logs\\winston\\successes\\docker-2025-03-16-18-00-52-success.log",
+            "hash": "7668350f84c42be2575ccf46d1d3d534720995b83c93468806f2d1fd9605d987"
+        }
+    ],
+    "hashType": "sha256"
+}

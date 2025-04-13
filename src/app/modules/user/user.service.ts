@@ -6,23 +6,21 @@ import User from './user.model';
 
 const getAllUsersList = async (query: Record<string, unknown>) => {
   const userAggregation = new AggregationQueryBuilder(query);
-  const projection = {
-    UID: 1,
-    email: 1,
-    status: 1,
-    profile: {
-      profileImage: '$profile.profileImage',
-      name: '$profile.name',
-      contactNo: '$profile.contactNo',
-      totalQuery: '$profile.queryCount',
-      feedback: '$profile.feedback',
-    },
-  };
+  // const projection = {
+  //   email: 1,
+  //   status: 1,
+  //   profile: {
+  //     profileImage: '$profile.profileImage',
+  //     first_name: '$profile.first_name',
+  //     last_name: '$profile.last_name',
+  //     contactNo: '$profile.phoneNumber',
+  //   },
+  // };
 
   const commonPipeline = [
     {
       $match: {
-        role: USER_ROLE.STAFF,
+        role: USER_ROLE.dealer,
       },
     },
     {
@@ -43,7 +41,7 @@ const getAllUsersList = async (query: Record<string, unknown>) => {
     .search(['email', 'profile.name'])
     .filter(['status'])
     .paginate()
-    .customProjection(projection)
+    // .customProjection(projection)
     .sort()
     .execute(User);
 
@@ -62,7 +60,7 @@ const getUserRatio = async (year: string) => {
     {
       $match: {
         createdAt: { $gte: startDate, $lte: endDate },
-        role: { $in: [USER_ROLE.STAFF, USER_ROLE.RESTAURANT_OWNER] },
+        role: { $in: [USER_ROLE.dealer, USER_ROLE.private_user] },
       },
     },
     {
@@ -97,7 +95,7 @@ const getUserRatio = async (year: string) => {
     },
   ]);
 
-  const statuses = [USER_ROLE.STAFF, USER_ROLE.RESTAURANT_OWNER];
+  const statuses = [USER_ROLE.private_user, USER_ROLE.dealer];
 
   const formattedResult = StatisticHelper.formattedResult(
     result,
@@ -115,7 +113,7 @@ const userAction = async (id: string, payload: Record<string, unknown>) => {
     case 'block':
       result = await User.findByIdAndUpdate(
         id,
-        { $set: { status: USER_STATUS.INACTIVATED } },
+        { $set: { status: USER_STATUS.blocked } },
         { new: true },
       );
       break;
@@ -132,6 +130,7 @@ const userAction = async (id: string, payload: Record<string, unknown>) => {
 
   return result;
 };
+
 export const UserService = {
   getAllUsersList,
   getUserRatio,
