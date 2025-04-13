@@ -17,6 +17,7 @@ export type IUser = {
   profile: ObjectId;
   needPasswordChange: boolean;
   isUseTransport: boolean;
+  isTaskAssigned: boolean;
 };
 
 export interface UserModel extends Model<IUser> {

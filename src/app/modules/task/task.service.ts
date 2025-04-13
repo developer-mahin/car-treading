@@ -3,6 +3,7 @@ import sendNotification from '../../../socket/sendNotification';
 import { TAuthUser } from '../../interface/authUser';
 import generateTaskId from '../../utils/generateTaskId';
 import { NOTIFICATION_TYPE } from '../notification/notification.interface';
+import User from '../user/user.model';
 import { TTask } from './task.interface';
 import Task from './task.model';
 
@@ -19,9 +20,16 @@ const createTask = async (payload: Omit<TTask, 'taskStatus'>, user: TAuthUser) =
     type: NOTIFICATION_TYPE.task,
     role: user.role,
   }
-  
+
+  const findUser = await User.findById(payload.assignTo);
+  if (!findUser) {
+    throw new Error('User not found');
+  }
+
+  findUser.isTaskAssigned = true;
   await sendNotification(user, notification);
   await task.save();
+  await findUser.save()
   return task;
 };
 
@@ -100,6 +108,18 @@ const taskAction = async (taskId: string, payload: { taskStatus: string }) => {
     { $set: { taskStatus: payload.taskStatus } },
     { new: true },
   );
+  if (!result) {
+    throw new Error('Task not found');
+  }
+
+  const updateUser = await User.findById(result?.assignTo);
+  if (!updateUser) {
+    throw new Error('User not found');
+  }
+
+  updateUser.isTaskAssigned = false;
+  await updateUser.save();
+
   return result;
 };
 

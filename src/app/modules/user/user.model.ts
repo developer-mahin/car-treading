@@ -32,6 +32,10 @@ export const userSchema = new mongoose.Schema<IUser, UserModel>(
       enum: Object.values(USER_STATUS),
       default: USER_STATUS.active,
     },
+    isTaskAssigned: {
+      type: Boolean,
+      default: false,
+    },
     isSocialLogin: {
       type: Boolean,
       default: false,
