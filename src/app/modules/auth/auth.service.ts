@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import config from '../../../config';
 import { emailVerifyHtml } from '../../../shared/html/emailVerifyHtml';
 import { forgotPasswordHtml } from '../../../shared/html/forgotPasswordHtml';
-import { USER_STATUS } from '../../constant';
+import { USER_ROLE, USER_STATUS } from '../../constant';
 import AppError from '../../utils/AppError';
 import { decodeToken } from '../../utils/decodeToken';
 import generateToken from '../../utils/generateToken';
@@ -14,6 +14,9 @@ import Profile from '../profile/profile.model';
 import { IUser } from '../user/user.interface';
 import User from '../user/user.model';
 import { TRegister, TUserCreateData } from './auth.interface';
+import { TaskService } from '../task/task.service';
+import { TTask } from '../task/task.interface';
+import generateTaskId from '../../utils/generateTaskId';
 
 const registerUser = async (payload: TRegister) => {
   const isUserExist = await User.findOne({ email: payload.email });
@@ -167,8 +170,24 @@ const verifyEmail = async (token: string, otp: { otp: number }) => {
       throw new AppError(httpStatus.BAD_REQUEST, 'User not updated');
     }
 
+
     await session.commitTransaction();
     session.endSession();
+
+    if (decodedUser.isUseTransport) {
+      const admin = await User.findOne({
+        role: USER_ROLE.admin
+      })
+      const taskData: Omit<TTask, 'taskStatus'> = {
+        assignTo: user[0]._id as any,
+        taskTitle: "Complete your profile",
+        taskDescription: 'A task created for you for complete the order transport management system',
+        deadline: new Date(new Date().setDate(new Date().getDate() + 7)),
+        taskId: await generateTaskId(),
+      }
+
+      await TaskService.createTask(taskData, admin as any);
+    }
 
     const generateAccessToken = generateToken(
       {

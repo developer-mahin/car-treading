@@ -1,4 +1,5 @@
 export type TAuthUser = {
+  _id?: string
   email: string;
   userId: string;
   UID: string;

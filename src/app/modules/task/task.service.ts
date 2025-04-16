@@ -9,17 +9,19 @@ import Task from './task.model';
 
 const createTask = async (payload: Omit<TTask, 'taskStatus'>, user: TAuthUser) => {
   const taskId = await generateTaskId();
-  // const task = await Task.create({ ...payload, taskId })  
   const task = new Task({ ...payload, taskId });
 
+  console.log(user, "user")
   const notification = {
-    senderId: user.userId as any,
+    senderId: user.userId || user._id as any,
     receiverId: payload.assignTo,
     linkId: task._id as any,
     message: `A new task has been created for you.`,
     type: NOTIFICATION_TYPE.task,
     role: user.role,
   }
+
+  console.log(notification, "notification");
 
   const findUser = await User.findById(payload.assignTo);
   if (!findUser) {

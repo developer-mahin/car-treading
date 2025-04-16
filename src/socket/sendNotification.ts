@@ -10,13 +10,12 @@ const sendNotification = async (user: TAuthUser, data: any) => {
         const { receiverId } = data;
         const notificationData = {
             ...data,
-            senderId: user.userId,
+            senderId: user.userId || user._id,
             role: user.role,
         };
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const connectUser : any = connectedUser.get(receiverId)
-        console.log(connectUser, "connectUser")
+        const connectUser: any = connectedUser.get(receiverId)
 
         if (connectUser) {
             IO.to(connectUser.socketId).emit("notification", {
@@ -24,9 +23,7 @@ const sendNotification = async (user: TAuthUser, data: any) => {
                 data: notificationData
             });
         }
-        // Emit notification to the receiver
-        console.log(data, "data from socket")
-        // Save the notification to the database
+
         await NotificationService.createNotification(notificationData);
     } catch (error) {
         console.error("Error in sendNotification:", error);
