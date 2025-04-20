@@ -45,7 +45,6 @@ async function main() {
     // Pass Socket.IO instance to socketIO module
     socketIO(IO);
     globalThis.io = IO; // Store io in global for access throughout your app
-
   } catch (err) {
     console.error('Error starting the server:', err);
     process.exit(1); // Exit after error

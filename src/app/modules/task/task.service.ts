@@ -7,21 +7,24 @@ import User from '../user/user.model';
 import { TTask } from './task.interface';
 import Task from './task.model';
 
-const createTask = async (payload: Omit<TTask, 'taskStatus'>, user: TAuthUser) => {
+const createTask = async (
+  payload: Omit<TTask, 'taskStatus'>,
+  user: TAuthUser,
+) => {
   const taskId = await generateTaskId();
   const task = new Task({ ...payload, taskId });
 
-  console.log(user, "user")
+  console.log(user, 'user');
   const notification = {
-    senderId: user.userId || user._id as any,
+    senderId: user.userId || (user._id as any),
     receiverId: payload.assignTo,
     linkId: task._id as any,
     message: `A new task has been created for you.`,
     type: NOTIFICATION_TYPE.task,
     role: user.role,
-  }
+  };
 
-  console.log(notification, "notification");
+  console.log(notification, 'notification');
 
   const findUser = await User.findById(payload.assignTo);
   if (!findUser) {
@@ -31,7 +34,7 @@ const createTask = async (payload: Omit<TTask, 'taskStatus'>, user: TAuthUser) =
   findUser.isTaskAssigned = true;
   await sendNotification(user, notification);
   await task.save();
-  await findUser.save()
+  await findUser.save();
   return task;
 };
 

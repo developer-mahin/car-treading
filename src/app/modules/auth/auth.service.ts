@@ -170,21 +170,21 @@ const verifyEmail = async (token: string, otp: { otp: number }) => {
       throw new AppError(httpStatus.BAD_REQUEST, 'User not updated');
     }
 
-
     await session.commitTransaction();
     session.endSession();
 
     if (decodedUser.isUseTransport) {
       const admin = await User.findOne({
-        role: USER_ROLE.admin
-      })
+        role: USER_ROLE.admin,
+      });
       const taskData: Omit<TTask, 'taskStatus'> = {
         assignTo: user[0]._id as any,
-        taskTitle: "Complete your profile",
-        taskDescription: 'A task created for you for complete the order transport management system',
+        taskTitle: 'Complete your profile',
+        taskDescription:
+          'A task created for you for complete the order transport management system',
         deadline: new Date(new Date().setDate(new Date().getDate() + 7)),
         taskId: await generateTaskId(),
-      }
+      };
 
       await TaskService.createTask(taskData, admin as any);
     }

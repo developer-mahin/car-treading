@@ -6,6 +6,7 @@ import { StaticContentRoutes } from '../modules/staticContent/staticContent.rout
 import { UserRoutes } from '../modules/user/user.routes';
 import { TaskRoutes } from '../modules/task/task.routes';
 import { TaskResolveRoutes } from '../modules/taskResolve/taskResolve.routes';
+import { CarRoutes } from '../modules/car/car.routes';
 const router = Router();
 
 type TRoutes = {
@@ -45,6 +46,11 @@ const routes: TRoutes[] = [
   {
     path: '/conversation',
     route: ConversationRoutes,
+  },
+
+  {
+    path: '/car',
+    route: CarRoutes,
   },
 ];
 
