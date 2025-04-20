@@ -3,6 +3,15 @@ import sendResponse from '../../utils/sendResponse';
 import { CarService } from './car.service';
 
 const carListing = catchAsync(async (req, res) => {
+
+  const imagesFiles = Array.isArray(req.files) ? req.files : req.files?.images;
+  const images: string[] = []
+
+  imagesFiles?.forEach((image) => {
+    images?.push(image?.path);
+    req.body.images = images
+  })
+
   const result = await CarService.carListing(req.body);
 
   sendResponse(res, {

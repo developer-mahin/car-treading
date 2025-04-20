@@ -1,11 +1,11 @@
 import { TCarListing } from './car.interface';
 
-const carListing = async (payload: TCarListing) => {
+const carListing = async (payload: any) => {
     const car = payload.car
     const carModel = payload.carModel
     const company = payload.company
 
-    return { car, carModel, company }
+    return payload
 };
 
 export const CarService = {
