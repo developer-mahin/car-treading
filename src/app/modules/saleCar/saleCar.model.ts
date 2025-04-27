@@ -10,6 +10,12 @@ const salesCarSchema = new Schema<TSaleCar>(
     reRegistrationDeRegistrationView: { type: String },
     signatureAsDealer: { type: String },
     signatureAsOwner: { type: String },
+    status: {
+      type: String,
+      required: [true, 'Status is required'],
+      enum: ['sold', 'sell'],
+      default: 'sell',
+    },
   },
   {
     timestamps: true,

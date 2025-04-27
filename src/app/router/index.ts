@@ -7,6 +7,7 @@ import { UserRoutes } from '../modules/user/user.routes';
 import { TaskRoutes } from '../modules/task/task.routes';
 import { TaskResolveRoutes } from '../modules/taskResolve/taskResolve.routes';
 import { CarRoutes } from '../modules/car/car.routes';
+import { SaleCarRoutes } from '../modules/saleCar/saleCar.routes';
 const router = Router();
 
 type TRoutes = {
@@ -51,6 +52,11 @@ const routes: TRoutes[] = [
   {
     path: '/car',
     route: CarRoutes,
+  },
+
+  {
+    path: '/sell_car',
+    route: SaleCarRoutes,
   },
 ];
 

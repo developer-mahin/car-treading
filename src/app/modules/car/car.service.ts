@@ -169,7 +169,10 @@ const buyCar = async (payload: any, user: TAuthUser) => {
     return result;
 };
 
-const getTotalPurchasedCars = async (user: TAuthUser, query: Record<string, unknown>) => {
+const getTotalPurchasedCars = async (
+    user: TAuthUser,
+    query: Record<string, unknown>,
+) => {
     const carAggregation = new AggregationQueryBuilder(query);
     const result = await carAggregation
         .customPipeline([
@@ -237,8 +240,8 @@ const getTotalPurchasedCars = async (user: TAuthUser, query: Record<string, unkn
             {
                 $project: {
                     _id: 1,
-                    carId: "$car._id",
-                    expectedPrice: "$car.expectedPrice",
+                    carId: '$car._id',
+                    expectedPrice: '$car.expectedPrice',
                     carModel: 1,
                     carOwner: {
                         _id: 1,
@@ -249,14 +252,13 @@ const getTotalPurchasedCars = async (user: TAuthUser, query: Record<string, unkn
                 },
             },
         ])
-        .search(["carOwner.first_name"])
+        .search(['carOwner.first_name'])
         .paginate()
         .sort()
         .execute(SaleCar);
     const pagination = await carAggregation.countTotal(SaleCar);
     return { pagination, result };
 };
-
 
 const getCarDetails = async (carId: string) => {
     const result = await Car.aggregate([
@@ -293,20 +295,17 @@ const getCarDetails = async (carId: string) => {
                 preserveNullAndEmptyArrays: true,
             },
         },
+    ]);
 
-    ])
-
-
-    return result
-
+    return result[0] || null;
 };
 
 const getContactPaper = async (carId: string) => {
-    return await SaleCar.aggregate([
+    const result = await SaleCar.aggregate([
         {
             $match: {
                 carId: new mongoose.Types.ObjectId(String(carId)),
-            }
+            },
         },
         {
             $lookup: {
@@ -338,8 +337,6 @@ const getContactPaper = async (carId: string) => {
             },
         },
 
-
-
         {
             $lookup: {
                 from: 'users',
@@ -369,7 +366,6 @@ const getContactPaper = async (carId: string) => {
             },
         },
 
-
         {
             $lookup: {
                 from: 'users',
@@ -398,8 +394,10 @@ const getContactPaper = async (carId: string) => {
                 preserveNullAndEmptyArrays: true,
             },
         },
-    ])
-}
+    ]);
+
+    return result[0] || null;
+};
 
 export const CarService = {
     buyCar,

@@ -44,7 +44,10 @@ const getCarList = catchAsync(async (req, res) => {
 });
 
 const getTotalPurchasedCars = catchAsync(async (req, res) => {
-  const result = await CarService.getTotalPurchasedCars(req.user as TAuthUser, req.query);
+  const result = await CarService.getTotalPurchasedCars(
+    req.user as TAuthUser,
+    req.query,
+  );
 
   sendResponse(res, {
     success: true,
