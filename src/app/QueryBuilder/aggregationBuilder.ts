@@ -12,6 +12,8 @@ class AggregationQueryBuilder {
 
   // Adds search functionality using regex for partial matching
   search(searchableFields: string[]) {
+    console.log(searchableFields, 'searchableFields');
+    console.log(this.query.searchTerm, 'this.query.searchTerm');
     if (this.query.searchTerm) {
       const searchCondition = {
         $match: {
@@ -47,8 +49,6 @@ class AggregationQueryBuilder {
   //   return this;
   // }
 
-
-
   filter(filterableFields: string[]) {
     const queryObj = { ...this.query };
 
@@ -75,7 +75,6 @@ class AggregationQueryBuilder {
 
     console.log(queryObj, 'queryObj');
 
-
     const excludesField = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
     excludesField.forEach((field) => delete queryObj[field]);
 
@@ -94,9 +93,8 @@ class AggregationQueryBuilder {
         if (queryObj[fromKey]) {
           matchConditions[field]['$gte'] = Number(queryObj[fromKey]);
 
-          console.log(matchConditions[field], "matchConditions[field]");
-          console.log(Number(queryObj[fromKey]), "Number(queryObj[fromKey])");
-
+          console.log(matchConditions[field], 'matchConditions[field]');
+          console.log(Number(queryObj[fromKey]), 'Number(queryObj[fromKey])');
         }
         if (queryObj[toKey]) {
           matchConditions[field]['$lte'] = Number(queryObj[toKey]);

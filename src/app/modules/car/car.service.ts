@@ -1,11 +1,12 @@
-import httpStatus from "http-status";
-import { TAuthUser } from "../../interface/authUser";
-import AppError from "../../utils/AppError";
-import CarModel from "../carModel/carModel.model";
-import Company from "../company/company.model";
-import Car from "./car.model";
-import mongoose from "mongoose";
-import AggregationQueryBuilder from "../../QueryBuilder/aggregationBuilder";
+import httpStatus from 'http-status';
+import { TAuthUser } from '../../interface/authUser';
+import AppError from '../../utils/AppError';
+import CarModel from '../carModel/carModel.model';
+import Company from '../company/company.model';
+import Car from './car.model';
+import mongoose from 'mongoose';
+import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
+import SaleCar from '../saleCar/saleCar.model';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const carListing = async (payload: any, user: TAuthUser) => {
@@ -24,7 +25,7 @@ const carListing = async (payload: any, user: TAuthUser) => {
         fuelConsumption: payload.fuelConsumption,
         euroStandard: payload.euroStandard,
         numberPlates: payload.numberPlates,
-    }
+    };
 
     const company = {
         companyName: payload.companyName,
@@ -34,7 +35,7 @@ const carListing = async (payload: any, user: TAuthUser) => {
         first_name: payload.first_name,
         last_name: payload.last_name,
         phoneNumber: payload.phoneNumber,
-    }
+    };
 
     const session = await mongoose.startSession();
     try {
@@ -66,7 +67,7 @@ const carListing = async (payload: any, user: TAuthUser) => {
             chassisNumber: payload.chassisNumber,
             tax: payload.tax,
             inspectionDate: payload.inspectionDate,
-        }
+        };
 
         const createCar = await Car.create([car], { session });
         if (!createCar) {
@@ -81,12 +82,10 @@ const carListing = async (payload: any, user: TAuthUser) => {
         await session.endSession();
         throw new AppError(httpStatus.BAD_REQUEST, error);
     }
-
 };
 
 const getCarList = async (query: Record<string, unknown>) => {
-
-    const { modelYearFrom, modelYearTo, drivenKmFrom, drivenKmTo } = query
+    const { modelYearFrom, modelYearTo, drivenKmFrom, drivenKmTo } = query;
 
     const carAggregation = new AggregationQueryBuilder(query);
     const result = await carAggregation
@@ -102,7 +101,7 @@ const getCarList = async (query: Record<string, unknown>) => {
             {
                 $unwind: {
                     path: '$carModel',
-                    preserveNullAndEmptyArrays: true
+                    preserveNullAndEmptyArrays: true,
                 },
             },
             {
@@ -116,12 +115,12 @@ const getCarList = async (query: Record<string, unknown>) => {
             {
                 $unwind: {
                     path: '$company',
-                    preserveNullAndEmptyArrays: true
-                }
-            }
+                    preserveNullAndEmptyArrays: true,
+                },
+            },
         ])
-        .filter(["carModel.brand", "carModel.fuelType"])
-        .rangeFilter(["carModel.modelYear"])
+        .filter(['carModel.brand', 'carModel.fuelType'])
+        .rangeFilter(['carModel.modelYear'])
         .paginate()
         .sort()
         .execute(Car);
@@ -131,24 +130,135 @@ const getCarList = async (query: Record<string, unknown>) => {
 
         // Check model year filter
         if (modelYearFrom && modelYearTo) {
-            matches = matches && car.carModel.modelYear >= modelYearFrom && car.carModel.modelYear <= modelYearTo;
+            matches =
+                matches &&
+                car.carModel.modelYear >= modelYearFrom &&
+                car.carModel.modelYear <= modelYearTo;
         }
 
         // Check driven km filter
         if (drivenKmFrom && drivenKmTo) {
-            matches = matches && car.noOfKmDriven >= drivenKmFrom && car.noOfKmDriven <= drivenKmTo;
+            matches =
+                matches &&
+                car.noOfKmDriven >= drivenKmFrom &&
+                car.noOfKmDriven <= drivenKmTo;
         }
 
         return matches;
     });
 
-
     const pagination = await carAggregation.countTotal(Car);
 
     return { pagination, result: filterCar ? filterCar : result };
-}
+};
+
+const buyCar = async (payload: any, user: TAuthUser) => {
+    const { carId } = payload;
+    const car = await Car.findById(carId);
+    if (!car) {
+        throw new AppError(httpStatus.BAD_REQUEST, 'Car not found');
+    }
+
+    const saleCarData = {
+        carId: carId,
+        dealerId: user.userId,
+    };
+
+    const result = await SaleCar.create(saleCarData);
+
+    return result;
+};
+
+const getTotalPurchasedCars = async (user: TAuthUser, query: Record<string, unknown>) => {
+    const carAggregation = new AggregationQueryBuilder(query);
+    const result = await carAggregation
+        .customPipeline([
+            {
+                $match: {
+                    dealerId: new mongoose.Types.ObjectId(String(user.userId)),
+                },
+            },
+            {
+                $lookup: {
+                    from: 'cars',
+                    localField: 'carId',
+                    foreignField: '_id',
+                    as: 'car',
+                },
+            },
+            {
+                $unwind: {
+                    path: '$car',
+                    preserveNullAndEmptyArrays: true,
+                },
+            },
+            {
+                $lookup: {
+                    from: 'carmodels',
+                    localField: 'car.carModelId',
+                    foreignField: '_id',
+                    as: 'carModel',
+                },
+            },
+            {
+                $unwind: {
+                    path: '$carModel',
+                    preserveNullAndEmptyArrays: true,
+                },
+            },
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'car.carOwner',
+                    foreignField: '_id',
+                    as: 'carOwner',
+                },
+            },
+            {
+                $unwind: {
+                    path: '$carOwner',
+                    preserveNullAndEmptyArrays: true,
+                },
+            },
+            {
+                $lookup: {
+                    from: 'profiles',
+                    localField: 'carOwner.profile',
+                    foreignField: '_id',
+                    as: 'profile',
+                },
+            },
+            {
+                $unwind: {
+                    path: '$profile',
+                    preserveNullAndEmptyArrays: true,
+                },
+            },
+            {
+                $project: {
+                    _id: 0,
+                    expectedPrice: "$car.expectedPrice",
+                    carModel: 1,
+                    carOwner: {
+                        _id: 1,
+                        first_name: '$profile.first_name',
+                        last_name: '$profile.last_name',
+                        profileImage: '$profile.profileImage',
+                    },
+                },
+            },
+        ])
+        .search(["carOwner.first_name"])
+        .paginate()
+        .sort()
+        .execute(SaleCar);
+    const pagination = await carAggregation.countTotal(SaleCar);
+    return { pagination, result };
+};
 
 export const CarService = {
+    buyCar,
     carListing,
-    getCarList
+    getCarList,
+    getTotalPurchasedCars,
 };

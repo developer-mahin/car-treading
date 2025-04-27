@@ -55,7 +55,7 @@ const CarSchema = new Schema<TCar>(
     },
     vat: {
       type: String,
-      required: [true, 'VAT is required']
+      required: [true, 'VAT is required'],
     },
     carCategory: {
       type: String,
@@ -77,7 +77,7 @@ const CarSchema = new Schema<TCar>(
     },
     tax: {
       type: String,
-      required: [true, 'Tax is required']
+      required: [true, 'Tax is required'],
     },
     inspectionDate: {
       type: Date,
