@@ -1,3 +1,4 @@
+import { TAuthUser } from '../../interface/authUser';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { CarService } from './car.service';
@@ -12,7 +13,7 @@ const carListing = catchAsync(async (req, res) => {
     req.body.images = images
   })
 
-  const result = await CarService.carListing(req.body);
+  const result = await CarService.carListing(req.body, req.user as TAuthUser);
 
   sendResponse(res, {
     success: true,

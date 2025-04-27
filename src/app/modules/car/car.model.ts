@@ -10,11 +10,6 @@ const CarSchema = new Schema<TCar>(
       ref: 'User', // Assuming the car owner is a User, adjust if different
       required: [true, 'Car owner is required'],
     },
-    carDealer: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User', // Assuming the car dealer is a Dealer, adjust if different
-      required: [true, 'Car dealer is required'],
-    },
     carModelId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'CarModel', // Assuming this references a car model collection
@@ -59,9 +54,8 @@ const CarSchema = new Schema<TCar>(
       unique: true, // Ensure unique registration numbers
     },
     vat: {
-      type: Number,
-      required: [true, 'VAT is required'],
-      min: [0, 'VAT cannot be negative'],
+      type: String,
+      required: [true, 'VAT is required']
     },
     carCategory: {
       type: String,
@@ -82,9 +76,8 @@ const CarSchema = new Schema<TCar>(
       unique: true, // Ensure unique chassis numbers
     },
     tax: {
-      type: Number,
-      required: [true, 'Tax is required'],
-      min: [0, 'Tax cannot be negative'],
+      type: String,
+      required: [true, 'Tax is required']
     },
     inspectionDate: {
       type: Date,
