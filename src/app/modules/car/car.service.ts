@@ -236,7 +236,8 @@ const getTotalPurchasedCars = async (user: TAuthUser, query: Record<string, unkn
             },
             {
                 $project: {
-                    _id: 0,
+                    _id: 1,
+                    carId: "$car._id",
                     expectedPrice: "$car.expectedPrice",
                     carModel: 1,
                     carOwner: {
@@ -256,9 +257,155 @@ const getTotalPurchasedCars = async (user: TAuthUser, query: Record<string, unkn
     return { pagination, result };
 };
 
+
+const getCarDetails = async (carId: string) => {
+    const result = await Car.aggregate([
+        {
+            $match: {
+                _id: new mongoose.Types.ObjectId(String(carId)),
+            },
+        },
+        {
+            $lookup: {
+                from: 'carmodels',
+                localField: 'carModelId',
+                foreignField: '_id',
+                as: 'carModel',
+            },
+        },
+        {
+            $unwind: {
+                path: '$carModel',
+                preserveNullAndEmptyArrays: true,
+            },
+        },
+        {
+            $lookup: {
+                from: 'companies',
+                localField: 'companyId',
+                foreignField: '_id',
+                as: 'company',
+            },
+        },
+        {
+            $unwind: {
+                path: '$company',
+                preserveNullAndEmptyArrays: true,
+            },
+        },
+
+    ])
+
+
+    return result
+
+};
+
+const getContactPaper = async (carId: string) => {
+    return await SaleCar.aggregate([
+        {
+            $match: {
+                carId: new mongoose.Types.ObjectId(String(carId)),
+            }
+        },
+        {
+            $lookup: {
+                from: 'cars',
+                localField: 'carId',
+                foreignField: '_id',
+                as: 'car',
+            },
+        },
+        {
+            $unwind: {
+                path: '$car',
+                preserveNullAndEmptyArrays: true,
+            },
+        },
+
+        {
+            $lookup: {
+                from: 'carmodels',
+                localField: 'car.carModelId',
+                foreignField: '_id',
+                as: 'carModel',
+            },
+        },
+        {
+            $unwind: {
+                path: '$carModel',
+                preserveNullAndEmptyArrays: true,
+            },
+        },
+
+
+
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'dealerId',
+                foreignField: '_id',
+                as: 'dealer',
+            },
+        },
+        {
+            $unwind: {
+                path: '$dealer',
+                preserveNullAndEmptyArrays: true,
+            },
+        },
+        {
+            $lookup: {
+                from: 'profiles',
+                localField: 'dealer.profile',
+                foreignField: '_id',
+                as: 'profile',
+            },
+        },
+        {
+            $unwind: {
+                path: '$profile',
+                preserveNullAndEmptyArrays: true,
+            },
+        },
+
+
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'car.carOwner',
+                foreignField: '_id',
+                as: 'privateUser',
+            },
+        },
+        {
+            $unwind: {
+                path: '$privateUser',
+                preserveNullAndEmptyArrays: true,
+            },
+        },
+        {
+            $lookup: {
+                from: 'profiles',
+                localField: 'privateUser.profile',
+                foreignField: '_id',
+                as: 'privateUserProfile',
+            },
+        },
+        {
+            $unwind: {
+                path: '$privateUserProfile',
+                preserveNullAndEmptyArrays: true,
+            },
+        },
+    ])
+}
+
 export const CarService = {
     buyCar,
     carListing,
     getCarList,
+    getCarDetails,
+    getContactPaper,
     getTotalPurchasedCars,
 };

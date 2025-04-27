@@ -28,6 +28,10 @@ router
     '/total_purchased_cars',
     auth(USER_ROLE.dealer),
     CarController.getTotalPurchasedCars,
-  );
+  )
+  .get("/car_details/:carId", auth(USER_ROLE.dealer), CarController.getCarDetails)
+  .get("/contact_paper/:carId", auth(USER_ROLE.dealer), CarController.getContactPaper)  
+  ;
+
 
 export const CarRoutes = router;

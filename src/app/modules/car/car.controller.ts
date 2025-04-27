@@ -54,9 +54,33 @@ const getTotalPurchasedCars = catchAsync(async (req, res) => {
   });
 });
 
+const getCarDetails = catchAsync(async (req, res) => {
+  const result = await CarService.getCarDetails(req.params.carId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Car details fetched successfully',
+    data: result,
+  });
+});
+
+const getContactPaper = catchAsync(async (req, res) => {
+  const result = await CarService.getContactPaper(req.params.carId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Contact paper fetched successfully',
+    data: result,
+  });
+});
+
 export const CarController = {
   buyCar,
   carListing,
   getCarList,
+  getCarDetails,
+  getContactPaper,
   getTotalPurchasedCars,
 };
