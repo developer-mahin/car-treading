@@ -26,6 +26,29 @@ class AggregationQueryBuilder {
   }
 
   // Filters the query based on specific filterable fields
+  // filter(filterableFields: string[]) {
+  //   const queryObj = { ...this.query };
+
+  //   const excludesField = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
+  //   excludesField.forEach((field) => delete queryObj[field]);
+
+  //   if (this.query.filter) {
+  //     filterableFields.forEach((field) => {
+  //       if (field) {
+  //         this.aggregationPipeline.push({
+  //           $match: {
+  //             [field]: { $regex: queryObj.filter, $options: 'i' },
+  //           },
+  //         });
+  //       }
+  //     });
+  //   }
+
+  //   return this;
+  // }
+
+
+
   filter(filterableFields: string[]) {
     const queryObj = { ...this.query };
 
@@ -33,14 +56,57 @@ class AggregationQueryBuilder {
     excludesField.forEach((field) => delete queryObj[field]);
 
     if (this.query.filter) {
-      filterableFields.forEach((field) => {
-        if (field) {
-          this.aggregationPipeline.push({
-            $match: {
-              [field]: { $regex: queryObj.filter, $options: 'i' },
-            },
-          });
+      const orConditions = filterableFields.map((field) => ({
+        [field]: { $regex: queryObj.filter, $options: 'i' },
+      }));
+
+      this.aggregationPipeline.push({
+        $match: {
+          $or: orConditions,
+        },
+      });
+    }
+
+    return this;
+  }
+
+  rangeFilter(filterableFields: string[]) {
+    const queryObj = { ...this.query };
+
+    console.log(queryObj, 'queryObj');
+
+
+    const excludesField = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
+    excludesField.forEach((field) => delete queryObj[field]);
+
+    const matchConditions: any = {};
+
+    filterableFields.forEach((field) => {
+      const fromKey = `${field}From`;
+      const toKey = `${field}To`;
+
+      // console.log(fromKey, "fromKey");
+      // console.log(toKey, "toKey");
+
+      if (queryObj[fromKey] || queryObj[toKey]) {
+        matchConditions[field] = {};
+
+        if (queryObj[fromKey]) {
+          matchConditions[field]['$gte'] = Number(queryObj[fromKey]);
+
+          console.log(matchConditions[field], "matchConditions[field]");
+          console.log(Number(queryObj[fromKey]), "Number(queryObj[fromKey])");
+
         }
+        if (queryObj[toKey]) {
+          matchConditions[field]['$lte'] = Number(queryObj[toKey]);
+        }
+      }
+    });
+
+    if (Object.keys(matchConditions).length > 0) {
+      this.aggregationPipeline.push({
+        $match: matchConditions,
       });
     }
 

@@ -10,7 +10,7 @@ import parseFormData from '../../middleware/parsedData';
 const router = Router();
 
 router.post(
-  '/listing',
+  '/sale_car',
   auth(USER_ROLE.dealer, USER_ROLE.private_user),
   validateRequest(CarValidation.carListingValidationSchema),
   upload.fields([
@@ -18,6 +18,6 @@ router.post(
   ]),
   parseFormData,
   CarController.carListing,
-);
+).get("/sale_car_list", auth(USER_ROLE.dealer, USER_ROLE.private_user), CarController.getCarList);
 
 export const CarRoutes = router;

@@ -5,6 +5,7 @@ import CarModel from "../carModel/carModel.model";
 import Company from "../company/company.model";
 import Car from "./car.model";
 import mongoose from "mongoose";
+import AggregationQueryBuilder from "../../QueryBuilder/aggregationBuilder";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const carListing = async (payload: any, user: TAuthUser) => {
@@ -83,6 +84,71 @@ const carListing = async (payload: any, user: TAuthUser) => {
 
 };
 
+const getCarList = async (query: Record<string, unknown>) => {
+
+    const { modelYearFrom, modelYearTo, drivenKmFrom, drivenKmTo } = query
+
+    const carAggregation = new AggregationQueryBuilder(query);
+    const result = await carAggregation
+        .customPipeline([
+            {
+                $lookup: {
+                    from: 'carmodels',
+                    localField: 'carModelId',
+                    foreignField: '_id',
+                    as: 'carModel',
+                },
+            },
+            {
+                $unwind: {
+                    path: '$carModel',
+                    preserveNullAndEmptyArrays: true
+                },
+            },
+            {
+                $lookup: {
+                    from: 'companies',
+                    localField: 'companyId',
+                    foreignField: '_id',
+                    as: 'company',
+                },
+            },
+            {
+                $unwind: {
+                    path: '$company',
+                    preserveNullAndEmptyArrays: true
+                }
+            }
+        ])
+        .filter(["carModel.brand", "carModel.fuelType"])
+        .rangeFilter(["carModel.modelYear"])
+        .paginate()
+        .sort()
+        .execute(Car);
+
+    const filterCar = result.filter((car: any) => {
+        let matches = true;
+
+        // Check model year filter
+        if (modelYearFrom && modelYearTo) {
+            matches = matches && car.carModel.modelYear >= modelYearFrom && car.carModel.modelYear <= modelYearTo;
+        }
+
+        // Check driven km filter
+        if (drivenKmFrom && drivenKmTo) {
+            matches = matches && car.noOfKmDriven >= drivenKmFrom && car.noOfKmDriven <= drivenKmTo;
+        }
+
+        return matches;
+    });
+
+
+    const pagination = await carAggregation.countTotal(Car);
+
+    return { pagination, result: filterCar ? filterCar : result };
+}
+
 export const CarService = {
     carListing,
+    getCarList
 };

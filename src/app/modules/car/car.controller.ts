@@ -23,6 +23,18 @@ const carListing = catchAsync(async (req, res) => {
   });
 });
 
+const getCarList  = catchAsync(async (req, res) => {
+  const result = await CarService.getCarList(req.query);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Car listed successfully',
+    data: result,
+  });
+});
+
+
 export const CarController = {
   carListing,
+  getCarList,
 };
