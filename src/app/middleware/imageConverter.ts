@@ -6,7 +6,7 @@ import { NextFunction, Request, Response } from 'express';
 import { Buffer } from 'buffer';
 
 // Define MulterFile type
-interface MulterFile {
+export interface MulterFile {
   fieldname: string;
   originalname: string;
   encoding: string;
