@@ -1,3 +1,4 @@
+import { TAuthUser } from '../../interface/authUser';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { SaleCarService } from './saleCar.service';
@@ -26,6 +27,21 @@ const updateContactPaper = catchAsync(async (req, res) => {
   });
 });
 
+const getSaleCarList = catchAsync(async (req, res) => {
+  const result = await SaleCarService.getSaleCarList(
+    req.user as TAuthUser,
+    req.query,
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'SaleCar fetched successfully',
+    data: result,
+  });
+});
+
 export const SaleCarController = {
   updateContactPaper,
+  getSaleCarList,
 };

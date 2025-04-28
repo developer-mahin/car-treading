@@ -161,6 +161,7 @@ const buyCar = async (payload: any, user: TAuthUser) => {
 
   const saleCarData = {
     carId: carId,
+    userId: carId.carOwner,
     dealerId: user.userId,
   };
 

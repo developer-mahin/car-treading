@@ -7,15 +7,21 @@ import parseFormData from '../../middleware/parsedData';
 
 const router = Router();
 
-router.patch(
-  '/update_contact_paper/:saleCarId',
-  auth(USER_ROLE.private_user, USER_ROLE.dealer),
-  upload.fields([
-    { name: 'signatureAsOwner', maxCount: 2 },
-    { name: 'signatureAsDealer', maxCount: 2 },
-  ]),
-  parseFormData,
-  SaleCarController.updateContactPaper,
-);
+router
+  .patch(
+    '/update_contact_paper/:saleCarId',
+    auth(USER_ROLE.private_user, USER_ROLE.dealer),
+    upload.fields([
+      { name: 'signatureAsOwner', maxCount: 2 },
+      { name: 'signatureAsDealer', maxCount: 2 },
+    ]),
+    parseFormData,
+    SaleCarController.updateContactPaper,
+  )
+  .get(
+    '/',
+    auth(USER_ROLE.private_user, USER_ROLE.dealer),
+    SaleCarController.getSaleCarList,
+  );
 
 export const SaleCarRoutes = router;
