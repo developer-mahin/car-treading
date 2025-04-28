@@ -1,13 +1,14 @@
 import { Router } from 'express';
 import { AuthRoutes } from '../modules/auth/auth.routes';
+import { CarRoutes } from '../modules/car/car.routes';
 import { ConversationRoutes } from '../modules/conversation/conversation.routes';
 import { ProfileRoutes } from '../modules/profile/profile.routes';
+import { SaleCarRoutes } from '../modules/saleCar/saleCar.routes';
 import { StaticContentRoutes } from '../modules/staticContent/staticContent.routes';
-import { UserRoutes } from '../modules/user/user.routes';
+import { SubmitListingRoutes } from '../modules/submitListing/submitListing.routes';
 import { TaskRoutes } from '../modules/task/task.routes';
 import { TaskResolveRoutes } from '../modules/taskResolve/taskResolve.routes';
-import { CarRoutes } from '../modules/car/car.routes';
-import { SaleCarRoutes } from '../modules/saleCar/saleCar.routes';
+import { UserRoutes } from '../modules/user/user.routes';
 const router = Router();
 
 type TRoutes = {
@@ -57,6 +58,11 @@ const routes: TRoutes[] = [
   {
     path: '/sell_car',
     route: SaleCarRoutes,
+  },
+
+  {
+    path: '/submit_listing',
+    route: SubmitListingRoutes,
   },
 ];
 
