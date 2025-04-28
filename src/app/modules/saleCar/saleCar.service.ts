@@ -76,7 +76,7 @@ const getSaleCarList = async (
 
   const pagination = await resultAggregation.countTotal(SaleCar);
 
-  return { pagination, result };
+  return { meta: pagination, result };
 };
 
 export const SaleCarService = {

@@ -79,10 +79,22 @@ const getContactPaper = catchAsync(async (req, res) => {
   });
 });
 
+const getMyBuyedCars = catchAsync(async (req, res) => {
+  const result = await CarService.getMyBuyedCars(req.user as TAuthUser, req.query);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'My buyed cars fetched successfully',
+    data: result,
+  });
+});
+
 export const CarController = {
   buyCar,
-  carListing,
   getCarList,
+  carListing,
+  getMyBuyedCars,
   getCarDetails,
   getContactPaper,
   getTotalPurchasedCars,

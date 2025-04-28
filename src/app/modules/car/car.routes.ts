@@ -38,6 +38,11 @@ router
     '/contact_paper/:carId',
     auth(USER_ROLE.dealer),
     CarController.getContactPaper,
+  )
+  .get(
+    '/my_buyed_cars',
+    auth(USER_ROLE.private_user),
+    CarController.getMyBuyedCars,
   );
 
 export const CarRoutes = router;

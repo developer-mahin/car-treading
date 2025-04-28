@@ -38,7 +38,7 @@ const getOfferCarList = async (
   const result = await resultQuery.queryModel;
   const pagination = await resultQuery.countTotal();
 
-  return { pagination, result };
+  return { meta: pagination, result };
 };
 
 const offerCarAction = async (payload: {

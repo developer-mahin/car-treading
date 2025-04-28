@@ -7,6 +7,7 @@ import Car from './car.model';
 import mongoose from 'mongoose';
 import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
 import SaleCar from '../saleCar/saleCar.model';
+import OfferCar from '../offerCar/offerCar.model';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const carListing = async (payload: any, user: TAuthUser) => {
@@ -258,7 +259,7 @@ const getTotalPurchasedCars = async (
     .sort()
     .execute(SaleCar);
   const pagination = await carAggregation.countTotal(SaleCar);
-  return { pagination, result };
+  return { meta: pagination, result };
 };
 
 const getCarDetails = async (carId: string) => {
@@ -400,10 +401,45 @@ const getContactPaper = async (carId: string) => {
   return result[0] || null;
 };
 
+const getMyBuyedCars = async (user: TAuthUser, query: Record<string, unknown>) => {
+  const resultAggregation = new AggregationQueryBuilder(query);
+  const result = await resultAggregation.customPipeline([
+    {
+      $match: {
+        $and: [
+          { userId: new mongoose.Types.ObjectId(String(user.userId)) },
+          { status: "accept" },
+        ]
+      }
+    },
+
+    {
+      $lookup: {
+        from: 'submitlistings',
+        localField: 'submitListingCarId',
+        foreignField: '_id',
+        as: 'submitListing',
+      }
+    },
+
+    {
+      $unwind: {
+        path: '$submitListing',
+        preserveNullAndEmptyArrays: true,
+      }
+    }
+  ]).paginate().sort().execute(OfferCar);
+
+  const pagination = await resultAggregation.countTotal(OfferCar);
+
+  return { meta: pagination, result }
+};
+
 export const CarService = {
   buyCar,
   carListing,
   getCarList,
+  getMyBuyedCars,
   getCarDetails,
   getContactPaper,
   getTotalPurchasedCars,
