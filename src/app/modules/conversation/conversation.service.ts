@@ -1,68 +1,119 @@
-import QueryBuilder from '../../QueryBuilder/queryBuilder';
-import Message from '../message/message.mode';
-import { TConversation } from './conversation.interface';
+import mongoose from 'mongoose';
+import { TAuthUser } from '../../interface/authUser';
 import Conversation from './conversation.model';
 
 const createConversation = async (
-  payload: Partial<TConversation>,
-  userId: string,
+  data: { receiverId: string },
+  user: TAuthUser,
 ) => {
-  const result = await Conversation.create({ ...payload, senderId: userId });
+  let result
+  result = await Conversation.findOne({
+    users: { $all: [user.userId, data.receiverId], $size: 2 },
+  });
+
+  if (!result) {
+    result = await Conversation.create({
+      users: [
+        user.userId,
+        data.receiverId
+      ]
+    })
+  }
+
+  return result
+
+};
+
+const getMyConverSation = async (user: TAuthUser) => {
+  const result = await Conversation.aggregate([
+    {
+      $match: {
+        users: {
+          $all: [new mongoose.Types.ObjectId(String(user.userId))],
+        },
+      },
+    },
+    {
+      $lookup: {
+        from: "messages",
+        let: { convId: "$_id" },
+        pipeline: [
+          {
+            $match: {
+              $expr: { $eq: ["$conversationId", "$$convId"] },
+            },
+          },
+          { $sort: { createdAt: -1 } },
+          { $limit: 1 },
+        ],
+        as: "lastMessage",
+      },
+    },
+    {
+      $unwind: {
+        path: "$lastMessage",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $addFields: {
+        otherUserId: {
+          $filter: {
+            input: "$users",
+            as: "userId",
+            cond: {
+              $ne: ["$$userId", new mongoose.Types.ObjectId(String(user.userId))],
+            },
+          },
+        },
+      },
+    },
+    {
+      $unwind: "$otherUserId",
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "otherUserId",
+        foreignField: "_id",
+        as: "users",
+      },
+    },
+    {
+      $unwind: "$users",
+    },
+
+    {
+      $lookup: {
+        from: "profiles",
+        localField: "users.profile",
+        foreignField: "_id",
+        as: "users.profile",
+      },
+    },
+    {
+      $unwind: "$users.profile",
+    },
+    {
+      $project: {
+        _id: 1,
+        user: {
+          firstName: "$users.profile.first_name",
+          lastName: "$users.profile.last_name",
+          profileImage: "$users.profile.profileImage",
+          phoneNumber: "$users.profile.phoneNumber",
+          email: "$users.email",
+          userId: "$users._id",
+        },
+        lastMessage: 1
+      }
+    }
+  ]);
+
   return result;
 };
 
-const getConversationList = async (
-  userId: string,
-  query: Record<string, unknown>,
-) => {
-  // Delete conversations where conversationName is null
-  await Conversation.deleteMany(
-    {
-      senderId: userId,
-      conversationName: null,
-    },
-    { new: true },
-  );
-
-  // const result = await ;
-
-  const conversationQuery = new QueryBuilder(
-    Conversation.find({ senderId: userId }),
-    query,
-  )
-    .search(['conversationName'])
-    .paginate()
-    .sort();
-
-  const result = await conversationQuery.queryModel;
-  const meta = await conversationQuery.countTotal();
-
-  return { result, meta };
-};
-
-const getMessageBaseOnConversation = async (conversationId: string) => {
-  return await Message.find({ conversationId });
-};
-
-// const findUnnamedConversation = async () => {
-//     const result = await Conversation.find({
-//         conversationName: null
-//     });
-//     return result;
-// }
-
-// setInterval(async () => {
-//     const data = await findUnnamedConversation()
-
-//     // await Conversation.deleteMany({
-//     //     _id: {
-//     //         $in: data.map((item) => item._id)
-//     //     }
-//     // })
-// }, 200000);
-
 export const ConversationService = {
   createConversation,
-  getConversationList,
-  getMessageBaseOnConversation,
+  getMyConverSation
 };

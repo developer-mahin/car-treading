@@ -80,7 +80,10 @@ const getContactPaper = catchAsync(async (req, res) => {
 });
 
 const getMyBuyedCars = catchAsync(async (req, res) => {
-  const result = await CarService.getMyBuyedCars(req.user as TAuthUser, req.query);
+  const result = await CarService.getMyBuyedCars(
+    req.user as TAuthUser,
+    req.query,
+  );
 
   sendResponse(res, {
     success: true,

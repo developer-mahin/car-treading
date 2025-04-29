@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongoose';
 
 export type TConversation = {
-  senderId: ObjectId;
+  users: ObjectId[];
   conversationName?: string;
 };

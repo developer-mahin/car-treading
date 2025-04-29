@@ -2,6 +2,7 @@ import { JwtPayload, Secret } from 'jsonwebtoken';
 import { Server, Socket } from 'socket.io';
 import { decodeToken } from '../app/utils/decodeToken';
 import config from '../config'; // Ensure jwtSecret is defined in config
+import { MessageService } from '../app/modules/message/message.service';
 
 export interface IConnectedUser {
   socketId: string;
@@ -21,6 +22,9 @@ const socketIO = (io: Server) => {
     if (!token) {
       return next(new Error('Authentication error: Token not provided.'));
     }
+
+    console.log(token, 'token');
+
     try {
       user = decodeToken(
         token,
@@ -52,7 +56,14 @@ const socketIO = (io: Server) => {
       console.log('userId or socketId is undefined');
       return;
     }
+
     connectedUser.set(socket.user.userId, { socketId: socket.user.socketId });
+
+
+    socket.on("send_message", async (data) => {
+      await MessageService.createMessage(data)
+      io.emit(`receive_message::${data.conversationId}`, data);
+    })
 
     socket.on('disconnect', () => {
       console.log('Socket disconnected', socket.id);

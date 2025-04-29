@@ -6,13 +6,13 @@ const conversationSchema = new Schema<TConversation>(
     conversationName: {
       type: String,
       trim: true,
-      default: null,
     },
-    senderId: {
-      type: Schema.Types.ObjectId,
-      required: [true, 'Sender id is required'],
-      ref: 'User',
-    },
+    users: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   {
     timestamps: true,

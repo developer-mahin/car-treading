@@ -2,6 +2,7 @@ import { ObjectId } from 'mongoose';
 
 export type TMessage = {
   conversationId: ObjectId;
-  query: string;
-  response: string;
+  message: string;
+  image?: string;
+  senderId: ObjectId
 };

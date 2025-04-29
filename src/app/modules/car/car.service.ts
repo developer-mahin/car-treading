@@ -401,38 +401,45 @@ const getContactPaper = async (carId: string) => {
   return result[0] || null;
 };
 
-const getMyBuyedCars = async (user: TAuthUser, query: Record<string, unknown>) => {
+const getMyBuyedCars = async (
+  user: TAuthUser,
+  query: Record<string, unknown>,
+) => {
   const resultAggregation = new AggregationQueryBuilder(query);
-  const result = await resultAggregation.customPipeline([
-    {
-      $match: {
-        $and: [
-          { userId: new mongoose.Types.ObjectId(String(user.userId)) },
-          { status: "accept" },
-        ]
-      }
-    },
+  const result = await resultAggregation
+    .customPipeline([
+      {
+        $match: {
+          $and: [
+            { userId: new mongoose.Types.ObjectId(String(user.userId)) },
+            { status: 'accept' },
+          ],
+        },
+      },
 
-    {
-      $lookup: {
-        from: 'submitlistings',
-        localField: 'submitListingCarId',
-        foreignField: '_id',
-        as: 'submitListing',
-      }
-    },
+      {
+        $lookup: {
+          from: 'submitlistings',
+          localField: 'submitListingCarId',
+          foreignField: '_id',
+          as: 'submitListing',
+        },
+      },
 
-    {
-      $unwind: {
-        path: '$submitListing',
-        preserveNullAndEmptyArrays: true,
-      }
-    }
-  ]).paginate().sort().execute(OfferCar);
+      {
+        $unwind: {
+          path: '$submitListing',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+    ])
+    .paginate()
+    .sort()
+    .execute(OfferCar);
 
   const pagination = await resultAggregation.countTotal(OfferCar);
 
-  return { meta: pagination, result }
+  return { meta: pagination, result };
 };
 
 export const CarService = {

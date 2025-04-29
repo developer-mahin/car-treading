@@ -8,11 +8,12 @@ const messageSchema = new Schema<TMessage>(
       required: [true, 'Conversation id is required'],
       ref: 'Conversation',
     },
-    query: { type: String, required: [true, 'Query is required'], trim: true },
-    response: {
-      type: String,
-      required: [true, 'Response is required'],
-      trim: true,
+    image: { type: String },
+    message: { type: String, required: [true, 'Message is required'] },
+    senderId: {
+      type: Schema.Types.ObjectId,
+      required: [true, 'Sender id is required'],
+      ref: 'User',
     },
   },
   {

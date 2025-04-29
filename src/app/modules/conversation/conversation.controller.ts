@@ -1,52 +1,29 @@
-import httpStatus from 'http-status';
-import catchAsync from '../../utils/catchAsync';
-import sendResponse from '../../utils/sendResponse';
-import { ConversationService } from './conversation.service';
+import { TAuthUser } from "../../interface/authUser";
+import catchAsync from "../../utils/catchAsync";
+import sendResponse from "../../utils/sendResponse";
+import { ConversationService } from "./conversation.service";
 
 const createConversation = catchAsync(async (req, res) => {
-  const { userId } = req.user;
-  const result = await ConversationService.createConversation(req.body, userId);
-
+  const result = await ConversationService.createConversation(req.body, req.user as TAuthUser);
   sendResponse(res, {
     success: true,
-    statusCode: httpStatus.CREATED,
+    statusCode: 200,
     message: 'Conversation created successfully',
     data: result,
   });
 });
 
-const getConversationList = catchAsync(async (req, res) => {
-  const { userId } = req.user;
-  const result = await ConversationService.getConversationList(
-    userId,
-    req.query,
-  );
-
+const getMyConverSation = catchAsync  (async (req, res) => {
+  const result = await ConversationService.getMyConverSation(req.user as TAuthUser);
   sendResponse(res, {
     success: true,
-    statusCode: httpStatus.OK,
-    message: 'Conversations fetched successfully',
-    data: result?.result,
-    meta: result?.meta,
-  });
-});
-
-const getMessageBaseOnConversation = catchAsync(async (req, res) => {
-  const { conversationId } = req.params;
-
-  const result =
-    await ConversationService.getMessageBaseOnConversation(conversationId);
-
-  sendResponse(res, {
-    success: true,
-    statusCode: httpStatus.OK,
-    message: 'Messages fetched successfully',
+    statusCode: 200,
+    message: 'Conversation fetched successfully',
     data: result,
   });
 });
 
 export const ConversationController = {
   createConversation,
-  getConversationList,
-  getMessageBaseOnConversation,
+  getMyConverSation
 };
