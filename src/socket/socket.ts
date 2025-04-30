@@ -23,7 +23,7 @@ const socketIO = (io: Server) => {
       return next(new Error('Authentication error: Token not provided.'));
     }
 
-    console.log(token, 'token');
+    console.log(connectedUser, 'connected user');
 
     try {
       user = decodeToken(
@@ -42,7 +42,9 @@ const socketIO = (io: Server) => {
       next();
     } catch (err) {
       console.error('JWT Verification Error:', err);
+      
       return next(new Error('Authentication error: Invalid token.'));
+
     }
   });
 
@@ -58,12 +60,15 @@ const socketIO = (io: Server) => {
     }
 
     connectedUser.set(socket.user.userId, { socketId: socket.user.socketId });
+    // Send online users
+    io.emit('onlineUser', Array.from(connectedUser.keys()));
 
-
-    socket.on("send_message", async (data) => {
-      await MessageService.createMessage(data)
+    socket.on('send_message', async (data) => {
+      await MessageService.createMessage(data);
       io.emit(`receive_message::${data.conversationId}`, data);
-    })
+    });
+
+
 
     socket.on('disconnect', () => {
       console.log('Socket disconnected', socket.id);
@@ -77,6 +82,7 @@ const socketIO = (io: Server) => {
         return;
       }
       connectedUser.delete(socket.user.userId);
+      io.emit('onlineUser', "testing")
     });
 
     socket.on('error', (err) => {

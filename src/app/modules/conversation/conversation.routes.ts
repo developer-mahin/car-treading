@@ -5,11 +5,21 @@ import { ConversationController } from './conversation.controller';
 
 const router = Router();
 
-router.post(
-  '/create',
-  auth(USER_ROLE.private_user, USER_ROLE.dealer),
-  ConversationController.createConversation,
-)
-  .get("/", auth(USER_ROLE.private_user, USER_ROLE.dealer), ConversationController.getMyConverSation);
+router
+  .post(
+    '/create',
+    auth(USER_ROLE.private_user, USER_ROLE.dealer),
+    ConversationController.createConversation,
+  )
+  .get(
+    '/',
+    auth(USER_ROLE.private_user, USER_ROLE.dealer),
+    ConversationController.getMyConverSation,
+  )
+  .get(
+    '/message/:conversationId',
+    auth(USER_ROLE.private_user, USER_ROLE.dealer),
+    ConversationController.getConversationMessages,
+  );
 
 export const ConversationRoutes = router;

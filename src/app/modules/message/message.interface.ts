@@ -4,5 +4,5 @@ export type TMessage = {
   conversationId: ObjectId;
   message: string;
   image?: string;
-  senderId: ObjectId
+  senderId: ObjectId;
 };
