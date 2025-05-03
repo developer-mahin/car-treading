@@ -1,0 +1,14 @@
+name: car-treading workflow
+
+on: push
+
+jobs: 
+  car-treading-job:
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Print a message
+        run: echo "Hello from my first action"
+
+      - name: Check linting
+        run: echo "Linting checking..."
