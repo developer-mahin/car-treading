@@ -1,11 +1,9 @@
 import multer from 'multer';
 import path from 'path';
-const filePath = "./public/uploads/images/"
+const filePath = './public/uploads/images/';
 import fs from 'fs';
 
-
 const fileUpload = (fileDirectory: string) => {
-
   if (!fs.existsSync(fileDirectory)) {
     fs.mkdirSync(filePath, { recursive: true });
   }
@@ -22,8 +20,7 @@ const fileUpload = (fileDirectory: string) => {
     },
   });
   const upload = multer({ storage: storage });
-  return upload
-}
-
+  return upload;
+};
 
 export default fileUpload;

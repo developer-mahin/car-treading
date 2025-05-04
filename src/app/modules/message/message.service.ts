@@ -10,15 +10,13 @@ const createMessage = async (payload: Partial<TMessage>) => {
 const uploadImage = async (payload: Partial<TMessage>) => {
   return {
     success: true,
-    path: payload.image
-  }
+    path: payload.image,
+  };
 };
 
 const deleteImage = async (payload: { path: string }) => {
-
   const path = `./${payload.path}`;
   await unlinkImage(path as string);
-
 };
 
 export const MessageService = {

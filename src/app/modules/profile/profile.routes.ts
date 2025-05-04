@@ -7,8 +7,7 @@ import { ProfileController } from './profile.controller';
 import { ProfileValidation } from './profile.validation';
 import fileUpload from '../../utils/uploadImage';
 
-
-const upload  = fileUpload("./public/uploads/images/")
+const upload = fileUpload('./public/uploads/images/');
 
 const router = Router();
 

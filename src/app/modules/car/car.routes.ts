@@ -7,8 +7,7 @@ import { CarValidation } from './car.validation';
 import parseFormData from '../../middleware/parsedData';
 import fileUpload from '../../utils/uploadImage';
 
-const upload = fileUpload("./public/uploads/images/")
-
+const upload = fileUpload('./public/uploads/images/');
 
 const router = Router();
 

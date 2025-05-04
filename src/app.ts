@@ -29,9 +29,7 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
   res.json({
     message: 'Welcome To Server',
   });
-
 });
-
 
 // Not Found Middleware
 app.use(notFound);
