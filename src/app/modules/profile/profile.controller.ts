@@ -3,6 +3,7 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { ProfileService } from './profile.service';
 import { TAuthUser } from '../../interface/authUser';
+import { MulterFile } from '../../middleware/imageConverter';
 
 const getMyProfile = catchAsync(async (req, res) => {
   const result = await ProfileService.getMyProfile(req.user as TAuthUser);
@@ -21,7 +22,19 @@ const updateProfile = catchAsync(async (req, res) => {
     req.body.profileImage = req.file.path;
   }
 
-  console.log(profileId);
+  const fields = [
+    "profileImage",
+    "companyLogo"
+  ]
+
+  const files = req.files as { [fieldname: string]: MulterFile[] };
+
+  for (const field of fields) {
+    if (files[field]) {
+      req.body[field] = files[field][0].path;
+    }
+  }
+
   const result = await ProfileService.updateProfile(profileId, req.body);
 
   sendResponse(res, {

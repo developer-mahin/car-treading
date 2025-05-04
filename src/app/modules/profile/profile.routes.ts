@@ -2,10 +2,8 @@ import { Router } from 'express';
 import { USER_ROLE } from '../../constant';
 import { auth } from '../../middleware/auth';
 import parseFormData from '../../middleware/parsedData';
-import validateRequest from '../../middleware/validation';
-import { ProfileController } from './profile.controller';
-import { ProfileValidation } from './profile.validation';
 import fileUpload from '../../utils/uploadImage';
+import { ProfileController } from './profile.controller';
 
 const upload = fileUpload('./public/uploads/images/');
 
@@ -20,9 +18,8 @@ router
   .patch(
     '/update_profile/:profileId',
     auth(USER_ROLE.private_user, USER_ROLE.admin, USER_ROLE.dealer),
-    upload.single('profileImage'),
+    upload.fields([{ name: 'profileImage', maxCount: 2 }, { name: "companyLogo", maxCount: 2 }]),
     parseFormData,
-    validateRequest(ProfileValidation.updateProfileSchema),
     ProfileController.updateProfile,
   );
 
