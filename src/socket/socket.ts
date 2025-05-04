@@ -67,6 +67,16 @@ const socketIO = (io: Server) => {
       io.emit(`receive_message::${data.conversationId}`, data);
     });
 
+    socket.on("typing", async (payload, callback) => {
+      if (payload.status === true) {
+        io.emit(`typing::${payload.receiverId}`, true)
+        callback({ success: true, message: payload, result: payload })
+      } else {
+        io.emit(`typing::${payload.receiverId}`, false)
+        callback({ success: false, message: payload, result: payload })
+      }
+    });
+
     socket.on('disconnect', () => {
       console.log('Socket disconnected', socket.id);
       // You can remove the user from active users if needed
