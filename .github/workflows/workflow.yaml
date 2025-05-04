@@ -1,14 +1,13 @@
 name: car-treading workflow
 
-on: push
+on: [push, workflow_dispatch]
 
-jobs: 
-  car-treading-job:
+jobs:
+  test-code:
     runs-on: ubuntu-latest
-
-    steps: 
-      - name: Print a message
-        run: echo "Hello from my first action"
-
-      - name: Check linting
-        run: echo "Linting checking..."
+    steps:
+      - name: print working directory
+        run: |
+          pwd 
+          ls -a
+          echo $GITHUB_WORKSPACE
