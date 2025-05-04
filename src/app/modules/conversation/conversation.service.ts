@@ -32,35 +32,35 @@ const getMyConverSation = async (user: TAuthUser) => {
     },
     {
       $lookup: {
-        from: "messages",
-        let: { convId: "$_id" },
+        from: 'messages',
+        let: { convId: '$_id' },
         pipeline: [
           {
             $match: {
-              $expr: { $eq: ["$conversationId", "$$convId"] },
+              $expr: { $eq: ['$conversationId', '$$convId'] },
             },
           },
           { $sort: { createdAt: -1 } },
           { $limit: 1 },
         ],
-        as: "lastMessage",
+        as: 'lastMessage',
       },
     },
-    { $unwind: { path: "$lastMessage", preserveNullAndEmptyArrays: true } },
+    { $unwind: { path: '$lastMessage', preserveNullAndEmptyArrays: true } },
     {
       $lookup: {
-        from: "users",
-        let: { userIds: "$users" },
+        from: 'users',
+        let: { userIds: '$users' },
         pipeline: [
           {
             $match: {
               $expr: {
-                $in: ["$_id", "$$userIds"],
+                $in: ['$_id', '$$userIds'],
               },
             },
           },
         ],
-        as: "allUsers",
+        as: 'allUsers',
       },
     },
     {
@@ -68,10 +68,13 @@ const getMyConverSation = async (user: TAuthUser) => {
         self: {
           $first: {
             $filter: {
-              input: "$allUsers",
-              as: "u",
+              input: '$allUsers',
+              as: 'u',
               cond: {
-                $eq: ["$$u._id", new mongoose.Types.ObjectId(String(user.userId))],
+                $eq: [
+                  '$$u._id',
+                  new mongoose.Types.ObjectId(String(user.userId)),
+                ],
               },
             },
           },
@@ -79,10 +82,13 @@ const getMyConverSation = async (user: TAuthUser) => {
         otherUser: {
           $first: {
             $filter: {
-              input: "$allUsers",
-              as: "u",
+              input: '$allUsers',
+              as: 'u',
               cond: {
-                $ne: ["$$u._id", new mongoose.Types.ObjectId(String(user.userId))],
+                $ne: [
+                  '$$u._id',
+                  new mongoose.Types.ObjectId(String(user.userId)),
+                ],
               },
             },
           },
@@ -92,30 +98,30 @@ const getMyConverSation = async (user: TAuthUser) => {
     // Lookup self profile
     {
       $lookup: {
-        from: "profiles",
-        localField: "self.profile",
-        foreignField: "_id",
-        as: "self.profile",
+        from: 'profiles',
+        localField: 'self.profile',
+        foreignField: '_id',
+        as: 'self.profile',
       },
     },
     {
       $unwind: {
-        path: "$self.profile",
+        path: '$self.profile',
         preserveNullAndEmptyArrays: true,
       },
     },
     // Lookup otherUser profile
     {
       $lookup: {
-        from: "profiles",
-        localField: "otherUser.profile",
-        foreignField: "_id",
-        as: "otherUser.profile",
+        from: 'profiles',
+        localField: 'otherUser.profile',
+        foreignField: '_id',
+        as: 'otherUser.profile',
       },
     },
     {
       $unwind: {
-        path: "$otherUser.profile",
+        path: '$otherUser.profile',
         preserveNullAndEmptyArrays: true,
       },
     },
@@ -131,15 +137,13 @@ const getMyConverSation = async (user: TAuthUser) => {
         createdAt: 1,
         updatedAt: 1,
         lastMessage: 1,
-        "self._id": 1,
-        "self.profile": 1,
-        "otherUser._id": 1,
-        "otherUser.profile": 1,
-      }
-    }
+        'self._id': 1,
+        'self.profile': 1,
+        'otherUser._id': 1,
+        'otherUser.profile': 1,
+      },
+    },
   ]);
-
-
 
   return result;
 };

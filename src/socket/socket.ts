@@ -42,9 +42,8 @@ const socketIO = (io: Server) => {
       next();
     } catch (err) {
       console.error('JWT Verification Error:', err);
-      
-      return next(new Error('Authentication error: Invalid token.'));
 
+      return next(new Error('Authentication error: Invalid token.'));
     }
   });
 
@@ -68,8 +67,6 @@ const socketIO = (io: Server) => {
       io.emit(`receive_message::${data.conversationId}`, data);
     });
 
-
-
     socket.on('disconnect', () => {
       console.log('Socket disconnected', socket.id);
       // You can remove the user from active users if needed
@@ -82,7 +79,7 @@ const socketIO = (io: Server) => {
         return;
       }
       connectedUser.delete(socket.user.userId);
-      io.emit('onlineUser', "testing")
+      io.emit('onlineUser', 'testing');
     });
 
     socket.on('error', (err) => {

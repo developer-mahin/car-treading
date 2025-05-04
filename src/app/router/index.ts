@@ -11,6 +11,7 @@ import { TaskResolveRoutes } from '../modules/taskResolve/taskResolve.routes';
 import { UserRoutes } from '../modules/user/user.routes';
 import { OfferCarRoutes } from '../modules/offerCar/offerCar.routes';
 import { BidRoutes } from '../modules/bid/bid.routes';
+import { MessageRoutes } from '../modules/message/message.routes';
 const router = Router();
 
 type TRoutes = {
@@ -75,6 +76,11 @@ const routes: TRoutes[] = [
   {
     path: '/bid',
     route: BidRoutes,
+  },
+
+  {
+    path: '/message',
+    route: MessageRoutes,
   },
 ];
 

@@ -25,11 +25,13 @@ app.use(
 app.use('/api/v1', router);
 
 // Default Route
-app.use('/', (req: Request, res: Response, next: NextFunction) => {
+app.get('/', (req: Request, res: Response, next: NextFunction) => {
   res.json({
     message: 'Welcome To Server',
   });
+
 });
+
 
 // Not Found Middleware
 app.use(notFound);

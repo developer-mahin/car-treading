@@ -4,8 +4,11 @@ import { auth } from '../../middleware/auth';
 import { USER_ROLE } from '../../constant';
 import validateRequest from '../../middleware/validation';
 import { CarValidation } from './car.validation';
-import upload from '../../utils/uploadImage';
 import parseFormData from '../../middleware/parsedData';
+import fileUpload from '../../utils/uploadImage';
+
+const upload = fileUpload("./public/uploads/images/")
+
 
 const router = Router();
 
