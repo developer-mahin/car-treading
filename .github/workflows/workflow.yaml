@@ -14,3 +14,9 @@ jobs:
           node-version: 22.12.0
       - name: checkout node version
         run: node -v
+
+      - name: install dependencies
+        run: npm install
+
+      - name: run the test
+        run: npm run test
