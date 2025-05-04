@@ -1,8 +1,6 @@
-import { describe, expect, it } from '@jest/globals';
+import { expect, test } from '@jest/globals';
 import app from '../app';
 
-describe('test', () => {
-    it('should be true', () => {
-        expect(app).toBe(true);
-    });
+test('running test file', () => {
+    expect(app).toBe(true);
 });
