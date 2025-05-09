@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-var */
 // types/global.d.ts
-import { Server } from 'socket.io';
+import { Server as SocketIOServer } from 'socket.io';
 
 declare global {
-  var io: Server; // Declare 'io' as a global variable accessible throughout your app
+  var io: SocketIOServer; // Declare 'io' as a global variable accessible throughout your app
 }
 
 export {};

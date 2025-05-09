@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { UserService } from './user.service';
+import { TAuthUser } from '../../interface/authUser';
 
 const getAllUsersList = catchAsync(async (req, res) => {
   const { data, pagination } = await UserService.getAllUsersList(req.query);
@@ -38,8 +39,19 @@ const userAction = catchAsync(async (req, res) => {
   });
 });
 
+const orderTransport = catchAsync(async (req, res) => {
+  const result = await UserService.orderTransport(req.user as TAuthUser, req.body);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Successfully mail send',
+    data: result,
+  });
+});
+
 export const UserController = {
   getAllUsersList,
   getUserRatio,
   userAction,
+  orderTransport
 };
