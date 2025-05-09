@@ -10,13 +10,13 @@ const router = Router();
 router
   .post(
     '/create',
-    auth(USER_ROLE.ADMIN, USER_ROLE.RESTAURANT_OWNER),
+    auth(USER_ROLE.admin),
     validateRequest(StaticContentValidation.staticContentValidation),
     StaticContentController.createStaticContent,
   )
   .get(
     '/',
-    auth(USER_ROLE.ADMIN, USER_ROLE.RESTAURANT_OWNER, USER_ROLE.STAFF),
+    auth(USER_ROLE.admin),
     StaticContentController.getStaticContent,
   );
 

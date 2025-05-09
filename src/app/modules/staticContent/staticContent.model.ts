@@ -1,10 +1,6 @@
 import { model, Schema } from 'mongoose';
-import { TFaq, TStaticContent } from './staticContent.interface';
+import { TStaticContent } from './staticContent.interface';
 
-const faqSchema = new Schema<TFaq>({
-  title: { type: String, required: true },
-  content: { type: String, required: true },
-});
 
 const staticContentSchema = new Schema<TStaticContent>(
   {
@@ -12,17 +8,12 @@ const staticContentSchema = new Schema<TStaticContent>(
     type: {
       type: String,
       enum: [
-        'instruction-and-guide',
-        'disclaimer',
-        'announcement',
         'privacy-policy',
         'terms-and-conditions',
-        'faq',
       ],
       required: true,
     },
     content: { type: String },
-    faq: { type: [faqSchema] },
   },
   {
     timestamps: true,
