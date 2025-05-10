@@ -5,11 +5,11 @@ import { StatisticHelper } from '../../helper/staticsHelper';
 import { TAuthUser } from '../../interface/authUser';
 import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
 import sendMail from '../../utils/sendMail';
-import Car from '../car/car.model';
 import CarModel from '../carModel/carModel.model';
 import OrderTransport from '../orderTransport/orderTransport.model';
 import SaleCar from '../saleCar/saleCar.model';
 import User from './user.model';
+import Conversation from '../conversation/conversation.model';
 
 const getAllUsersList = async (query: Record<string, unknown>) => {
   const userAggregation = new AggregationQueryBuilder(query);
@@ -56,27 +56,30 @@ const userDetails = async (userId: string, query: Record<string, unknown>) => {
     .customPipeline([
       {
         $match: {
-          carOwner: new mongoose.Types.ObjectId(String(userId)),
+          $or: [
+            { userId: new mongoose.Types.ObjectId(String(userId)) },
+            { dealerId: new mongoose.Types.ObjectId(String(userId)) }
+          ]
         }
       },
       {
         $lookup: {
-          from: 'salecars',
-          localField: '_id',
-          foreignField: 'carId',
-          as: 'saleCar',
+          from: 'cars',
+          localField: 'carId',
+          foreignField: '_id',
+          as: 'car',
         }
       },
       {
         $unwind: {
-          path: '$saleCar',
+          path: '$car',
           preserveNullAndEmptyArrays: true,
         }
       },
       {
         $lookup: {
           from: "carmodels",
-          localField: "carModelId",
+          localField: "car.carModelId",
           foreignField: "_id",
           as: "carModel",
         }
@@ -93,18 +96,38 @@ const userDetails = async (userId: string, query: Record<string, unknown>) => {
           carModel: '$carModel.model',
           color: '$carModel.color',
           status: '$saleCar.status',
-          expectedPrice: 1,
-          carOwner: 1,
+          expectedPrice: "$car.expectedPrice",
+          carOwner: "$car.carOwner",
+          dealerId: 1,
+          carId: 1
         }
       }
     ])
     .paginate()
     .sort()
-    .execute(Car)
+    .execute(SaleCar)
 
-  const meta = await userDetailsAggregation.countTotal(Car)
+  const newResult = await Promise.all(result.map(async (item: any) => {
 
-  return { meta, result }
+    const findConversation = await Conversation.findOne({
+      users: { $all: [item.carOwner, item.dealerId], $size: 2 },
+    });
+
+
+    const data = {
+      ...item,
+      conversationId: findConversation?._id
+    }
+
+    return data
+
+
+  }))
+
+
+  const meta = await userDetailsAggregation.countTotal(SaleCar)
+
+  return { meta, result: newResult }
 
 }
 
