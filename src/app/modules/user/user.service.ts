@@ -16,8 +16,7 @@ const getAllUsersList = async (query: Record<string, unknown>) => {
 
   const commonPipeline = [
     {
-      $match: {
-      },
+      $match: {},
     },
     {
       $lookup: {
@@ -35,7 +34,7 @@ const getAllUsersList = async (query: Record<string, unknown>) => {
   const result = await userAggregation
     .customPipeline(commonPipeline)
     .search(['email', 'profile.name'])
-    .filter(['status', "role"])
+    .filter(['status', 'role'])
     .paginate()
     .sort()
     .execute(User);
@@ -49,8 +48,7 @@ const getAllUsersList = async (query: Record<string, unknown>) => {
 };
 
 const userDetails = async (userId: string, query: Record<string, unknown>) => {
-
-  const userDetailsAggregation = new AggregationQueryBuilder(query)
+  const userDetailsAggregation = new AggregationQueryBuilder(query);
 
   const result = await userDetailsAggregation
     .customPipeline([
@@ -58,9 +56,9 @@ const userDetails = async (userId: string, query: Record<string, unknown>) => {
         $match: {
           $or: [
             { userId: new mongoose.Types.ObjectId(String(userId)) },
-            { dealerId: new mongoose.Types.ObjectId(String(userId)) }
-          ]
-        }
+            { dealerId: new mongoose.Types.ObjectId(String(userId)) },
+          ],
+        },
       },
       {
         $lookup: {
@@ -68,27 +66,27 @@ const userDetails = async (userId: string, query: Record<string, unknown>) => {
           localField: 'carId',
           foreignField: '_id',
           as: 'car',
-        }
+        },
       },
       {
         $unwind: {
           path: '$car',
           preserveNullAndEmptyArrays: true,
-        }
+        },
       },
       {
         $lookup: {
-          from: "carmodels",
-          localField: "car.carModelId",
-          foreignField: "_id",
-          as: "carModel",
-        }
+          from: 'carmodels',
+          localField: 'car.carModelId',
+          foreignField: '_id',
+          as: 'carModel',
+        },
       },
       {
         $unwind: {
           path: '$carModel',
           preserveNullAndEmptyArrays: true,
-        }
+        },
       },
       {
         $project: {
@@ -96,42 +94,36 @@ const userDetails = async (userId: string, query: Record<string, unknown>) => {
           carModel: '$carModel.model',
           color: '$carModel.color',
           status: '$saleCar.status',
-          expectedPrice: "$car.expectedPrice",
-          carOwner: "$car.carOwner",
+          expectedPrice: '$car.expectedPrice',
+          carOwner: '$car.carOwner',
           dealerId: 1,
-          carId: 1
-        }
-      }
+          carId: 1,
+        },
+      },
     ])
     .paginate()
     .sort()
-    .execute(SaleCar)
+    .execute(SaleCar);
 
-  const newResult = await Promise.all(result.map(async (item: any) => {
+  const newResult = await Promise.all(
+    result.map(async (item: any) => {
+      const findConversation = await Conversation.findOne({
+        users: { $all: [item.carOwner, item.dealerId], $size: 2 },
+      });
 
-    const findConversation = await Conversation.findOne({
-      users: { $all: [item.carOwner, item.dealerId], $size: 2 },
-    });
+      const data = {
+        ...item,
+        conversationId: findConversation?._id,
+      };
 
+      return data;
+    }),
+  );
 
-    const data = {
-      ...item,
-      conversationId: findConversation?._id
-    }
+  const meta = await userDetailsAggregation.countTotal(SaleCar);
 
-    return data
-
-
-  }))
-
-
-  const meta = await userDetailsAggregation.countTotal(SaleCar)
-
-  return { meta, result: newResult }
-
-}
-
-
+  return { meta, result: newResult };
+};
 
 const getUserRatio = async (year: string) => {
   const { startDate, endDate } = StatisticHelper.statisticHelper(year);
