@@ -93,7 +93,32 @@ const getMyBuyedCars = catchAsync(async (req, res) => {
   });
 });
 
+
+const getCVR = catchAsync(async (req, res) => {
+  const result = await CarService.getCVR(req.query);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'CVR fetched successfully',
+    data: result,
+  });
+});
+
+const getCarInfo = catchAsync(async (req, res) => {
+  const result = await CarService.getCarInfo(req.query);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'CVR fetched successfully',
+    data: result,
+  });
+});
+
 export const CarController = {
+  getCVR,
+  getCarInfo,
   buyCar,
   getCarList,
   carListing,

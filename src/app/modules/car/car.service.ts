@@ -8,6 +8,8 @@ import mongoose from 'mongoose';
 import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
 import SaleCar from '../saleCar/saleCar.model';
 import OfferCar from '../offerCar/offerCar.model';
+import axios from 'axios';
+import config from '../../../config';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const carListing = async (payload: any, user: TAuthUser) => {
@@ -442,8 +444,44 @@ const getMyBuyedCars = async (
   return { meta: pagination, result };
 };
 
+
+const getCVR = async (query: Record<string, unknown>) => {
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${config.cvr_key}`
+  }
+
+  const res = await axios
+    .get(
+      `https://api.virksomhedsapi.dk/cvr/${query.cvrNumber}`,
+      { headers },
+  )
+
+  return res.data
+}
+
+
+const getCarInfo = async (query: Record<string, unknown>) => {
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${config.car_key}`
+  }
+
+  const res = await axios
+    .get(
+      `https://api.nrpla.de/${query.carNumber}`,
+      { headers },
+  )
+
+  return res.data
+}
+
 export const CarService = {
+  getCVR,
   buyCar,
+  getCarInfo,
   carListing,
   getCarList,
   getMyBuyedCars,

@@ -45,6 +45,10 @@ router
     '/my_buyed_cars',
     auth(USER_ROLE.private_user),
     CarController.getMyBuyedCars,
-  );
+)
+  .get("/cvr", auth(USER_ROLE.private_user), CarController.getCVR)
+  .get("/car_info", auth(USER_ROLE.private_user), CarController.getCarInfo)
+
+  ;
 
 export const CarRoutes = router;

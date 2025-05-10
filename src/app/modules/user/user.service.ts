@@ -6,6 +6,7 @@ import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
 import sendMail from '../../utils/sendMail';
 import CarModel from '../carModel/carModel.model';
 import OrderTransport from '../orderTransport/orderTransport.model';
+import SaleCar from '../saleCar/saleCar.model';
 import User from './user.model';
 
 const getAllUsersList = async (query: Record<string, unknown>) => {
@@ -263,10 +264,76 @@ const orderTransport = async (user: TAuthUser, payload: { carModel: string, user
   return
 };
 
+const getTotalCount = async () => {
+  // Current date and time windows
+  const now = new Date(); // May 9, 2025
+  const thirtyDaysAgo = new Date(now);
+  thirtyDaysAgo.setDate(now.getDate() - 30); // Apr 9, 2025
+  const sixtyDaysAgo = new Date(now);
+  sixtyDaysAgo.setDate(now.getDate() - 60); // Mar 10, 2025
+
+  // Helper function to count SaleCar documents by status and time window
+  const countSaleCars = async (status, startDate, endDate) => {
+    return await SaleCar.countDocuments({
+      status,
+      updatedAt: { $gte: startDate, $lte: endDate }
+    });
+  };
+
+  // Helper function to count User documents by role and time window
+  const countUsers = async (role, startDate, endDate) => {
+    return await User.countDocuments({
+      role,
+      createdAt: { $gte: startDate, $lte: endDate }
+    });
+  };
+
+  // Current period counts (last 30 days: Apr 9, 2025 - May 9, 2025)
+  const totalSell = await countSaleCars('sell', thirtyDaysAgo, now);
+  const totalSold = await countSaleCars('sold', thirtyDaysAgo, now);
+  const totalUser = await countUsers(USER_ROLE.private_user, thirtyDaysAgo, now);
+  const totalDealer = await countUsers(USER_ROLE.dealer, thirtyDaysAgo, now);
+
+  // Previous period counts (60 to 30 days ago: Mar 10, 2025 - Apr 9, 2025)
+  const prevTotalSell = await countSaleCars('sell', sixtyDaysAgo, thirtyDaysAgo);
+  const prevTotalSold = await countSaleCars('sold', sixtyDaysAgo, thirtyDaysAgo);
+  const prevTotalUser = await countUsers(USER_ROLE.private_user, sixtyDaysAgo, thirtyDaysAgo);
+  const prevTotalDealer = await countUsers(USER_ROLE.dealer, sixtyDaysAgo, thirtyDaysAgo);
+
+  // Function to calculate percentage change
+  const calculatePercentageChange = (current: any, previous: any) => {
+    if (previous === 0) {
+      return current === 0 ? 0 : 100; // Handle division by zero
+    }
+    return ((current - previous) / previous * 100).toFixed(2);
+  };
+
+  // Calculate percentage changes
+  const sellPercentageChange = calculatePercentageChange(totalSell, prevTotalSell) as any;
+  const soldPercentageChange = calculatePercentageChange(totalSold, prevTotalSold) as any;
+  const userPercentageChange = calculatePercentageChange(totalUser, prevTotalUser) as any;
+  const dealerPercentageChange = calculatePercentageChange(totalDealer, prevTotalDealer) as any;
+
+  // Return results
+  return {
+    totalSell,
+    sellPercentageChange: parseFloat(sellPercentageChange),
+    totalSold,
+    soldPercentageChange: parseFloat(soldPercentageChange),
+    totalUser,
+    userPercentageChange: parseFloat(userPercentageChange),
+    totalDealer,
+    dealerPercentageChange: parseFloat(dealerPercentageChange)
+  };
+}
+
+
+
 
 export const UserService = {
   getAllUsersList,
   getUserRatio,
   userAction,
-  orderTransport
+  orderTransport,
+  getTotalCount
 };

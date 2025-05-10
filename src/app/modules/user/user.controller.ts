@@ -49,9 +49,20 @@ const orderTransport = catchAsync(async (req, res) => {
   });
 });
 
+const getTotalCount = catchAsync(async (req, res) => {
+  const result = await UserService.getTotalCount();
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Total count fetched successfully',
+    data: result,
+  });
+});
+
 export const UserController = {
   getAllUsersList,
   getUserRatio,
   userAction,
-  orderTransport
+  orderTransport,
+  getTotalCount
 };

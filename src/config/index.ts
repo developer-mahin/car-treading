@@ -35,4 +35,6 @@ export default {
   smtp_username: process.env.SMTP_USERNAME,
   smtp_password: process.env.SMTP_PASSWORD,
   default_password: process.env.DEFAULT_PASSWORD,
+  cvr_key: process.env.CVR_KEY,
+  car_key: process.env.CAR_KEY,
 };
