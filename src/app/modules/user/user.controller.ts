@@ -72,8 +72,19 @@ const getCustomerMap = catchAsync(async (req, res) => {
   });
 });
 
+const userDetails = catchAsync(async (req, res) => {
+  const result = await UserService.userDetails(req.params.userId, req.query);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'User details fetched successfully',
+    data: result,
+  });
+});
+
 export const UserController = {
   getAllUsersList,
+  userDetails,
   getUserRatio,
   userAction,
   orderTransport,

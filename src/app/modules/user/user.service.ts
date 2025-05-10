@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import mongoose from 'mongoose';
 import { months, USER_ROLE, USER_STATUS } from '../../constant';
 import { StatisticHelper } from '../../helper/staticsHelper';
 import { TAuthUser } from '../../interface/authUser';
 import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
 import sendMail from '../../utils/sendMail';
+import Car from '../car/car.model';
 import CarModel from '../carModel/carModel.model';
 import OrderTransport from '../orderTransport/orderTransport.model';
 import SaleCar from '../saleCar/saleCar.model';
@@ -15,7 +17,6 @@ const getAllUsersList = async (query: Record<string, unknown>) => {
   const commonPipeline = [
     {
       $match: {
-        role: USER_ROLE.dealer,
       },
     },
     {
@@ -34,7 +35,7 @@ const getAllUsersList = async (query: Record<string, unknown>) => {
   const result = await userAggregation
     .customPipeline(commonPipeline)
     .search(['email', 'profile.name'])
-    .filter(['status'])
+    .filter(['status', "role"])
     .paginate()
     .sort()
     .execute(User);
@@ -46,6 +47,68 @@ const getAllUsersList = async (query: Record<string, unknown>) => {
     pagination,
   };
 };
+
+const userDetails = async (userId: string, query: Record<string, unknown>) => {
+
+  const userDetailsAggregation = new AggregationQueryBuilder(query)
+
+  const result = await userDetailsAggregation
+    .customPipeline([
+      {
+        $match: {
+          carOwner: new mongoose.Types.ObjectId(String(userId)),
+        }
+      },
+      {
+        $lookup: {
+          from: 'salecars',
+          localField: '_id',
+          foreignField: 'carId',
+          as: 'saleCar',
+        }
+      },
+      {
+        $unwind: {
+          path: '$saleCar',
+          preserveNullAndEmptyArrays: true,
+        }
+      },
+      {
+        $lookup: {
+          from: "carmodels",
+          localField: "carModelId",
+          foreignField: "_id",
+          as: "carModel",
+        }
+      },
+      {
+        $unwind: {
+          path: '$carModel',
+          preserveNullAndEmptyArrays: true,
+        }
+      },
+      {
+        $project: {
+          carName: '$carModel.brand',
+          carModel: '$carModel.model',
+          color: '$carModel.color',
+          status: '$saleCar.status',
+          expectedPrice: 1,
+          carOwner: 1,
+        }
+      }
+    ])
+    .paginate()
+    .sort()
+    .execute(Car)
+
+  const meta = await userDetailsAggregation.countTotal(Car)
+
+  return { meta, result }
+
+}
+
+
 
 const getUserRatio = async (year: string) => {
   const { startDate, endDate } = StatisticHelper.statisticHelper(year);
@@ -412,6 +475,7 @@ const getCustomerMap = async (query: Record<string, unknown>) => {
 
 export const UserService = {
   getAllUsersList,
+  userDetails,
   getUserRatio,
   userAction,
   orderTransport,
