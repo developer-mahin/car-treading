@@ -18,7 +18,10 @@ router
   .patch(
     '/update_profile/:profileId',
     auth(USER_ROLE.private_user, USER_ROLE.admin, USER_ROLE.dealer),
-    upload.fields([{ name: 'profileImage', maxCount: 2 }, { name: "companyLogo", maxCount: 2 }]),
+    upload.fields([
+      { name: 'profileImage', maxCount: 2 },
+      { name: 'companyLogo', maxCount: 2 },
+    ]),
     parseFormData,
     ProfileController.updateProfile,
   );

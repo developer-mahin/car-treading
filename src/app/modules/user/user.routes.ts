@@ -6,10 +6,15 @@ import { UserController } from './user.controller';
 const router = Router();
 
 router
-  .post("/order-transport", auth(USER_ROLE.dealer), UserController.orderTransport)
+  .post(
+    '/order-transport',
+    auth(USER_ROLE.dealer),
+    UserController.orderTransport,
+  )
   .get('/list', auth(USER_ROLE.admin), UserController.getAllUsersList)
   .get('/user_ratio', auth(USER_ROLE.admin), UserController.getUserRatio)
-  .get("/total_count", auth(USER_ROLE.admin), UserController.getTotalCount)
+  .get('/total_count', auth(USER_ROLE.admin), UserController.getTotalCount)
+  .get('/customer_map', auth(USER_ROLE.admin), UserController.getCustomerMap)
   .patch('/action/:userId', auth(USER_ROLE.admin), UserController.userAction);
 
 export const UserRoutes = router;

@@ -41,7 +41,29 @@ const getSaleCarList = catchAsync(async (req, res) => {
   });
 });
 
+const getTotalSalesChart = catchAsync(async (req, res) => {
+  const result = await SaleCarService.getTotalSalesChart(req.query);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Total sales chart fetched successfully',
+    data: result,
+  });
+});
+
+const saleCarAction = catchAsync(async (req, res) => {
+  const result = await SaleCarService.saleCarAction(req.body);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'SaleCar updated successfully',
+    data: result,
+  });
+});
+
 export const SaleCarController = {
   updateContactPaper,
   getSaleCarList,
+  getTotalSalesChart,
+  saleCarAction,
 };

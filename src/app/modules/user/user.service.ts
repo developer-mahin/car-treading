@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { USER_ROLE, USER_STATUS } from '../../constant';
+import { months, USER_ROLE, USER_STATUS } from '../../constant';
 import { StatisticHelper } from '../../helper/staticsHelper';
 import { TAuthUser } from '../../interface/authUser';
 import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
@@ -125,12 +125,13 @@ const userAction = async (id: string, payload: Record<string, unknown>) => {
   return result;
 };
 
-
-const orderTransport = async (user: TAuthUser, payload: { carModel: string, userId: string }) => {
-
+const orderTransport = async (
+  user: TAuthUser,
+  payload: { carModel: string; userId: string },
+) => {
   const findOrderTransport = await OrderTransport.findOne({
-    userId: user.userId
-  })
+    userId: user.userId,
+  });
 
   if (!findOrderTransport) {
     throw new Error('Order transport not found');
@@ -142,7 +143,9 @@ const orderTransport = async (user: TAuthUser, payload: { carModel: string, user
     throw new Error('Car model not found');
   }
 
-  const carOwner = await User.findById(payload.userId).populate('profile') as any;
+  const carOwner = (await User.findById(payload.userId).populate(
+    'profile',
+  )) as any;
 
   if (!carOwner) {
     throw new Error('Car owner not found');
@@ -261,7 +264,7 @@ const orderTransport = async (user: TAuthUser, payload: { carModel: string, user
     `,
   });
 
-  return
+  return;
 };
 
 const getTotalCount = async () => {
@@ -273,46 +276,78 @@ const getTotalCount = async () => {
   sixtyDaysAgo.setDate(now.getDate() - 60); // Mar 10, 2025
 
   // Helper function to count SaleCar documents by status and time window
-  const countSaleCars = async (status, startDate, endDate) => {
+  const countSaleCars = async (status: any, startDate: any, endDate: any) => {
     return await SaleCar.countDocuments({
       status,
-      updatedAt: { $gte: startDate, $lte: endDate }
+      updatedAt: { $gte: startDate, $lte: endDate },
     });
   };
 
   // Helper function to count User documents by role and time window
-  const countUsers = async (role, startDate, endDate) => {
+  const countUsers = async (role: any, startDate: any, endDate: any) => {
     return await User.countDocuments({
       role,
-      createdAt: { $gte: startDate, $lte: endDate }
+      createdAt: { $gte: startDate, $lte: endDate },
     });
   };
 
   // Current period counts (last 30 days: Apr 9, 2025 - May 9, 2025)
   const totalSell = await countSaleCars('sell', thirtyDaysAgo, now);
   const totalSold = await countSaleCars('sold', thirtyDaysAgo, now);
-  const totalUser = await countUsers(USER_ROLE.private_user, thirtyDaysAgo, now);
+  const totalUser = await countUsers(
+    USER_ROLE.private_user,
+    thirtyDaysAgo,
+    now,
+  );
   const totalDealer = await countUsers(USER_ROLE.dealer, thirtyDaysAgo, now);
 
   // Previous period counts (60 to 30 days ago: Mar 10, 2025 - Apr 9, 2025)
-  const prevTotalSell = await countSaleCars('sell', sixtyDaysAgo, thirtyDaysAgo);
-  const prevTotalSold = await countSaleCars('sold', sixtyDaysAgo, thirtyDaysAgo);
-  const prevTotalUser = await countUsers(USER_ROLE.private_user, sixtyDaysAgo, thirtyDaysAgo);
-  const prevTotalDealer = await countUsers(USER_ROLE.dealer, sixtyDaysAgo, thirtyDaysAgo);
+  const prevTotalSell = await countSaleCars(
+    'sell',
+    sixtyDaysAgo,
+    thirtyDaysAgo,
+  );
+  const prevTotalSold = await countSaleCars(
+    'sold',
+    sixtyDaysAgo,
+    thirtyDaysAgo,
+  );
+  const prevTotalUser = await countUsers(
+    USER_ROLE.private_user,
+    sixtyDaysAgo,
+    thirtyDaysAgo,
+  );
+  const prevTotalDealer = await countUsers(
+    USER_ROLE.dealer,
+    sixtyDaysAgo,
+    thirtyDaysAgo,
+  );
 
   // Function to calculate percentage change
   const calculatePercentageChange = (current: any, previous: any) => {
     if (previous === 0) {
       return current === 0 ? 0 : 100; // Handle division by zero
     }
-    return ((current - previous) / previous * 100).toFixed(2);
+    return (((current - previous) / previous) * 100).toFixed(2);
   };
 
   // Calculate percentage changes
-  const sellPercentageChange = calculatePercentageChange(totalSell, prevTotalSell) as any;
-  const soldPercentageChange = calculatePercentageChange(totalSold, prevTotalSold) as any;
-  const userPercentageChange = calculatePercentageChange(totalUser, prevTotalUser) as any;
-  const dealerPercentageChange = calculatePercentageChange(totalDealer, prevTotalDealer) as any;
+  const sellPercentageChange = calculatePercentageChange(
+    totalSell,
+    prevTotalSell,
+  ) as any;
+  const soldPercentageChange = calculatePercentageChange(
+    totalSold,
+    prevTotalSold,
+  ) as any;
+  const userPercentageChange = calculatePercentageChange(
+    totalUser,
+    prevTotalUser,
+  ) as any;
+  const dealerPercentageChange = calculatePercentageChange(
+    totalDealer,
+    prevTotalDealer,
+  ) as any;
 
   // Return results
   return {
@@ -323,17 +358,63 @@ const getTotalCount = async () => {
     totalUser,
     userPercentageChange: parseFloat(userPercentageChange),
     totalDealer,
-    dealerPercentageChange: parseFloat(dealerPercentageChange)
+    dealerPercentageChange: parseFloat(dealerPercentageChange),
   };
-}
+};
 
+const getCustomerMap = async (query: Record<string, unknown>) => {
+  const { year } = query;
+  const startDate = new Date(`${year}-01-01`);
+  const endDate = new Date(`${year}-12-31T23:59:59`);
 
+  const result = await User.aggregate([
+    {
+      $match: {
+        createdAt: { $gte: startDate, $lte: endDate },
+        role: { $in: [USER_ROLE.private_user, USER_ROLE.dealer] },
+      },
+    },
+    {
+      $project: {
+        month: { $month: '$createdAt' },
+      },
+    },
+    {
+      $group: {
+        _id: '$month',
+        totalSales: { $sum: 1 },
+      },
+    },
+    {
+      $sort: { _id: 1 },
+    },
+    {
+      $project: {
+        _id: 0,
+        month: '$_id',
+        totalSales: 1,
+      },
+    },
+  ]);
 
+  const monthlyUser = [];
+
+  for (let i = 1; i <= 12; i++) {
+    const foundMonth = result.find((item) => item.month === i);
+    monthlyUser.push({
+      month: months[i - 1],
+      totalSales: foundMonth?.totalSales || 0,
+    });
+  }
+
+  return monthlyUser;
+};
 
 export const UserService = {
   getAllUsersList,
   getUserRatio,
   userAction,
   orderTransport,
-  getTotalCount
+  getTotalCount,
+  getCustomerMap,
 };

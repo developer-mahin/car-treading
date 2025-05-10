@@ -7,6 +7,7 @@ export type TSaleCar = {
   customerDestination: string;
   price: number;
   status: 'sell' | 'sold';
+  paymentStatus: 'paid' | 'unpaid';
   reRegistrationDeRegistrationView: string;
   signatureAsDealer: string;
   signatureAsOwner: string;

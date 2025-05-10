@@ -11,6 +11,12 @@ const salesCarSchema = new Schema<TSaleCar>(
     reRegistrationDeRegistrationView: { type: String },
     signatureAsDealer: { type: String },
     signatureAsOwner: { type: String },
+    paymentStatus: {
+      type: String,
+      required: [true, 'Payment status is required'],
+      enum: ['paid', 'unpaid'],
+      default: 'unpaid',
+    },
     status: {
       type: String,
       required: [true, 'Status is required'],

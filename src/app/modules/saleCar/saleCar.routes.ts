@@ -22,8 +22,14 @@ router
   )
   .get(
     '/',
-    auth(USER_ROLE.private_user, USER_ROLE.dealer),
+    auth(USER_ROLE.private_user, USER_ROLE.dealer, USER_ROLE.admin),
     SaleCarController.getSaleCarList,
-  );
+  )
+  .get(
+    '/total_sales_chart',
+    auth(USER_ROLE.admin),
+    SaleCarController.getTotalSalesChart,
+  )
+  .patch('/action', auth(USER_ROLE.admin), SaleCarController.saleCarAction);
 
 export const SaleCarRoutes = router;

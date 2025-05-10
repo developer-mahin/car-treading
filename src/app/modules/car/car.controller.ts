@@ -93,7 +93,6 @@ const getMyBuyedCars = catchAsync(async (req, res) => {
   });
 });
 
-
 const getCVR = catchAsync(async (req, res) => {
   const result = await CarService.getCVR(req.query);
 

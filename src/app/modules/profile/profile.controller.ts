@@ -22,10 +22,7 @@ const updateProfile = catchAsync(async (req, res) => {
     req.body.profileImage = req.file.path;
   }
 
-  const fields = [
-    "profileImage",
-    "companyLogo"
-  ]
+  const fields = ['profileImage', 'companyLogo'];
 
   const files = req.files as { [fieldname: string]: MulterFile[] };
 

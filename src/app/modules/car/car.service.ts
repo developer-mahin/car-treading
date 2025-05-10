@@ -444,39 +444,32 @@ const getMyBuyedCars = async (
   return { meta: pagination, result };
 };
 
-
 const getCVR = async (query: Record<string, unknown>) => {
-
   const headers = {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${config.cvr_key}`
-  }
+    Authorization: `Bearer ${config.cvr_key}`,
+  };
 
-  const res = await axios
-    .get(
-      `https://api.virksomhedsapi.dk/cvr/${query.cvrNumber}`,
-      { headers },
-  )
+  const res = await axios.get(
+    `https://api.virksomhedsapi.dk/cvr/${query.cvrNumber}`,
+    { headers },
+  );
 
-  return res.data
-}
-
+  return res.data;
+};
 
 const getCarInfo = async (query: Record<string, unknown>) => {
-
   const headers = {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${config.car_key}`
-  }
+    Authorization: `Bearer ${config.car_key}`,
+  };
 
-  const res = await axios
-    .get(
-      `https://api.nrpla.de/${query.carNumber}`,
-      { headers },
-  )
+  const res = await axios.get(`https://api.nrpla.de/${query.carNumber}`, {
+    headers,
+  });
 
-  return res.data
-}
+  return res.data;
+};
 
 export const CarService = {
   getCVR,

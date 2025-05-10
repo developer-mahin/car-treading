@@ -14,10 +14,6 @@ router
     validateRequest(StaticContentValidation.staticContentValidation),
     StaticContentController.createStaticContent,
   )
-  .get(
-    '/',
-    auth(USER_ROLE.admin),
-    StaticContentController.getStaticContent,
-  );
+  .get('/', auth(USER_ROLE.admin), StaticContentController.getStaticContent);
 
 export const StaticContentRoutes = router;

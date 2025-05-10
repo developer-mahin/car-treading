@@ -23,7 +23,7 @@ router
   .post('/buy_car', auth(USER_ROLE.dealer), CarController.buyCar)
   .get(
     '/sale_car_list',
-    auth(USER_ROLE.dealer, USER_ROLE.private_user),
+    auth(USER_ROLE.dealer, USER_ROLE.private_user, USER_ROLE.admin),
     CarController.getCarList,
   )
   .get(
@@ -45,10 +45,8 @@ router
     '/my_buyed_cars',
     auth(USER_ROLE.private_user),
     CarController.getMyBuyedCars,
-)
-  .get("/cvr", auth(USER_ROLE.private_user), CarController.getCVR)
-  .get("/car_info", auth(USER_ROLE.private_user), CarController.getCarInfo)
-
-  ;
+  )
+  .get('/cvr', auth(USER_ROLE.private_user), CarController.getCVR)
+  .get('/car_info', auth(USER_ROLE.private_user), CarController.getCarInfo);
 
 export const CarRoutes = router;

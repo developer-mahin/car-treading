@@ -40,7 +40,10 @@ const userAction = catchAsync(async (req, res) => {
 });
 
 const orderTransport = catchAsync(async (req, res) => {
-  const result = await UserService.orderTransport(req.user as TAuthUser, req.body);
+  const result = await UserService.orderTransport(
+    req.user as TAuthUser,
+    req.body,
+  );
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -59,10 +62,21 @@ const getTotalCount = catchAsync(async (req, res) => {
   });
 });
 
+const getCustomerMap = catchAsync(async (req, res) => {
+  const result = await UserService.getCustomerMap(req.query);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Customer map fetched successfully',
+    data: result,
+  });
+});
+
 export const UserController = {
   getAllUsersList,
   getUserRatio,
   userAction,
   orderTransport,
-  getTotalCount
+  getTotalCount,
+  getCustomerMap,
 };
