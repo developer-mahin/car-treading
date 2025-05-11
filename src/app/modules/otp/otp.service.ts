@@ -23,6 +23,18 @@ const sendOTP = async (
     await sendMail(emailBody);
   }
 
+
+  const findExistingOtp = await OTP.findOne({
+    sendTo: payload.email,
+    receiverType,
+    purpose,
+  });
+
+  if (findExistingOtp) {
+    await OTP.findByIdAndDelete(findExistingOtp._id);
+  }
+
+  // return
   // const otpExpiryTime = parseInt(config.otp_expire_in as string) || 3;
   const expiredAt = new Date();
   expiredAt.setMinutes(expiredAt.getMinutes() + otpExpiryTime!);
