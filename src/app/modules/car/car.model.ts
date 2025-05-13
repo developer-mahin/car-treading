@@ -31,14 +31,12 @@ const CarSchema = new Schema<TCar>(
       min: [0, 'Varnish fields cannot be negative'],
     },
     additionalEquipment: {
-      type: String,
+      type: [String],
       required: [true, 'Additional equipment information is required'],
     },
     condition: {
       type: String,
       required: [true, 'Condition of the car is required'],
-      enum: ['new', 'used', 'refurbished'], // Adjust conditions if necessary
-      message: 'Condition must be one of the following: new, used, refurbished',
     },
     comment: {
       type: String,
@@ -55,7 +53,7 @@ const CarSchema = new Schema<TCar>(
     },
     vat: {
       type: String,
-      required: [true, 'VAT is required'],
+
     },
     carCategory: {
       type: String,
@@ -72,16 +70,13 @@ const CarSchema = new Schema<TCar>(
     },
     chassisNumber: {
       type: String,
-      required: [true, 'Chassis number is required'],
       unique: true, // Ensure unique chassis numbers
     },
     tax: {
       type: String,
-      required: [true, 'Tax is required'],
     },
     inspectionDate: {
       type: Date,
-      required: [true, 'Inspection date is required'],
     },
   },
   { timestamps: true },

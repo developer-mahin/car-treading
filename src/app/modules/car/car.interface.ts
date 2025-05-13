@@ -8,7 +8,7 @@ export type TCar = {
   companyId: ObjectId;
   noOfKmDriven: number;
   noOfVarnishField: number;
-  additionalEquipment: string;
+  additionalEquipment: [string];
   condition: string;
   comment: string;
   expectedPrice: number;

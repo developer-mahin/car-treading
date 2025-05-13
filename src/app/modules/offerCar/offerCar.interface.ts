@@ -6,13 +6,14 @@ export type TOfferCar = {
   submitListingCarId: ObjectId;
   carCategory: string;
   mark: string;
+  carLicensePlateNumber: string;
   model: string;
   cashPrice: number;
-  priceType: string;
+  priceType: string[];
   carCondition: string;
   models: string;
-  fuel: string;
-  gearType: string;
+  fuel: string[];
+  gearType: string[];
   modelsYear: number;
   carImages: string[];
   status: 'accept' | 'reject' | 'pending';

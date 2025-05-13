@@ -7,11 +7,11 @@ export type TSubmitListing = {
   mark: string;
   model: string;
   cashPrice: number;
-  priceType: string;
+  priceType: string[];
   carCondition: string;
   models: string;
-  fuel: string;
-  gearType: string;
+  fuel: string[];
+  gearType: string[];
   drivenKmFrom: number;
   drivenKmTo: number;
   modelsFrom: number;

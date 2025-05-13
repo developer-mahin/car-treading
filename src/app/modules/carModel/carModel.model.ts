@@ -26,40 +26,28 @@ const CarModelSchema = new Schema<TCarModel>(
     },
     color: {
       type: String,
-      required: [true, 'Car color is required'],
     },
     fuelType: {
       type: String,
       required: [true, 'Fuel type is required'],
-      enum: ['petrol', 'diesel', 'electric', 'hybrid'], // Adjust fuel types as per your requirements
-      message:
-        'Fuel type must be one of the following: petrol, diesel, electric, hybrid',
     },
     gearBox: {
       type: String,
-      required: [true, 'Gearbox type is required'],
-      enum: ['manual', 'automatic'], // Adjust gearbox types if necessary
-      message: 'Gearbox must be one of the following: manual, automatic',
     },
     engineSize: {
       type: String,
-      required: [true, 'Engine size is required'],
     },
     enginePerformance: {
       type: String,
-      required: [true, 'Engine performance is required'],
     },
     co2Emission: {
       type: String,
-      required: [true, 'CO2 emission is required'],
     },
     fuelConsumption: {
       type: String,
-      required: [true, 'Fuel consumption is required'],
     },
     euroStandard: {
       type: String,
-      required: [true, 'Euro standard is required'],
     },
     numberPlates: {
       type: String,
