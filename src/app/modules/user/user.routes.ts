@@ -15,7 +15,9 @@ router
   .get('/user_ratio', auth(USER_ROLE.admin), UserController.getUserRatio)
   .get('/total_count', auth(USER_ROLE.admin), UserController.getTotalCount)
   .get('/customer_map', auth(USER_ROLE.admin), UserController.getCustomerMap)
+
   .get('/:userId', auth(USER_ROLE.admin), UserController.userDetails)
+  .get("/private_user_details/:userId", auth(USER_ROLE.admin), UserController.privateUserDetails)
   .patch('/action/:userId', auth(USER_ROLE.admin), UserController.userAction);
 
 export const UserRoutes = router;

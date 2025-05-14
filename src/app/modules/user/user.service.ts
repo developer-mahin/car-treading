@@ -10,6 +10,7 @@ import OrderTransport from '../orderTransport/orderTransport.model';
 import SaleCar from '../saleCar/saleCar.model';
 import User from './user.model';
 import Conversation from '../conversation/conversation.model';
+import QueryBuilder from '../../QueryBuilder/queryBuilder';
 
 const getAllUsersList = async (query: Record<string, unknown>) => {
   const userAggregation = new AggregationQueryBuilder(query);
@@ -488,6 +489,35 @@ const getCustomerMap = async (query: Record<string, unknown>) => {
   return monthlyUser;
 };
 
+const privateUserDetails = async (userId: string, query: Record<string, unknown>) => {
+  const userDetailsQuery = new QueryBuilder(
+    SaleCar.find({
+      userId: new mongoose.Types.ObjectId(userId)
+    }
+    ), query);
+
+  const result = await userDetailsQuery
+    .search(['status'])
+    .filter(['status'])
+    .paginate()
+    .sort()
+    .queryModel
+
+  const soldCarCount = await SaleCar.countDocuments({
+    userId: new mongoose.Types.ObjectId(userId),
+    status: 'sold'
+  })
+
+  const saleCarCount = await SaleCar.countDocuments({
+    userId: new mongoose.Types.ObjectId(userId),
+    status: 'sell'
+  })
+
+  const meta = await userDetailsQuery.countTotal();
+
+  return { meta, result, soldCarCount, saleCarCount }
+};
+
 export const UserService = {
   getAllUsersList,
   userDetails,
@@ -496,4 +526,5 @@ export const UserService = {
   orderTransport,
   getTotalCount,
   getCustomerMap,
+  privateUserDetails
 };
