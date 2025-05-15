@@ -78,6 +78,10 @@ const CarSchema = new Schema<TCar>(
     inspectionDate: {
       type: Date,
     },
+    isSell: {
+      type: Boolean,
+      default: false
+    }
   },
   { timestamps: true },
 );

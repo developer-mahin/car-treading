@@ -20,6 +20,7 @@ export type TCar = {
   chassisNumber: string;
   tax: string;
   inspectionDate: Date;
+  isSell: boolean;
 };
 
 export type TCarListing = {

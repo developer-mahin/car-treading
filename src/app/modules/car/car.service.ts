@@ -94,6 +94,11 @@ const getCarList = async (query: Record<string, unknown>) => {
   const result = await carAggregation
     .customPipeline([
       {
+        $match: {
+          isSell: false,
+        }
+      },
+      {
         $lookup: {
           from: 'carmodels',
           localField: 'carModelId',
@@ -121,7 +126,54 @@ const getCarList = async (query: Record<string, unknown>) => {
           preserveNullAndEmptyArrays: true,
         },
       },
-    ])
+      {
+        $lookup: {
+          from: 'bids',
+          localField: '_id',
+          foreignField: 'carId',
+          as: 'bids',
+          pipeline: [
+            { $sort: { bidAmount: -1 } },
+            { $limit: 1 },
+          ],
+        },
+      },
+      {
+        $unwind: {
+          path: '$bids',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          carOwner: 1,
+          carModelId: 1,
+          companyId: 1,
+          noOfKmDriven: 1,
+          noOfVarnishField: 1,
+          additionalEquipment: 1,
+          condition: 1,
+          comment: 1,
+          expectedPrice: 1,
+          registrationNumber: 1,
+          vat: 1,
+          carCategory: 1,
+          milage: 1,
+          firstRegistrationDate: 1,
+          chassisNumber: 1,
+          tax: 1,
+          inspectionDate: 1,
+          createdAt: 1,
+          updatedAt: 1,
+          isSell: 1,
+          maxBidAmount: '$bids.bidAmount',
+          carModel: 1,
+          company: 1,
+        },
+      },
+    ]
+    )
     .filter(['carModel.brand', 'carModel.fuelType'])
     .rangeFilter(['carModel.modelYear'])
     .paginate()

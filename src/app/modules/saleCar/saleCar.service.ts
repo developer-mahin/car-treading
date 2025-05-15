@@ -4,11 +4,36 @@ import { TSaleCar } from './saleCar.interface';
 import SaleCar from './saleCar.model';
 import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
 import { months, USER_ROLE } from '../../constant';
+import Car from '../car/car.model';
+import AppError from '../../utils/AppError';
+import httpStatus from 'http-status';
 
 const updateContactPaper = async (
   payload: Partial<TSaleCar>,
   saleCarId: string,
 ) => {
+
+  const findSaleCar = await SaleCar.findById(saleCarId);
+
+  if (!findSaleCar) {
+    throw new AppError(httpStatus.NOT_FOUND, 'SaleCar not found');
+  }
+
+  if (payload.status === "sold") {
+    await Car.findOneAndUpdate(
+      {
+        _id: findSaleCar.carId
+      },
+      {
+        $set: {
+          isSell: true
+        }
+      },
+      {
+        new: true
+      }
+    )
+  }
   const result = await SaleCar.findByIdAndUpdate(saleCarId, payload, {
     new: true,
   });
