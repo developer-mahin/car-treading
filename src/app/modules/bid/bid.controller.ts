@@ -23,7 +23,18 @@ const getBidList = catchAsync(async (req, res) => {
   });
 });
 
+const bidAction = catchAsync(async (req, res) => {
+  const result = await BidService.bidAction(req.body);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Bid updated successfully',
+    data: result,
+  });
+});
+
 export const BidController = {
   createBid,
   getBidList,
+  bidAction
 };
