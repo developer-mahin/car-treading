@@ -29,7 +29,12 @@ const getBidList = async (query: Record<string, unknown>, user: TAuthUser) => {
   const result = await resultAggregation
     .customPipeline([
       {
-        $match: { userId: new mongoose.Types.ObjectId(String(user.userId)) },
+        $match: {
+          $and: [
+            { userId: new mongoose.Types.ObjectId(String(user.userId)) },
+            { status: 'pending' },
+          ],
+        },
       },
       {
         $lookup: {
