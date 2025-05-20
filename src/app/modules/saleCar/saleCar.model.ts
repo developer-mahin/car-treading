@@ -3,7 +3,7 @@ import { TSaleCar } from './saleCar.interface';
 
 const salesCarSchema = new Schema<TSaleCar>(
   {
-    carId: { type: Schema.Types.ObjectId, required: true, ref: 'Car' },
+    carId: { type: Schema.Types.ObjectId, required: true, ref: 'Car' , unique: true},
     dealerId: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
     userId: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
     price: { type: Number },

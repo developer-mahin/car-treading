@@ -22,6 +22,8 @@ const offerCarSchema = new Schema<TOfferCar>(
     modelsYear: { type: Number, required: true },
     carImages: { type: [String], required: true },
     carLicensePlateNumber: { type: String },
+    color: { type: String },
+    DrivenKm: { type: Number },
     status: {
       type: String,
       required: true,

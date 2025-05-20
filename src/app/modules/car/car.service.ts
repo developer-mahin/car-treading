@@ -210,15 +210,24 @@ const getCarList = async (query: Record<string, unknown>) => {
 const buyCar = async (payload: any, user: TAuthUser) => {
   const { carId } = payload;
   const car = await Car.findById(carId);
+
   if (!car) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Car not found');
   }
 
   const saleCarData = {
     carId: carId,
-    userId: carId.carOwner,
+    userId: car.carOwner,
     dealerId: user.userId,
   };
+
+  const findSaleCar = await SaleCar.findOne({
+    carId: carId,
+  })
+
+  if (findSaleCar) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Car already sold');
+  }
 
   const result = await SaleCar.create(saleCarData);
 

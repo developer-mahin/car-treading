@@ -12,6 +12,8 @@ export type TOfferCar = {
   priceType: string[];
   carCondition: string;
   models: string;
+  color: string;
+  DrivenKm: number
   fuel: string[];
   gearType: string[];
   modelsYear: number;

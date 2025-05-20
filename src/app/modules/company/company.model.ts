@@ -1,6 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
 import { TCompany } from './company.interface';
-// Adjust path accordingly
 
 // Define the schema based on TCompany interface
 const CompanySchema = new Schema<TCompany>(
@@ -10,7 +9,6 @@ const CompanySchema = new Schema<TCompany>(
     },
     cvrNumber: {
       type: String,
-      unique: true, // Ensure unique CVR number
     },
     postCode: {
       type: String,
