@@ -239,6 +239,7 @@ const getTotalPurchasedCars = async (
   query: Record<string, unknown>,
 ) => {
   const carAggregation = new AggregationQueryBuilder(query);
+  // return
   const result = await carAggregation
     .customPipeline([
       {
@@ -271,6 +272,20 @@ const getTotalPurchasedCars = async (
       {
         $unwind: {
           path: '$carModel',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: 'companies',
+          localField: 'car.companyId',
+          foreignField: '_id',
+          as: 'company',
+        },
+      },
+      {
+        $unwind: {
+          path: '$company',
           preserveNullAndEmptyArrays: true,
         },
       },
@@ -314,6 +329,7 @@ const getTotalPurchasedCars = async (
             last_name: '$profile.last_name',
             profileImage: '$profile.profileImage',
           },
+          company: 1,
         },
       },
     ])
