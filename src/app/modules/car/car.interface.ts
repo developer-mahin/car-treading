@@ -21,6 +21,8 @@ export type TCar = {
   tax: string;
   inspectionDate: Date;
   isSell: boolean;
+  isBid: boolean;
+  bidPrice: number;
 };
 
 export type TCarListing = {

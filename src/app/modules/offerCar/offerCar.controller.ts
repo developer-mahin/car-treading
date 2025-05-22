@@ -50,8 +50,23 @@ const offerCarAction = catchAsync(async (req, res) => {
   });
 });
 
+
+const myOfferCarList = catchAsync(async (req, res) => {
+  const result = await OfferCarService.myOfferCarList(
+    req.user as TAuthUser,
+    req.query,
+  );
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'OfferCar fetched successfully',
+    data: result,
+  });
+});
+
 export const OfferCarController = {
   createOfferCar,
   getOfferCarList,
   offerCarAction,
+  myOfferCarList
 };

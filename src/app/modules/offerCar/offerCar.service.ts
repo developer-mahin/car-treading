@@ -5,6 +5,9 @@ import { TOfferCar } from './offerCar.interface';
 import OfferCar from './offerCar.model';
 import { TAuthUser } from '../../interface/authUser';
 import QueryBuilder from '../../QueryBuilder/queryBuilder';
+import { USER_ROLE } from '../../constant';
+import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
+import mongoose from 'mongoose';
 
 const createOfferCar = async (payload: Partial<TOfferCar>, user: TAuthUser) => {
   const findSubmitListing = await SubmitListing.findOne({
@@ -56,8 +59,101 @@ const offerCarAction = async (payload: {
   return findOfferCar;
 };
 
+const myOfferCarList = async (user: TAuthUser, query: Record<string, unknown>) => {
+
+  const match = user.role === USER_ROLE.dealer ? { dealerId: new mongoose.Types.ObjectId(String(user.userId)) } : { userId: new mongoose.Types.ObjectId(String(user.userId)) }
+
+  const matchStage = {
+    $match: match
+  }
+
+  const offerCarQuery = new AggregationQueryBuilder(query)
+
+  const result = await offerCarQuery
+    .customPipeline([
+      matchStage,
+      {
+        $lookup: {
+          from: 'submitlistings',
+          localField: 'submitListingCarId',
+          foreignField: '_id',
+          as: 'submitListing',
+        },
+      },
+      {
+        $unwind: {
+          path: '$submitListing',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'userId',
+          foreignField: '_id',
+          as: 'privateUser',
+        },
+      },
+      {
+        $unwind: {
+          path: '$privateUser',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'dealerId',
+          foreignField: '_id',
+          as: 'dealerUser',
+        },
+      },
+      {
+        $unwind: {
+          path: '$dealerUser',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: 'profiles',
+          localField: 'dealerUser.profile',
+          foreignField: '_id',
+          as: 'dealerUserProfile',
+        },
+      },
+      {
+        $unwind: {
+          path: '$dealerUserProfile',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+
+      {
+        $lookup: {
+          from: 'profiles',
+          localField: 'privateUser.profile',
+          foreignField: '_id',
+          as: 'privateUserProfile',
+        },
+      },
+      {
+        $unwind: {
+          path: '$privateUserProfile',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+    ])
+    .paginate()
+    .sort()
+    .execute(OfferCar)
+  const pagination = await offerCarQuery.countTotal(OfferCar);
+  return { meta: pagination, result };
+}
+
 export const OfferCarService = {
   createOfferCar,
   getOfferCarList,
   offerCarAction,
+  myOfferCarList,
 };

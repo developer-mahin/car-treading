@@ -81,7 +81,15 @@ const CarSchema = new Schema<TCar>(
     isSell: {
       type: Boolean,
       default: false
-    }
+    },
+    bidPrice: {
+      type: Number,
+      default: 0,
+    },
+    isBid: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true },
 );

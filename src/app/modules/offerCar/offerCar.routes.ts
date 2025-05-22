@@ -18,6 +18,7 @@ router
     OfferCarController.createOfferCar,
   )
   .get('/', auth(USER_ROLE.private_user), OfferCarController.getOfferCarList)
+  .get("/my_list", auth(USER_ROLE.private_user, USER_ROLE.dealer), OfferCarController.myOfferCarList)
   .patch(
     '/action',
     auth(USER_ROLE.private_user),

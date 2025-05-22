@@ -20,6 +20,9 @@ const createBid = async (payload: Partial<TBid>, user: TAuthUser) => {
     carId: car._id,
     dealerId: user.userId,
   });
+
+  // car.isSell = true;
+  // await car.save();
   return result;
 };
 
@@ -69,6 +72,7 @@ const getBidList = async (query: Record<string, unknown>, user: TAuthUser) => {
           carName: '$carModel.brand',
           modelYear: '$carModel.modelYear',
           bidAmount: 1,
+          carId: 1,
         },
       },
     ])
@@ -80,7 +84,7 @@ const getBidList = async (query: Record<string, unknown>, user: TAuthUser) => {
   return { meta: pagination, result };
 };
 
-const bidAction = async (payload: { bidCarId: string; status: "accepted" | "rejected" }) => {
+const bidAction = async (payload: { bidCarId: string; status: "accepted" | "rejected", carId: string }) => {
 
 
   const findBidCar = await Bid.findById(payload.bidCarId);
@@ -91,16 +95,20 @@ const bidAction = async (payload: { bidCarId: string; status: "accepted" | "reje
   if (payload.status === "accepted") {
 
     await SaleCar.create({
-      carId: payload.bidCarId,
+      carId: payload.carId,
       userId: findBidCar.userId,
       dealerId: findBidCar.dealerId,
     });
 
-    // await Bid.findOneAndUpdate(
-    //   { _id: payload.bidCarId },
-    //   { status: payload.status },
-    //   { new: true },
-    // );
+    const updateCar = await Car.findOneAndUpdate(
+      { _id: payload.carId },
+      { isSell: true, isBid: true, bidPrice: findBidCar.bidAmount },
+      { new: true },
+    );
+
+    if (!updateCar) {
+      throw new AppError(httpStatus.NOT_FOUND, 'Car not found');
+    }
   }
   await Bid.findOneAndUpdate(
     { _id: payload.bidCarId },

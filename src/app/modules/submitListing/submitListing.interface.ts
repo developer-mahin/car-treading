@@ -16,10 +16,10 @@ export type TSubmitListing = {
   drivenKmTo: number;
   modelsFrom: number;
   modelsTo: number;
-  color: string;
+  color: string[];
   trailerHitch: string;
-  exterior: string;
-  interior: string;
+  exterior: string[];
+  interior: string[];
   firstName: string;
   lastName: string;
   postalCode: string;

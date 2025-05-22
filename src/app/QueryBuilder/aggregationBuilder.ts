@@ -48,6 +48,48 @@ class AggregationQueryBuilder {
     return this;
   }
 
+
+  rangeFilter(filterableFields: string[]) {
+    const queryObj = { ...this.query };
+
+    console.log(queryObj, 'queryObj');
+
+    const excludesField = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
+    excludesField.forEach((field) => delete queryObj[field]);
+
+    const matchConditions: any = {};
+
+    filterableFields.forEach((field) => {
+      const fromKey = `${field}From`;
+      const toKey = `${field}To`;
+
+      // console.log(fromKey, "fromKey");
+      // console.log(toKey, "toKey");
+
+      if (queryObj[fromKey] || queryObj[toKey]) {
+        matchConditions[field] = {};
+
+        if (queryObj[fromKey]) {
+          matchConditions[field]['$gte'] = Number(queryObj[fromKey]);
+
+          console.log(matchConditions[field], 'matchConditions[field]');
+          console.log(Number(queryObj[fromKey]), 'Number(queryObj[fromKey])');
+        }
+        if (queryObj[toKey]) {
+          matchConditions[field]['$lte'] = Number(queryObj[toKey]);
+        }
+      }
+    });
+
+    if (Object.keys(matchConditions).length > 0) {
+      this.aggregationPipeline.push({
+        $match: matchConditions,
+      });
+    }
+
+    return this;
+  }
+
   customPipeline(pipeline: any) {
     this.aggregationPipeline.push(...pipeline);
     return this;
