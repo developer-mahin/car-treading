@@ -1,3 +1,4 @@
+// /* eslint-disable no-console */
 import paginationHelper from '../helper/paginationHelper';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -12,8 +13,6 @@ class AggregationQueryBuilder {
 
   // Adds search functionality using regex for partial matching
   search(searchableFields: string[]) {
-    console.log(searchableFields, 'searchableFields');
-    console.log(this.query.searchTerm, 'this.query.searchTerm');
     if (this.query.searchTerm) {
       const searchCondition = {
         $match: {
@@ -28,27 +27,6 @@ class AggregationQueryBuilder {
   }
 
   // Filters the query based on specific filterable fields
-  // filter(filterableFields: string[]) {
-  //   const queryObj = { ...this.query };
-
-  //   const excludesField = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
-  //   excludesField.forEach((field) => delete queryObj[field]);
-
-  //   if (this.query.filter) {
-  //     filterableFields.forEach((field) => {
-  //       if (field) {
-  //         this.aggregationPipeline.push({
-  //           $match: {
-  //             [field]: { $regex: queryObj.filter, $options: 'i' },
-  //           },
-  //         });
-  //       }
-  //     });
-  //   }
-
-  //   return this;
-  // }
-
   filter(filterableFields: string[]) {
     const queryObj = { ...this.query };
 
@@ -56,55 +34,14 @@ class AggregationQueryBuilder {
     excludesField.forEach((field) => delete queryObj[field]);
 
     if (this.query.filter) {
-      const orConditions = filterableFields.map((field) => ({
-        [field]: { $regex: queryObj.filter, $options: 'i' },
-      }));
-
-      this.aggregationPipeline.push({
-        $match: {
-          $or: orConditions,
-        },
-      });
-    }
-
-    return this;
-  }
-
-  rangeFilter(filterableFields: string[]) {
-    const queryObj = { ...this.query };
-
-    console.log(queryObj, 'queryObj');
-
-    const excludesField = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
-    excludesField.forEach((field) => delete queryObj[field]);
-
-    const matchConditions: any = {};
-
-    filterableFields.forEach((field) => {
-      const fromKey = `${field}From`;
-      const toKey = `${field}To`;
-
-      // console.log(fromKey, "fromKey");
-      // console.log(toKey, "toKey");
-
-      if (queryObj[fromKey] || queryObj[toKey]) {
-        matchConditions[field] = {};
-
-        if (queryObj[fromKey]) {
-          matchConditions[field]['$gte'] = Number(queryObj[fromKey]);
-
-          console.log(matchConditions[field], 'matchConditions[field]');
-          console.log(Number(queryObj[fromKey]), 'Number(queryObj[fromKey])');
+      filterableFields.forEach((field) => {
+        if (field) {
+          this.aggregationPipeline.push({
+            $match: {
+              [field]: { $regex: queryObj.filter, $options: 'i' },
+            },
+          });
         }
-        if (queryObj[toKey]) {
-          matchConditions[field]['$lte'] = Number(queryObj[toKey]);
-        }
-      }
-    });
-
-    if (Object.keys(matchConditions).length > 0) {
-      this.aggregationPipeline.push({
-        $match: matchConditions,
       });
     }
 
@@ -170,22 +107,32 @@ class AggregationQueryBuilder {
       const result = await model.aggregate(this.aggregationPipeline);
       return result;
     } catch (error) {
-      console.error('Aggregation error:', error);
       throw new Error('Error in aggregation query');
     }
   }
 
   // Adds a count query to get total documents for pagination
   async countTotal(model: any) {
-    const totalCountPipeline = [
-      ...this.aggregationPipeline,
-      {
-        $count: 'totalCount',
-      },
-    ];
+    // Clone the pipeline to avoid mutating the original one
+    const countPipeline = [...this.aggregationPipeline];
+
+    // Remove the pagination stages ($skip, $limit) from the pipeline for counting total records
+    countPipeline.forEach((stage, index) => {
+      if (stage.$skip || stage.$limit) {
+        countPipeline.splice(index, 1);
+      }
+    });
+
+    // Add the $count stage to get the total count of documents
+    countPipeline.push({
+      $count: 'totalCount',
+    });
 
     try {
-      const totalCountResult = await model.aggregate(totalCountPipeline);
+      // Execute the aggregation to get the total count
+      const totalCountResult = await model.aggregate(countPipeline);
+
+      // Calculate total count and total pages
       const total = totalCountResult[0]?.totalCount || 0;
       const page = Number(this.query.page) || 1;
       const limit = Number(this.query.limit) || 10;
@@ -198,7 +145,6 @@ class AggregationQueryBuilder {
         limit,
       };
     } catch (error) {
-      console.error('Error in total count aggregation:', error);
       throw new Error('Failed to get total count');
     }
   }

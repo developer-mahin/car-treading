@@ -166,6 +166,8 @@ const getSaleCarList = async (
     .paginate()
     .sort()
     .execute(SaleCar);
+  
+  console.log(result.length)
 
   const pagination = await resultAggregation.countTotal(SaleCar);
 

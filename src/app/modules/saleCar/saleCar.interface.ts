@@ -11,4 +11,7 @@ export type TSaleCar = {
   reRegistrationDeRegistrationView: string;
   signatureAsDealer: string;
   signatureAsOwner: string;
+  isAggrade: boolean;
+  isMoms: boolean;
+  advancedPayment: number;
 };

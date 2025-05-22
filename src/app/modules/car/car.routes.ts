@@ -38,7 +38,7 @@ router
   )
   .get(
     '/contact_paper/:carId',
-    auth(USER_ROLE.dealer),
+    auth(USER_ROLE.dealer , USER_ROLE.private_user, USER_ROLE.admin),
     CarController.getContactPaper,
   )
   .get(

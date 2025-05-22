@@ -320,7 +320,18 @@ const getTotalPurchasedCars = async (
       {
         $project: {
           _id: 1,
-          carId: '$car._id',
+          // carId: '$car._id',
+          customerDestination: 1,
+          price: 1,
+          status: 1,
+          paymentStatus: 1,
+          reRegistrationDeRegistrationView: 1,
+          signatureAsDealer: 1,
+          signatureAsOwner: 1,
+          isAggrade: 1,
+          isMoms: 1,
+          advancedPayment: 1,
+          car: 1,
           expectedPrice: '$car.expectedPrice',
           carModel: 1,
           carOwner: {
@@ -420,6 +431,21 @@ const getContactPaper = async (carId: string) => {
 
     {
       $lookup: {
+        from: 'companies',
+        localField: 'car.companyId',
+        foreignField: '_id',
+        as: 'company',
+      },
+    },
+    {
+      $unwind: {
+        path: '$company',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+
+    {
+      $lookup: {
         from: 'users',
         localField: 'dealerId',
         foreignField: '_id',
@@ -475,6 +501,43 @@ const getContactPaper = async (carId: string) => {
         preserveNullAndEmptyArrays: true,
       },
     },
+
+    {
+      $project: {
+        _id: 1,
+        customerDestination: 1,
+        price: 1,
+        status: 1,
+        paymentStatus: 1,
+        reRegistrationDeRegistrationView: 1,
+        signatureAsDealer: 1,
+        signatureAsOwner: 1,
+        isAggrade: 1,
+        isMoms: 1,
+        advancedPayment: 1,
+        carId: '$car._id',
+        car: 1,
+        expectedPrice: '$car.expectedPrice',
+        carModel: 1,
+        company: 1,
+        dealer: {
+          _id: 1,
+          first_name: '$profile.first_name',
+          last_name: '$profile.last_name',
+          email: '$dealer.email',
+          phoneNumber: '$profile.phoneNumber',
+          profileImage: '$profile.profileImage',
+        },
+        privateUser: {
+          _id: 1,
+          first_name: '$privateUserProfile.first_name',
+          last_name: '$privateUserProfile.last_name',
+          email: '$privateUser.email',
+          phoneNumber: '$privateUserProfile.phoneNumber',
+          profileImage: '$privateUserProfile.profileImage',
+        },
+      }
+    }
   ]);
 
   return result[0] || null;
