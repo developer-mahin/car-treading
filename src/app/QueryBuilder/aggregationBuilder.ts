@@ -48,7 +48,6 @@ class AggregationQueryBuilder {
     return this;
   }
 
-
   rangeFilter(filterableFields: string[]) {
     const queryObj = { ...this.query };
 

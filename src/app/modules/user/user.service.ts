@@ -489,33 +489,36 @@ const getCustomerMap = async (query: Record<string, unknown>) => {
   return monthlyUser;
 };
 
-const privateUserDetails = async (userId: string, query: Record<string, unknown>) => {
+const privateUserDetails = async (
+  userId: string,
+  query: Record<string, unknown>,
+) => {
   const userDetailsQuery = new QueryBuilder(
     SaleCar.find({
-      userId: new mongoose.Types.ObjectId(userId)
-    }
-    ), query);
+      userId: new mongoose.Types.ObjectId(userId),
+    }),
+    query,
+  );
 
   const result = await userDetailsQuery
     .search(['status'])
     .filter(['status'])
     .paginate()
-    .sort()
-    .queryModel
+    .sort().queryModel;
 
   const soldCarCount = await SaleCar.countDocuments({
     userId: new mongoose.Types.ObjectId(userId),
-    status: 'sold'
-  })
+    status: 'sold',
+  });
 
   const saleCarCount = await SaleCar.countDocuments({
     userId: new mongoose.Types.ObjectId(userId),
-    status: 'sell'
-  })
+    status: 'sell',
+  });
 
   const meta = await userDetailsQuery.countTotal();
 
-  return { meta, result, soldCarCount, saleCarCount }
+  return { meta, result, soldCarCount, saleCarCount };
 };
 
 export const UserService = {
@@ -526,5 +529,5 @@ export const UserService = {
   orderTransport,
   getTotalCount,
   getCustomerMap,
-  privateUserDetails
+  privateUserDetails,
 };

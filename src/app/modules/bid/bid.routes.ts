@@ -8,6 +8,10 @@ const router = Router();
 router
   .post('/create', auth(USER_ROLE.dealer), BidController.createBid)
   .get('/', auth(USER_ROLE.private_user), BidController.getBidList)
-  .patch('/action', auth(USER_ROLE.private_user, USER_ROLE.dealer),  BidController.bidAction);
+  .patch(
+    '/action',
+    auth(USER_ROLE.private_user, USER_ROLE.dealer),
+    BidController.bidAction,
+  );
 
 export const BidRoutes = router;

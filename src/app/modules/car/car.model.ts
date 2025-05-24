@@ -53,7 +53,6 @@ const CarSchema = new Schema<TCar>(
     },
     vat: {
       type: String,
-
     },
     carCategory: {
       type: String,
@@ -80,7 +79,7 @@ const CarSchema = new Schema<TCar>(
     },
     isSell: {
       type: Boolean,
-      default: false
+      default: false,
     },
     bidPrice: {
       type: Number,

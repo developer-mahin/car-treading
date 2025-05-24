@@ -36,5 +36,5 @@ const bidAction = catchAsync(async (req, res) => {
 export const BidController = {
   createBid,
   getBidList,
-  bidAction
+  bidAction,
 };

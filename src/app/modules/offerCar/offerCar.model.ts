@@ -24,6 +24,13 @@ const offerCarSchema = new Schema<TOfferCar>(
     carLicensePlateNumber: { type: String },
     color: { type: String },
     DrivenKm: { type: Number },
+    reRegistrationDeRegistrationView: { type: String },
+    signatureAsDealer: { type: String },
+    signatureAsOwner: { type: String },
+    isAggrade: { type: Boolean, default: false },
+    isMoms: { type: Boolean, default: false },
+    advancedPayment: { type: Number, default: 0 },
+
     status: {
       type: String,
       required: true,

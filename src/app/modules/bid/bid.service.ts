@@ -84,16 +84,17 @@ const getBidList = async (query: Record<string, unknown>, user: TAuthUser) => {
   return { meta: pagination, result };
 };
 
-const bidAction = async (payload: { bidCarId: string; status: "accepted" | "rejected", carId: string }) => {
-
-
+const bidAction = async (payload: {
+  bidCarId: string;
+  status: 'accepted' | 'rejected';
+  carId: string;
+}) => {
   const findBidCar = await Bid.findById(payload.bidCarId);
   if (!findBidCar) {
     throw new AppError(httpStatus.NOT_FOUND, 'Bid not found');
   }
 
-  if (payload.status === "accepted") {
-
+  if (payload.status === 'accepted') {
     await SaleCar.create({
       carId: payload.carId,
       userId: findBidCar.userId,
@@ -115,11 +116,10 @@ const bidAction = async (payload: { bidCarId: string; status: "accepted" | "reje
     { status: payload.status },
     { new: true },
   );
-
 };
 
 export const BidService = {
   createBid,
   getBidList,
-  bidAction
+  bidAction,
 };

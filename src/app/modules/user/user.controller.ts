@@ -83,7 +83,10 @@ const userDetails = catchAsync(async (req, res) => {
 });
 
 const privateUserDetails = catchAsync(async (req, res) => {
-  const result = await UserService.privateUserDetails(req.params.userId, req.query);
+  const result = await UserService.privateUserDetails(
+    req.params.userId,
+    req.query,
+  );
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -91,7 +94,6 @@ const privateUserDetails = catchAsync(async (req, res) => {
     data: result,
   });
 });
-
 
 export const UserController = {
   getAllUsersList,
@@ -101,5 +103,5 @@ export const UserController = {
   orderTransport,
   getTotalCount,
   getCustomerMap,
-  privateUserDetails
+  privateUserDetails,
 };

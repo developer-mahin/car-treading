@@ -50,7 +50,6 @@ const offerCarAction = catchAsync(async (req, res) => {
   });
 });
 
-
 const myOfferCarList = catchAsync(async (req, res) => {
   const result = await OfferCarService.myOfferCarList(
     req.user as TAuthUser,
@@ -64,9 +63,23 @@ const myOfferCarList = catchAsync(async (req, res) => {
   });
 });
 
+const updateOfferCarContactPaper = catchAsync(async (req, res) => {
+  const result = await OfferCarService.updateOfferCarContactPaper(
+    req.body,
+    req.params.offerCarId,
+  );
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'OfferCar updated successfully',
+    data: result,
+  });
+});
+
 export const OfferCarController = {
   createOfferCar,
   getOfferCarList,
   offerCarAction,
-  myOfferCarList
+  myOfferCarList,
+  updateOfferCarContactPaper,
 };

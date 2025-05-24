@@ -13,10 +13,16 @@ export type TOfferCar = {
   carCondition: string;
   models: string;
   color: string;
-  DrivenKm: number
+  DrivenKm: number;
   fuel: string[];
   gearType: string[];
   modelsYear: number;
   carImages: string[];
   status: 'accept' | 'reject' | 'pending';
+  reRegistrationDeRegistrationView: string;
+  signatureAsDealer: string;
+  signatureAsOwner: string;
+  isAggrade: boolean;
+  isMoms: boolean;
+  advancedPayment: number;
 };

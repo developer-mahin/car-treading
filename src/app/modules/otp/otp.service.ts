@@ -23,7 +23,6 @@ const sendOTP = async (
     await sendMail(emailBody);
   }
 
-
   const findExistingOtp = await OTP.findOne({
     sendTo: payload.email,
     receiverType,

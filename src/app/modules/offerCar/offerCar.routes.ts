@@ -18,11 +18,20 @@ router
     OfferCarController.createOfferCar,
   )
   .get('/', auth(USER_ROLE.private_user), OfferCarController.getOfferCarList)
-  .get("/my_list", auth(USER_ROLE.private_user, USER_ROLE.dealer), OfferCarController.myOfferCarList)
+  .get(
+    '/my_list',
+    auth(USER_ROLE.private_user, USER_ROLE.dealer),
+    OfferCarController.myOfferCarList,
+  )
   .patch(
     '/action',
     auth(USER_ROLE.private_user),
     OfferCarController.offerCarAction,
+  )
+  .patch(
+    '/update_offer_car/:offerCarId',
+    auth(USER_ROLE.dealer, USER_ROLE.private_user),
+    OfferCarController.updateOfferCarContactPaper,
   );
 
 export const OfferCarRoutes = router;

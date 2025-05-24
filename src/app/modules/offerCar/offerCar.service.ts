@@ -59,15 +59,20 @@ const offerCarAction = async (payload: {
   return findOfferCar;
 };
 
-const myOfferCarList = async (user: TAuthUser, query: Record<string, unknown>) => {
-
-  const match = user.role === USER_ROLE.dealer ? { dealerId: new mongoose.Types.ObjectId(String(user.userId)) } : { userId: new mongoose.Types.ObjectId(String(user.userId)) }
+const myOfferCarList = async (
+  user: TAuthUser,
+  query: Record<string, unknown>,
+) => {
+  const match =
+    user.role === USER_ROLE.dealer
+      ? { dealerId: new mongoose.Types.ObjectId(String(user.userId)) }
+      : { userId: new mongoose.Types.ObjectId(String(user.userId)) };
 
   const matchStage = {
-    $match: match
-  }
+    $match: match,
+  };
 
-  const offerCarQuery = new AggregationQueryBuilder(query)
+  const offerCarQuery = new AggregationQueryBuilder(query);
 
   const result = await offerCarQuery
     .customPipeline([
@@ -146,14 +151,32 @@ const myOfferCarList = async (user: TAuthUser, query: Record<string, unknown>) =
     ])
     .paginate()
     .sort()
-    .execute(OfferCar)
+    .execute(OfferCar);
   const pagination = await offerCarQuery.countTotal(OfferCar);
   return { meta: pagination, result };
-}
+};
+
+const updateOfferCarContactPaper = async (
+  payload: Partial<TOfferCar>,
+  offerCarId: string,
+) => {
+  const findSaleCar = await OfferCar.findById(offerCarId);
+
+  if (!findSaleCar) {
+    throw new AppError(httpStatus.NOT_FOUND, 'SaleCar not found');
+  }
+
+  const result = await OfferCar.findByIdAndUpdate(offerCarId, payload, {
+    new: true,
+  });
+
+  return result;
+};
 
 export const OfferCarService = {
   createOfferCar,
   getOfferCarList,
   offerCarAction,
   myOfferCarList,
+  updateOfferCarContactPaper,
 };

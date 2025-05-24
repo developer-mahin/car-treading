@@ -12,28 +12,28 @@ const updateContactPaper = async (
   payload: Partial<TSaleCar>,
   saleCarId: string,
 ) => {
-
   const findSaleCar = await SaleCar.findById(saleCarId);
 
   if (!findSaleCar) {
     throw new AppError(httpStatus.NOT_FOUND, 'SaleCar not found');
   }
 
-  if (payload.status === "sold") {
+  if (payload.status === 'sold') {
     await Car.findOneAndUpdate(
       {
-        _id: findSaleCar.carId
+        _id: findSaleCar.carId,
       },
       {
         $set: {
-          isSell: true
-        }
+          isSell: true,
+        },
       },
       {
-        new: true
-      }
-    )
+        new: true,
+      },
+    );
   }
+
   const result = await SaleCar.findByIdAndUpdate(saleCarId, payload, {
     new: true,
   });
@@ -166,8 +166,8 @@ const getSaleCarList = async (
     .paginate()
     .sort()
     .execute(SaleCar);
-  
-  console.log(result.length)
+
+  console.log(result.length);
 
   const pagination = await resultAggregation.countTotal(SaleCar);
 

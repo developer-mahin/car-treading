@@ -207,7 +207,6 @@ const carListing = async (payload: any, user: TAuthUser) => {
 //   return { pagination, result: filterCar ? filterCar : result };
 // };
 
-
 const getCarList = async (query: Record<string, unknown>) => {
   const { modelYearFrom, modelYearTo, drivenKmFrom, drivenKmTo } = query;
 
@@ -277,7 +276,9 @@ const getCarList = async (query: Record<string, unknown>) => {
       },
       {
         $addFields: {
-          totalBidCount: { $ifNull: [{ $arrayElemAt: ['$bidsCount.totalBids', 0] }, 0] },
+          totalBidCount: {
+            $ifNull: [{ $arrayElemAt: ['$bidsCount.totalBids', 0] }, 0],
+          },
         },
       },
       {
@@ -343,7 +344,6 @@ const getCarList = async (query: Record<string, unknown>) => {
   return { pagination, result: filterCar ? filterCar : result };
 };
 
-
 const buyCar = async (payload: any, user: TAuthUser) => {
   const { carId } = payload;
   const car = await Car.findById(carId);
@@ -360,7 +360,7 @@ const buyCar = async (payload: any, user: TAuthUser) => {
 
   const findSaleCar = await SaleCar.findOne({
     carId: carId,
-  })
+  });
 
   if (findSaleCar) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Car already sold');
@@ -673,8 +673,8 @@ const getContactPaper = async (carId: string) => {
           phoneNumber: '$privateUserProfile.phoneNumber',
           profileImage: '$privateUserProfile.profileImage',
         },
-      }
-    }
+      },
+    },
   ]);
 
   return result[0] || null;
