@@ -31,6 +31,11 @@ router
   .patch(
     '/update_offer_car/:offerCarId',
     auth(USER_ROLE.dealer, USER_ROLE.private_user),
+    upload.fields([
+      { name: 'signatureAsOwner', maxCount: 2 },
+      { name: 'signatureAsDealer', maxCount: 2 },
+    ]),
+    parseFormData,
     OfferCarController.updateOfferCarContactPaper,
   );
 

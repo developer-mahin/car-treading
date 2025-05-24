@@ -64,6 +64,20 @@ const myOfferCarList = catchAsync(async (req, res) => {
 });
 
 const updateOfferCarContactPaper = catchAsync(async (req, res) => {
+  const fields = ['signatureAsOwner', 'signatureAsDealer'];
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const files = req.files as any;
+
+  for (const field of fields) {
+    if (files[field]) {
+      req.body[field] = files[field][0].path;
+    }
+  }
+
+  // console.log(req.body, "offer car bo")
+  // return
+
   const result = await OfferCarService.updateOfferCarContactPaper(
     req.body,
     req.params.offerCarId,
