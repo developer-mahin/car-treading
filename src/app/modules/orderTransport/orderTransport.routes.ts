@@ -9,6 +9,6 @@ router.post(
   '/create',
   auth(USER_ROLE.dealer),
   OrderTransportController.createOrderTransport,
-);
+).get("/", auth(USER_ROLE.dealer), OrderTransportController.getAllOrderTransports);
 
 export const OrderTransportRoutes = router;

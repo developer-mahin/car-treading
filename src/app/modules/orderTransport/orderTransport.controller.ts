@@ -17,6 +17,18 @@ const createOrderTransport = catchAsync(async (req, res) => {
   });
 });
 
+
+const getAllOrderTransports = catchAsync(async (req, res) => {
+  const result = await OrderTransportService.getAllOrderTransports(req.user as TAuthUser);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Order transports fetched successfully',
+    data: result,
+  });
+});
+
 export const OrderTransportController = {
   createOrderTransport,
+  getAllOrderTransports
 };

@@ -29,12 +29,16 @@ class AggregationQueryBuilder {
   // Filters the query based on specific filterable fields
   filter(filterableFields: string[]) {
     const queryObj = { ...this.query };
-
     const excludesField = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
     excludesField.forEach((field) => delete queryObj[field]);
 
-    if (this.query.filter) {
-      filterableFields.forEach((field) => {
+    // Build a filter object for MongoDB query/aggregation
+    const filterConditions: Record<string, any> = {};
+
+    filterableFields.forEach((field) => {
+      if (queryObj[field]) {
+        // For exact match filtering:
+        filterConditions[field] = queryObj[field];
         if (field) {
           this.aggregationPipeline.push({
             $match: {
@@ -42,11 +46,16 @@ class AggregationQueryBuilder {
             },
           });
         }
-      });
+      }
+    });
+
+    if (Object.keys(filterConditions).length > 0) {
+      this.aggregationPipeline.push({ $match: filterConditions });
     }
 
     return this;
   }
+
 
   rangeFilter(filterableFields: string[]) {
     const queryObj = { ...this.query };

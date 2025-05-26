@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { TAuthUser } from '../../interface/authUser';
 import unlinkImage from '../../utils/unlinkImage';
 import User from '../user/user.model';
@@ -5,11 +6,10 @@ import { TProfile } from './profile.interface';
 import Profile from './profile.model';
 
 const getMyProfile = async (user: TAuthUser) => {
-  console.log(user, 'user');
   const aggregationPipeline = [
     {
       $match: {
-        _id: user.userId,
+        _id: new mongoose.Types.ObjectId(String(user.userId)),
       },
     },
     {
@@ -25,7 +25,7 @@ const getMyProfile = async (user: TAuthUser) => {
     },
   ];
   const result = await User.aggregate(aggregationPipeline);
-  return result;
+  return result[0] || null;
 };
 
 const updateProfile = async (id: string, payload: Partial<TProfile>) => {

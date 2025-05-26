@@ -11,36 +11,21 @@ import SaleCar from '../saleCar/saleCar.model';
 import User from './user.model';
 import Conversation from '../conversation/conversation.model';
 import QueryBuilder from '../../QueryBuilder/queryBuilder';
+import Car from '../car/car.model';
 
 const getAllUsersList = async (query: Record<string, unknown>) => {
-  const userAggregation = new AggregationQueryBuilder(query);
 
-  const commonPipeline = [
-    {
-      $match: {},
-    },
-    {
-      $lookup: {
-        from: 'profiles',
-        localField: 'profile',
-        foreignField: '_id',
-        as: 'profile',
-      },
-    },
-    {
-      $unwind: '$profile',
-    },
-  ];
-
+  const userAggregation = new QueryBuilder(
+    User.find({})
+      .populate('profile'), query);
   const result = await userAggregation
-    .customPipeline(commonPipeline)
-    .search(['email', 'profile.name'])
-    .filter(['status', 'role'])
+    .search(['first_name', 'last_name', 'email'])
+    .filter(['role', 'status'])
     .paginate()
     .sort()
-    .execute(User);
+    .queryModel;
 
-  const pagination = await userAggregation.countTotal(User);
+  const pagination = await userAggregation.countTotal();
 
   return {
     data: result,
@@ -206,7 +191,7 @@ const userAction = async (id: string, payload: Record<string, unknown>) => {
 
 const orderTransport = async (
   user: TAuthUser,
-  payload: { carModel: string; userId: string },
+  payload: { carModel: string; userId: string, deliveryAddress: string; receiverPhone: string },
 ) => {
   const findOrderTransport = await OrderTransport.findOne({
     userId: user.userId,
@@ -226,6 +211,11 @@ const orderTransport = async (
     'profile',
   )) as any;
 
+  const car = await Car.findOne({
+    carModelId: payload.carModel
+  }).populate('companyId') as any
+
+
   if (!carOwner) {
     throw new Error('Car owner not found');
   }
@@ -234,8 +224,7 @@ const orderTransport = async (
     email: findOrderTransport?.email,
     subject: 'Order Transport Request',
     html: `
-    
-
+  
     <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -308,19 +297,38 @@ const orderTransport = async (
           Seller Name:
         </td>
         <td style="padding: 8px; border: 1px solid #ddd;">
-          ${carOwner?.profile?.first_name + ' ' + carOwner?.profile?.last_name}
+          ${car?.companyId?.first_name + ' ' + car?.companyId?.last_name}
         </td>
       </tr>
       <tr>
         <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Seller Address:</td>
         <td style="padding: 8px; border: 1px solid #ddd;">
-          ${carOwner?.profile?.address}
+          ${car?.companyId?.city}
         </td>
       </tr>
       <tr>
         <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Seller Phone:</td>
         <td style="padding: 8px; border: 1px solid #ddd;">
-          ${carOwner?.profile?.phoneNumber}
+          ${car?.companyId?.phoneNumber}
+        </td>
+      </tr>
+
+      <p>Delivery Details</p>
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">
+          Delivery Address:
+        </td>
+        <td style="padding: 8px; border: 1px solid #ddd;">
+          ${payload.deliveryAddress}
+        </td>
+      </tr>
+
+       <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">
+          Receiver Phone:
+        </td>
+        <td style="padding: 8px; border: 1px solid #ddd;">
+          ${payload.receiverPhone}
         </td>
       </tr>
     </tbody>
