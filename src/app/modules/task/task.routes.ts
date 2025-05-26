@@ -8,6 +8,7 @@ const router = Router();
 router
   .post('/create_task', auth(USER_ROLE.admin), TaskController.createTask)
   .get('/task_list', auth(USER_ROLE.admin), TaskController.getTaskList)
+  .get("/my_tasks", auth(USER_ROLE.dealer), TaskController.getMyTasks)
   .patch(
     '/mark_complete/:taskId',
     auth(USER_ROLE.admin),

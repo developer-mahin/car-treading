@@ -35,8 +35,20 @@ const taskAction = catchAsync(async (req, res) => {
   });
 });
 
+const getMyTasks = catchAsync(async (req, res) => {
+  const user = req.user as TAuthUser;
+  const result = await TaskService.getMyTasks(user);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Tasks fetched successfully',
+    data: result,
+  });
+});
+
 export const TaskController = {
   createTask,
   getTaskList,
   taskAction,
+  getMyTasks
 };

@@ -128,8 +128,16 @@ const taskAction = async (taskId: string, payload: { taskStatus: string }) => {
   return result;
 };
 
+const getMyTasks = async (user: TAuthUser) => {
+  const task = await Task.find({
+    assignTo: user.userId || (user._id as any),
+  })
+  return task;
+}
+
 export const TaskService = {
   createTask,
   getTaskList,
   taskAction,
+  getMyTasks
 };
