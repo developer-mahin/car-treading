@@ -23,7 +23,7 @@ router
   .post('/buy_car', auth(USER_ROLE.dealer), CarController.buyCar)
   .get(
     '/sale_car_list',
-    auth(USER_ROLE.dealer, USER_ROLE.private_user, USER_ROLE.admin),
+    // auth(USER_ROLE.dealer, USER_ROLE.private_user, USER_ROLE.admin),
     CarController.getCarList,
   )
   .get(
