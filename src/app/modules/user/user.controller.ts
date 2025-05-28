@@ -95,6 +95,7 @@ const privateUserDetails = catchAsync(async (req, res) => {
   });
 });
 
+
 export const UserController = {
   getAllUsersList,
   userDetails,

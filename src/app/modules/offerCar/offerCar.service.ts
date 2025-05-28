@@ -1,13 +1,13 @@
 import httpStatus from 'http-status';
+import mongoose from 'mongoose';
+import { USER_ROLE } from '../../constant';
+import { TAuthUser } from '../../interface/authUser';
+import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
+import QueryBuilder from '../../QueryBuilder/queryBuilder';
 import AppError from '../../utils/AppError';
 import SubmitListing from '../submitListing/submitListing.model';
 import { TOfferCar } from './offerCar.interface';
 import OfferCar from './offerCar.model';
-import { TAuthUser } from '../../interface/authUser';
-import QueryBuilder from '../../QueryBuilder/queryBuilder';
-import { USER_ROLE } from '../../constant';
-import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
-import mongoose from 'mongoose';
 
 const createOfferCar = async (payload: Partial<TOfferCar>, user: TAuthUser) => {
   const findSubmitListing = await SubmitListing.findOne({
@@ -56,6 +56,7 @@ const offerCarAction = async (payload: {
   }
   findOfferCar.status = payload.status;
   await findOfferCar.save();
+
   return findOfferCar;
 };
 
@@ -173,10 +174,26 @@ const updateOfferCarContactPaper = async (
   return result;
 };
 
+const getEveryOfferContact = async (query: Record<string, unknown>) => {
+  const resultQuery = new QueryBuilder(OfferCar.find({
+    status: "accept"
+  }), query)
+    .search(['model', 'mark'])
+    .filter(['model', 'mark'])
+    .paginate()
+    .sort()
+
+
+  const result = await resultQuery.queryModel;
+  const pagination = await resultQuery.countTotal();
+  return { pagination, result };
+};
+
 export const OfferCarService = {
   createOfferCar,
   getOfferCarList,
   offerCarAction,
   myOfferCarList,
   updateOfferCarContactPaper,
+  getEveryOfferContact
 };

@@ -29,39 +29,38 @@ class AggregationQueryBuilder {
   // Filters the query based on specific filterable fields
   filter(filterableFields: string[]) {
     const queryObj = { ...this.query };
+
     const excludesField = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
     excludesField.forEach((field) => delete queryObj[field]);
 
-    // Build a filter object for MongoDB query/aggregation
-    const filterConditions: Record<string, any> = {};
+    const filters = this.query.filter;
 
-    filterableFields.forEach((field) => {
-      if (queryObj[field]) {
-        // For exact match filtering:
-        filterConditions[field] = queryObj[field];
-        if (field) {
-          this.aggregationPipeline.push({
-            $match: {
-              [field]: { $regex: queryObj.filter, $options: 'i' },
-            },
+    if (filters) {
+      // Normalize to array whether single or multiple
+      const filterValues = Array.isArray(filters) ? filters : [filters];
+
+      const orConditions: any = [];
+
+      filterValues.forEach((filterVal) => {
+        filterableFields.forEach((field) => {
+          orConditions.push({
+            [field]: { $regex: filterVal, $options: 'i' },
           });
-        }
-      }
-    });
+        });
+      });
 
-    if (Object.keys(filterConditions).length > 0) {
-      this.aggregationPipeline.push({ $match: filterConditions });
+      this.aggregationPipeline.push({
+        $match: {
+          $or: orConditions,
+        },
+      });
     }
 
     return this;
   }
 
-
   rangeFilter(filterableFields: string[]) {
     const queryObj = { ...this.query };
-
-    console.log(queryObj, 'queryObj');
-
     const excludesField = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
     excludesField.forEach((field) => delete queryObj[field]);
 
@@ -79,9 +78,6 @@ class AggregationQueryBuilder {
 
         if (queryObj[fromKey]) {
           matchConditions[field]['$gte'] = Number(queryObj[fromKey]);
-
-          console.log(matchConditions[field], 'matchConditions[field]');
-          console.log(Number(queryObj[fromKey]), 'Number(queryObj[fromKey])');
         }
         if (queryObj[toKey]) {
           matchConditions[field]['$lte'] = Number(queryObj[toKey]);
@@ -97,6 +93,58 @@ class AggregationQueryBuilder {
 
     return this;
   }
+
+
+  rangeFilterForModel(fieldPair: [string, string]) {
+    const queryObj = { ...this.query };
+    const excludesField = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
+    excludesField.forEach((field) => delete queryObj[field]);
+
+    const fromField = fieldPair[0]; // e.g. "modelsFrom"
+    const toField = fieldPair[1];   // e.g. "modelsTo"
+
+    const fromVal = queryObj[fromField];
+    const toVal = queryObj[toField];
+
+    if (fromVal !== undefined || toVal !== undefined) {
+      const condition: Record<string, any> = {};
+
+      if (fromVal !== undefined) condition[fromField] = { $gte: Number(fromVal) };
+      if (toVal !== undefined) condition[toField] = { $lte: Number(toVal) };
+
+      this.aggregationPipeline.push({
+        $match: condition,
+      });
+    }
+
+    return this;
+  }
+
+  rangeFilterForDriven(fieldPair: [string, string]) {
+    const queryObj = { ...this.query };
+    const excludesField = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
+    excludesField.forEach((field) => delete queryObj[field]);
+
+    const fromField = fieldPair[0]; // e.g. "modelsFrom"
+    const toField = fieldPair[1];   // e.g. "modelsTo"
+
+    const fromVal = queryObj[fromField];
+    const toVal = queryObj[toField];
+
+    if (fromVal !== undefined || toVal !== undefined) {
+      const condition: Record<string, any> = {};
+
+      if (fromVal !== undefined) condition[fromField] = { $gte: Number(fromVal) };
+      if (toVal !== undefined) condition[toField] = { $lte: Number(toVal) };
+
+      this.aggregationPipeline.push({
+        $match: condition,
+      });
+    }
+
+    return this;
+  }
+
 
   customPipeline(pipeline: any) {
     this.aggregationPipeline.push(...pipeline);
@@ -163,41 +211,34 @@ class AggregationQueryBuilder {
 
   // Adds a count query to get total documents for pagination
   async countTotal(model: any) {
-    // Clone the pipeline to avoid mutating the original one
-    const countPipeline = [...this.aggregationPipeline];
+    // Create a new pipeline without $skip and $limit
+    const countPipeline = this.aggregationPipeline.filter(
+      (stage) => !stage.$skip && !stage.$limit,
+    );
 
-    // Remove the pagination stages ($skip, $limit) from the pipeline for counting total records
-    countPipeline.forEach((stage, index) => {
-      if (stage.$skip || stage.$limit) {
-        countPipeline.splice(index, 1);
-      }
-    });
-
-    // Add the $count stage to get the total count of documents
-    countPipeline.push({
-      $count: 'totalCount',
-    });
+    // Add the $count stage
+    countPipeline.push({ $count: 'totalCount' });
 
     try {
-      // Execute the aggregation to get the total count
       const totalCountResult = await model.aggregate(countPipeline);
 
-      // Calculate total count and total pages
       const total = totalCountResult[0]?.totalCount || 0;
       const page = Number(this.query.page) || 1;
       const limit = Number(this.query.limit) || 10;
       const totalPage = Math.ceil(total / limit);
 
       return {
-        total: total,
-        totalPage: totalPage,
-        page: page,
+        total,
+        totalPage,
+        page,
         limit,
       };
     } catch (error) {
+      console.error('Error in total count aggregation:', error);
       throw new Error('Failed to get total count');
     }
   }
+
 }
 
 export default AggregationQueryBuilder;

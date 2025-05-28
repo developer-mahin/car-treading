@@ -18,6 +18,8 @@ const getAllUsersList = async (query: Record<string, unknown>) => {
   const userAggregation = new QueryBuilder(
     User.find({})
       .populate('profile'), query);
+  
+  
   const result = await userAggregation
     .search(['first_name', 'last_name', 'email'])
     .filter(['role', 'status'])
@@ -79,11 +81,14 @@ const userDetails = async (userId: string, query: Record<string, unknown>) => {
           carName: '$carModel.brand',
           carModel: '$carModel.model',
           color: '$carModel.color',
-          status: '$saleCar.status',
+          status: 1,
           expectedPrice: '$car.expectedPrice',
           carOwner: '$car.carOwner',
+          paymentStatus: 1,
+          // status: '$saleCar.status',
           dealerId: 1,
           carId: 1,
+          saleCarId: "$_id",
         },
       },
     ])
@@ -106,9 +111,14 @@ const userDetails = async (userId: string, query: Record<string, unknown>) => {
     }),
   );
 
+  const user = await User.findOne({
+    _id: new mongoose.Types.ObjectId(String(userId)),
+  }).populate('profile');
+
+
   const meta = await userDetailsAggregation.countTotal(SaleCar);
 
-  return { meta, result: newResult };
+  return { meta, result: newResult, user };
 };
 
 const getUserRatio = async (year: string) => {
@@ -528,6 +538,7 @@ const privateUserDetails = async (
 
   return { meta, result, soldCarCount, saleCarCount };
 };
+
 
 export const UserService = {
   getAllUsersList,

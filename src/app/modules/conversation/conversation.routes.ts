@@ -18,7 +18,7 @@ router
   )
   .get(
     '/message/:conversationId',
-    auth(USER_ROLE.private_user, USER_ROLE.dealer),
+    auth(USER_ROLE.private_user, USER_ROLE.dealer, USER_ROLE.admin),
     ConversationController.getConversationMessages,
   );
 

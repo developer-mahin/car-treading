@@ -90,10 +90,22 @@ const updateOfferCarContactPaper = catchAsync(async (req, res) => {
   });
 });
 
+
+const getEveryOfferContact = catchAsync(async (req, res) => {
+  const result = await OfferCarService.getEveryOfferContact(req.query);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'OfferCar fetched successfully',
+    data: result,
+  });
+});
+
 export const OfferCarController = {
   createOfferCar,
   getOfferCarList,
   offerCarAction,
   myOfferCarList,
   updateOfferCarContactPaper,
+  getEveryOfferContact
 };

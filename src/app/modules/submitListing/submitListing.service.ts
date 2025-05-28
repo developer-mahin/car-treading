@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { TAuthUser } from '../../interface/authUser';
-import QueryBuilder from '../../QueryBuilder/queryBuilder';
+import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
 import { TSubmitListing } from './submitListing.interface';
 import SubmitListing from './submitListing.model';
 
@@ -15,12 +16,24 @@ const createSubmitListing = async (
 };
 
 const getSubmitListing = async (query: Record<string, unknown>) => {
-  const submitListingQuery = new QueryBuilder(SubmitListing.find(), query)
-    .paginate()
-    .sort();
-  const result = await submitListingQuery.queryModel;
-  const pagination = await submitListingQuery.countTotal();
+
+  const submitListingQuery = new AggregationQueryBuilder(query);
+  const result = await submitListingQuery
+    .customPipeline([
+      {
+        $match: {}
+      }
+    ])
+    .filter(['fuel', 'mark'])
+    .sort()
+    .rangeFilterForModel(['modelsFrom', 'modelsTo'])
+    .rangeFilterForDriven(['drivenKmFrom', 'drivenKmTo'])
+    .execute(SubmitListing);
+
+  const pagination = await submitListingQuery.countTotal(SubmitListing);
+
   return { pagination, result };
+
 };
 
 export const SubmitListingService = {
