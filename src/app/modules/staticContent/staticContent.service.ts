@@ -6,15 +6,19 @@ const createStaticContent = async (
   user: TAuthUser,
   payload: Partial<TStaticContent>,
 ) => {
-  const result = await StaticContent.create({
-    ...payload,
-    userId: user.userId,
-  });
+  const result = await StaticContent.findOneAndUpdate(
+    { type: payload.type },
+    {
+      ...payload,
+      userId: user.userId,
+    },
+    { upsert: true, new: true },
+  );
   return result;
 };
 
 const getStaticContent = async (query: Record<string, unknown>) => {
-  const result = await StaticContent.find({ ...query });
+  const result = await StaticContent.findOne({ ...query });
   return result;
 };
 

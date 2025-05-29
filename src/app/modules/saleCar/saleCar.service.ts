@@ -166,10 +166,20 @@ const getSaleCarList = async (
     .paginate()
     .sort()
     .execute(SaleCar);
-    
+
   const pagination = await resultAggregation.countTotal(SaleCar);
 
-  return { meta: pagination, result };
+  const totalSales = await SaleCar.countDocuments({
+    status: 'sell',
+  });
+
+  const totalSold = await SaleCar.countDocuments({
+    status: 'sold',
+  });
+
+  const unsold = totalSales - totalSold;
+
+  return { meta: pagination, result, totalSales, totalSold, unsold };
 };
 
 const getTotalSalesChart = async (query: Record<string, unknown>) => {

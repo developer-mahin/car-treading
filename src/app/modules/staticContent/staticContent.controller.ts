@@ -28,6 +28,8 @@ const getStaticContent = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+
 export const StaticContentController = {
   createStaticContent,
   getStaticContent,

@@ -91,6 +91,8 @@ const getCarList = async (query: Record<string, unknown>) => {
   const { modelYearFrom, modelYearTo, drivenKmFrom, drivenKmTo } = query;
 
   const carAggregation = new AggregationQueryBuilder(query);
+
+  
   const result = await carAggregation
     .customPipeline([
       {

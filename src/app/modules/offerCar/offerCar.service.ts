@@ -167,7 +167,7 @@ const updateOfferCarContactPaper = async (
     throw new AppError(httpStatus.NOT_FOUND, 'SaleCar not found');
   }
 
-  const result = await OfferCar.findByIdAndUpdate(offerCarId, payload, {
+  const result = await OfferCar.findByIdAndUpdate(offerCarId, { ...payload }, {
     new: true,
   });
 
@@ -175,17 +175,78 @@ const updateOfferCarContactPaper = async (
 };
 
 const getEveryOfferContact = async (query: Record<string, unknown>) => {
-  const resultQuery = new QueryBuilder(OfferCar.find({
-    status: "accept"
-  }), query)
-    .search(['model', 'mark'])
-    .filter(['model', 'mark'])
+  const resultQuery = new AggregationQueryBuilder(query);
+
+  const result = await resultQuery
+    .customPipeline([
+      {
+        $match: {
+          status: 'accept',
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'dealerId',
+          foreignField: '_id',
+          as: 'dealer',
+        },
+      },
+      {
+        $unwind: {
+          path: '$dealer',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: 'profiles',
+          localField: 'dealer.profile',
+          foreignField: '_id',
+          as: 'profile',
+        },
+      },
+      {
+        $unwind: {
+          path: '$profile',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'userId',
+          foreignField: '_id',
+          as: 'privateUser',
+        },
+      },
+      {
+        $unwind: {
+          path: '$privateUser',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: 'profiles',
+          localField: 'privateUser.profile',
+          foreignField: '_id',
+          as: 'privateUserProfile',
+        },
+      },
+      {
+        $unwind: {
+          path: '$privateUserProfile',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+    ])
     .paginate()
     .sort()
+    .execute(OfferCar);
 
-
-  const result = await resultQuery.queryModel;
-  const pagination = await resultQuery.countTotal();
+  const pagination = await resultQuery.countTotal(OfferCar);
   return { pagination, result };
 };
 
