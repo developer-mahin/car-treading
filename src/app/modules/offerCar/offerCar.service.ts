@@ -184,31 +184,47 @@ const getEveryOfferContact = async (query: Record<string, unknown>) => {
           status: 'accept',
         },
       },
+
+      {
+        $lookup: {
+          from: 'submitlistings',
+          localField: 'submitListingCarId',
+          foreignField: '_id',
+          as: 'submitListing',
+        },
+      },
+      {
+        $unwind: {
+          path: '$submitListing',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+
       {
         $lookup: {
           from: 'users',
           localField: 'dealerId',
           foreignField: '_id',
-          as: 'dealer',
+          as: 'dealerUser',
         },
       },
       {
         $unwind: {
-          path: '$dealer',
+          path: '$dealerUser',
           preserveNullAndEmptyArrays: true,
         },
       },
       {
         $lookup: {
           from: 'profiles',
-          localField: 'dealer.profile',
+          localField: 'dealerUser.profile',
           foreignField: '_id',
-          as: 'profile',
+          as: 'dealerUserProfile',
         },
       },
       {
         $unwind: {
-          path: '$profile',
+          path: '$dealerUserProfile',
           preserveNullAndEmptyArrays: true,
         },
       },

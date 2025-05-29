@@ -66,8 +66,12 @@ const socketIO = (io: Server) => {
     io.emit('onlineUser', Array.from(connectedUser.keys()));
 
     socket.on('send_message', async (data) => {
-      await MessageService.createMessage(data);
-      io.emit(`receive_message::${data.conversationId}`, data);
+      try {
+        await MessageService.createMessage(data);
+        io.emit(`receive_message::${data.conversationId}`, data);
+      } catch (error) {
+        console.error('Error in send_message:', error);
+      }
     });
 
     socket.on('typing', async (payload, callback) => {

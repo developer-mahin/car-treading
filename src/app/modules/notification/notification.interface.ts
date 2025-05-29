@@ -1,9 +1,10 @@
 import { ObjectId } from 'mongoose';
 
-type TType = 'task';
+type TType = 'task' | 'bid';
 
 export const NOTIFICATION_TYPE = {
   task: 'task',
+  bid: 'bid',
 } as const;
 
 export type TNotification = {
