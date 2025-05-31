@@ -1,31 +1,35 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { TAuthUser } from '../app/interface/authUser';
+import { TNotification } from '../app/modules/notification/notification.interface';
 import { NotificationService } from '../app/modules/notification/notification.service';
 import { IO } from '../server';
 import { connectedUser } from './socket';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const sendNotification = async (user: TAuthUser, data: any) => {
+const sendNotification = async (
+  user: Partial<TAuthUser>,
+  payload: TNotification | any,
+) => {
   try {
-    const { receiverId } = data;
+    const { receiverId } = payload;
     const notificationData = {
-      ...data,
-      senderId: user.userId || user._id,
-      role: user.role,
+      ...payload,
+      senderId: user.userId,
+      receiverId: receiverId,
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const connectUser: any = connectedUser.get(receiverId);
-
+    const connectUser: any = connectedUser.get(receiverId.toString());
     if (connectUser) {
       IO.to(connectUser.socketId).emit('notification', {
         success: true,
-        data: notificationData,
+        data: payload,
       });
     }
 
     await NotificationService.createNotification(notificationData);
   } catch (error) {
-    console.error('Error in sendNotification:', error);
+    // eslint-disable-next-line no-console
+    console.error('Error sending notification:', error);
   }
 };
 

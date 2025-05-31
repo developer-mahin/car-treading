@@ -11,6 +11,7 @@ import SaleCar from '../saleCar/saleCar.model';
 import sendNotification from '../../../socket/sendNotification';
 import { NOTIFICATION_TYPE } from '../notification/notification.interface';
 import { USER_ROLE } from '../../constant';
+import Notification from '../notification/notification.model';
 
 const createBid = async (payload: Partial<TBid>, user: TAuthUser) => {
   const car = await Car.findById(payload.carId);
@@ -26,6 +27,10 @@ const createBid = async (payload: Partial<TBid>, user: TAuthUser) => {
     dealerId: user.userId,
   });
 
+  const unreadNotification = await Notification.find({
+    receiverId: car.carOwner,
+    isRead: false,
+  }).countDocuments()
 
   const notification = {
     senderId: user.userId,
@@ -34,7 +39,8 @@ const createBid = async (payload: Partial<TBid>, user: TAuthUser) => {
     message: `You have received a bid on ${Car.modelName}`,
     type: NOTIFICATION_TYPE.bid,
     role: user.role,
-  };
+    count: unreadNotification + 1,
+  }; 
 
   await sendNotification(user, notification);
 

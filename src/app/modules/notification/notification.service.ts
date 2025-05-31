@@ -20,7 +20,32 @@ const getMyNotifications = async (user: TAuthUser, query: Record<string, unknown
   return { pagination, result };
 }
 
+const getNotificationCount = async (user: TAuthUser) => {
+  const result = await Notification.countDocuments(
+    { receiverId: user.userId, isRead: false }).countDocuments();
+  return result;
+}
+
+const notificationAction = async (user: TAuthUser) => {
+  const findNotification = await Notification.find(
+    { receiverId: user.userId, isRead: false }
+  );
+
+  if (findNotification.length > 0) {
+    Promise.all(
+      findNotification.map(async (notification) => {
+        notification.isRead = true;
+        await notification.save();
+      })
+    )
+  }
+
+}
+
+
 export const NotificationService = {
   createNotification,
-  getMyNotifications
+  getMyNotifications,
+  getNotificationCount,
+  notificationAction
 };
