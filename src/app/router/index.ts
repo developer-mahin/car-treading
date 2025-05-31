@@ -13,6 +13,7 @@ import { SubmitListingRoutes } from '../modules/submitListing/submitListing.rout
 import { TaskRoutes } from '../modules/task/task.routes';
 import { TaskResolveRoutes } from '../modules/taskResolve/taskResolve.routes';
 import { UserRoutes } from '../modules/user/user.routes';
+import { NotificationRoutes } from '../modules/notification/notification.routes';
 const router = Router();
 
 type TRoutes = {
@@ -83,7 +84,10 @@ const routes: TRoutes[] = [
     path: '/message',
     route: MessageRoutes,
   },
-
+  {
+    path: '/notification',
+    route: NotificationRoutes,
+  },
   {
     path: '/order_transport',
     route: OrderTransportRoutes,
