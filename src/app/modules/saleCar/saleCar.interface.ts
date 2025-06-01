@@ -14,4 +14,5 @@ export type TSaleCar = {
   isAggrade: boolean;
   isMoms: boolean;
   advancedPayment: number;
+  isOrderTransport: boolean;
 };

@@ -115,7 +115,7 @@ const getCarInfo = catchAsync(async (req, res) => {
   });
 });
 
-export const CarController = {
+export const  CarController = {
   getCVR,
   getCarInfo,
   buyCar,

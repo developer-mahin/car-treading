@@ -92,7 +92,7 @@ const getCarList = async (query: Record<string, unknown>) => {
 
   const carAggregation = new AggregationQueryBuilder(query);
 
-  
+
   const result = await carAggregation
     .customPipeline([
       {
@@ -147,6 +147,24 @@ const getCarList = async (query: Record<string, unknown>) => {
         },
       },
       {
+        $lookup: {
+          from: 'bids',
+          let: { carId: '$_id' },
+          pipeline: [
+            { $match: { $expr: { $eq: ['$carId', '$$carId'] } } },
+            { $count: 'totalBids' },
+          ],
+          as: 'bidsCount',
+        },
+      },
+      {
+        $addFields: {
+          totalBidCount: {
+            $ifNull: [{ $arrayElemAt: ['$bidsCount.totalBids', 0] }, 0],
+          },
+        },
+      },
+      {
         $project: {
           _id: 1,
           carOwner: 1,
@@ -172,6 +190,7 @@ const getCarList = async (query: Record<string, unknown>) => {
           maxBidAmount: '$bids.bidAmount',
           carModel: 1,
           company: 1,
+          totalBidCount: 1,
         },
       },
     ]

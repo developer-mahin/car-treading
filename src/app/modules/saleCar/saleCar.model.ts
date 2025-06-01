@@ -25,6 +25,7 @@ const salesCarSchema = new Schema<TSaleCar>(
       enum: ['paid', 'unpaid'],
       default: 'unpaid',
     },
+    isOrderTransport: { type: Boolean, default: false },
     status: {
       type: String,
       required: [true, 'Status is required'],
