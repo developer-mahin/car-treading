@@ -22,8 +22,8 @@ router
     '/my_list',
     auth(USER_ROLE.private_user, USER_ROLE.dealer),
     OfferCarController.myOfferCarList,
-)
-  .get("/every_offer_contact", OfferCarController.getEveryOfferContact)
+  )
+  .get('/every_offer_contact', OfferCarController.getEveryOfferContact)
   .patch(
     '/action',
     auth(USER_ROLE.private_user),

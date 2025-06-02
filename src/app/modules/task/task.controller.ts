@@ -50,5 +50,5 @@ export const TaskController = {
   createTask,
   getTaskList,
   taskAction,
-  getMyTasks
+  getMyTasks,
 };

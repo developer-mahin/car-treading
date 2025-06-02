@@ -61,9 +61,20 @@ const saleCarAction = catchAsync(async (req, res) => {
   });
 });
 
+const allCarList = catchAsync(async (req, res) => {
+  const result = await SaleCarService.allCarList(req.query);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'All car list fetched successfully',
+    data: result,
+  });
+});
+
 export const SaleCarController = {
   updateContactPaper,
   getSaleCarList,
   getTotalSalesChart,
   saleCarAction,
+  allCarList,
 };

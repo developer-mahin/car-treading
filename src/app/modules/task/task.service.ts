@@ -37,9 +37,7 @@ const createTask = async (
 };
 
 const getTaskList = async (query: Record<string, unknown>) => {
-
   const taskQuery = new AggregationQueryBuilder(query);
-
 
   const result = await taskQuery
     .customPipeline([
@@ -100,7 +98,7 @@ const getTaskList = async (query: Record<string, unknown>) => {
     .filter(['taskStatus'])
     .paginate()
     .sort()
-    .execute(Task)
+    .execute(Task);
 
   const pagination = await taskQuery.countTotal(Task);
   return { pagination, result };
@@ -130,13 +128,13 @@ const taskAction = async (taskId: string, payload: { taskStatus: string }) => {
 const getMyTasks = async (user: TAuthUser) => {
   const task = await Task.find({
     assignTo: user.userId || (user._id as any),
-  })
+  });
   return task;
-}
+};
 
 export const TaskService = {
   createTask,
   getTaskList,
   taskAction,
-  getMyTasks
+  getMyTasks,
 };

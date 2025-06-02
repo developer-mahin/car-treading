@@ -5,12 +5,12 @@ import sendResponse from '../../utils/sendResponse';
 import { OfferCarService } from './offerCar.service';
 
 const createOfferCar = catchAsync(async (req, res) => {
-  const imagesFile = req.files as { [fieldname: string]: MulterFile[] };
+  const imagesFiles = req.files as { [fieldname: string]: MulterFile[] };
 
   req.body.carImages = [];
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  imagesFile?.images?.forEach((image: any) => {
+  imagesFiles?.images?.forEach((image: any) => {
     req.body.carImages.push(image.path);
   });
 
@@ -90,7 +90,6 @@ const updateOfferCarContactPaper = catchAsync(async (req, res) => {
   });
 });
 
-
 const getEveryOfferContact = catchAsync(async (req, res) => {
   const result = await OfferCarService.getEveryOfferContact(req.query);
   sendResponse(res, {
@@ -107,5 +106,5 @@ export const OfferCarController = {
   offerCarAction,
   myOfferCarList,
   updateOfferCarContactPaper,
-  getEveryOfferContact
+  getEveryOfferContact,
 };

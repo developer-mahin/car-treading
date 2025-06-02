@@ -16,13 +16,12 @@ const createSubmitListing = async (
 };
 
 const getSubmitListing = async (query: Record<string, unknown>) => {
-
   const submitListingQuery = new AggregationQueryBuilder(query);
   const result = await submitListingQuery
     .customPipeline([
       {
-        $match: {}
-      }
+        $match: {},
+      },
     ])
     .filter(['fuel', 'mark'])
     .sort()
@@ -33,7 +32,6 @@ const getSubmitListing = async (query: Record<string, unknown>) => {
   const pagination = await submitListingQuery.countTotal(SubmitListing);
 
   return { pagination, result };
-
 };
 
 export const SubmitListingService = {

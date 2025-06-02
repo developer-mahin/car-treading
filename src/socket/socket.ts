@@ -18,9 +18,10 @@ const socketIO = (io: Server) => {
   let user;
   // Middleware to handle JWT authentication
   io.use(async (socket: Socket, next) => {
-    const token = socket.handshake.auth.token
-      || socket.handshake.headers.token
-      || socket.handshake.headers.authorization;
+    const token =
+      socket.handshake.auth.token ||
+      socket.handshake.headers.token ||
+      socket.handshake.headers.authorization;
 
     if (!token) {
       return next(new Error('Authentication error: Token not provided.'));

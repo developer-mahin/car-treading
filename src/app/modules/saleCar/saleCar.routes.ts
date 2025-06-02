@@ -25,6 +25,7 @@ router
     auth(USER_ROLE.private_user, USER_ROLE.dealer, USER_ROLE.admin),
     SaleCarController.getSaleCarList,
   )
+  .get('/all_car_list', auth(USER_ROLE.admin), SaleCarController.allCarList)
   .get(
     '/total_sales_chart',
     auth(USER_ROLE.admin),

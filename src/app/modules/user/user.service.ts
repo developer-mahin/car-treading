@@ -16,18 +16,16 @@ import SubmitListing from '../submitListing/submitListing.model';
 import OfferCar from '../offerCar/offerCar.model';
 
 const getAllUsersList = async (query: Record<string, unknown>) => {
-
   const userAggregation = new QueryBuilder(
-    User.find({})
-      .populate('profile'), query);
-
+    User.find({}).populate('profile'),
+    query,
+  );
 
   const result = await userAggregation
     .search(['first_name', 'last_name', 'email'])
     .filter(['role', 'status'])
     .paginate()
-    .sort()
-    .queryModel;
+    .sort().queryModel;
 
   const pagination = await userAggregation.countTotal();
 
@@ -90,7 +88,7 @@ const userDetails = async (userId: string, query: Record<string, unknown>) => {
           // status: '$saleCar.status',
           dealerId: 1,
           carId: 1,
-          saleCarId: "$_id",
+          saleCarId: '$_id',
         },
       },
     ])
@@ -116,7 +114,6 @@ const userDetails = async (userId: string, query: Record<string, unknown>) => {
   const user = await User.findOne({
     _id: new mongoose.Types.ObjectId(String(userId)),
   }).populate('profile');
-
 
   const meta = await userDetailsAggregation.countTotal(SaleCar);
 
@@ -226,7 +223,6 @@ const userAction = async (id: string, payload: Record<string, unknown>) => {
 //   const car = await Car.findOne({
 //     carModelId: payload.carModel
 //   }).populate('companyId') as any
-
 
 //   if (!carOwner) {
 //     throw new Error('Car owner not found');
@@ -364,10 +360,15 @@ const userAction = async (id: string, payload: Record<string, unknown>) => {
 //   return;
 // };
 
-
 const orderTransport = async (
   user: TAuthUser,
-  payload: { carModel: string; offerCarId: string; userId?: string, deliveryAddress: string; receiverPhone: string },
+  payload: {
+    carModel: string;
+    offerCarId: string;
+    userId?: string;
+    deliveryAddress: string;
+    receiverPhone: string;
+  },
 ) => {
   const findOrderTransport = await OrderTransport.findOne({
     userId: user.userId,
@@ -377,12 +378,12 @@ const orderTransport = async (
     throw new Error('Order transport not found');
   }
 
-  let carModel
+  let carModel;
   // let carOwner
-  let car
+  let car;
 
   if (payload.carModel) {
-    carModel = await CarModel.findById(payload.carModel) as any;
+    carModel = (await CarModel.findById(payload.carModel)) as any;
 
     if (!carModel) {
       throw new Error('Car model not found');
@@ -392,16 +393,16 @@ const orderTransport = async (
     //   'profile',
     // )) as any;
 
-    car = await Car.findOne({
-      carModelId: payload.carModel
-    }).populate('companyId') as any
+    car = (await Car.findOne({
+      carModelId: payload.carModel,
+    }).populate('companyId')) as any;
 
     const saleCar = await SaleCar.findOne({
-      carId: car._id
-    })
+      carId: car._id,
+    });
 
-    saleCar!.isOrderTransport = true
-    saleCar!.save()
+    saleCar!.isOrderTransport = true;
+    saleCar!.save();
 
     // if (!carOwner) {
     //   throw new Error('Car owner not found');
@@ -409,18 +410,17 @@ const orderTransport = async (
   }
 
   if (payload.offerCarId) {
-    carModel = await OfferCar.findById(payload.offerCarId) as any;
+    carModel = (await OfferCar.findById(payload.offerCarId)) as any;
 
     if (!carModel) {
       throw new Error('Offer car not found');
     }
-    carModel.isOrderTransport = true
-    carModel.save()
+    carModel.isOrderTransport = true;
+    carModel.save();
     car = await SubmitListing.findOne({
       _id: carModel.submitListingCarId,
-    })
+    });
   }
-
 
   await sendMail({
     email: findOrderTransport?.email,
@@ -491,7 +491,7 @@ const orderTransport = async (
           Brand - ${carModel?.brand || carModel?.mark}
           Model - ${carModel?.model}
           Year - ${carModel?.modelYear || carModel?.modelsYear}
-          Number Plates - ${carModel?.numberPlates || "N/A"}
+          Number Plates - ${carModel?.numberPlates || 'N/A'}
         </td>
       </tr>
       <tr>
@@ -499,10 +499,11 @@ const orderTransport = async (
           Seller Name:
         </td>
         <td style="padding: 8px; border: 1px solid #ddd;">
-          ${payload.carModel
-        ? car?.companyId?.first_name + ' ' + car?.companyId?.last_name
-        : car?.firstName + ' ' + car?.lastName
-      }
+          ${
+            payload.carModel
+              ? car?.companyId?.first_name + ' ' + car?.companyId?.last_name
+              : car?.firstName + ' ' + car?.lastName
+          }
         </td>
       </tr>
       <tr>
@@ -556,7 +557,6 @@ const orderTransport = async (
 
   return;
 };
-
 
 const getTotalCount = async () => {
   // Current date and time windows
@@ -732,7 +732,6 @@ const privateUserDetails = async (
 
   return { meta, result, soldCarCount, saleCarCount };
 };
-
 
 export const UserService = {
   getAllUsersList,

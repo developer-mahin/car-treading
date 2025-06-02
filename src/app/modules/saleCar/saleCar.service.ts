@@ -7,6 +7,7 @@ import { months, USER_ROLE } from '../../constant';
 import Car from '../car/car.model';
 import AppError from '../../utils/AppError';
 import httpStatus from 'http-status';
+import QueryBuilder from '../../QueryBuilder/queryBuilder';
 
 const updateContactPaper = async (
   payload: Partial<TSaleCar>,
@@ -243,9 +244,32 @@ const saleCarAction = async (payload: {
   return result;
 };
 
+const allCarList = async (query: Record<string, unknown>) => {
+  const carQuery = new QueryBuilder(
+    Car.find({})
+      .populate('carModelId')
+      .populate('companyId')
+      .populate('carOwner'),
+    query,
+  );
+
+  const result = await carQuery
+    .search(['carModelId.brand', 'carModelId.model'])
+    .paginate()
+    .sort().queryModel;
+
+  const pagination = await carQuery.countTotal();
+
+  return {
+    pagination,
+    result,
+  };
+};
+
 export const SaleCarService = {
   updateContactPaper,
   getSaleCarList,
   getTotalSalesChart,
   saleCarAction,
+  allCarList,
 };

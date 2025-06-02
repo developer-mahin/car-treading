@@ -30,7 +30,7 @@ const createBid = async (payload: Partial<TBid>, user: TAuthUser) => {
   const unreadNotification = await Notification.find({
     receiverId: car.carOwner,
     isRead: false,
-  }).countDocuments()
+  }).countDocuments();
 
   const notification = {
     senderId: user.userId,
@@ -40,7 +40,7 @@ const createBid = async (payload: Partial<TBid>, user: TAuthUser) => {
     type: NOTIFICATION_TYPE.bid,
     role: user.role,
     count: unreadNotification + 1,
-  }; 
+  };
 
   await sendNotification(user, notification);
 
@@ -52,14 +52,26 @@ const createBid = async (payload: Partial<TBid>, user: TAuthUser) => {
 const getBidList = async (query: Record<string, unknown>, user: TAuthUser) => {
   const resultAggregation = new AggregationQueryBuilder(query);
 
+  const userId = new mongoose.Types.ObjectId(String(user.userId));
+
+  const acceptedCars = await Bid.aggregate([
+    { $match: { status: 'accepted', userId: { $eq: userId } } },
+    { $group: { _id: '$carId' } },
+  ]);
+
+  const acceptedCarIds = acceptedCars.map((c) => c._id);
+
   const result = await resultAggregation
     .customPipeline([
       {
         $match: {
           $and: [
-            { userId: new mongoose.Types.ObjectId(String(user.userId)) },
-            { status: 'pending' },
+            { userId: userId },
+            {
+              carId: { $nin: acceptedCarIds },
+            },
           ],
+          status: { $in: ['pending', 'accepted'] },
         },
       },
       {
@@ -70,12 +82,7 @@ const getBidList = async (query: Record<string, unknown>, user: TAuthUser) => {
           as: 'car',
         },
       },
-      {
-        $unwind: {
-          path: '$car',
-          preserveNullAndEmptyArrays: true,
-        },
-      },
+      { $unwind: { path: '$car', preserveNullAndEmptyArrays: true } },
       {
         $lookup: {
           from: 'carmodels',
@@ -84,18 +91,16 @@ const getBidList = async (query: Record<string, unknown>, user: TAuthUser) => {
           as: 'carModel',
         },
       },
-      {
-        $unwind: {
-          path: '$carModel',
-          preserveNullAndEmptyArrays: true,
-        },
-      },
+      { $unwind: { path: '$carModel', preserveNullAndEmptyArrays: true } },
       {
         $project: {
           carName: '$carModel.brand',
           modelYear: '$carModel.modelYear',
+          userId: 1,
           bidAmount: 1,
           carId: 1,
+          status: 1,
+          createdAt: 1,
         },
       },
     ])
@@ -142,7 +147,7 @@ const bidAction = async (payload: {
     const user = {
       userId: findBidCar.dealerId,
       role: USER_ROLE.dealer,
-    } as any
+    } as any;
 
     await sendNotification(user, notification);
 

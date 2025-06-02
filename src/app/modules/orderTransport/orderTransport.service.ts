@@ -12,19 +12,17 @@ const createOrderTransport = async (
       ...payload,
       userId: user.userId,
     },
-    { new: true, upsert: true }
+    { new: true, upsert: true },
   );
   return result;
 };
 
-
 const getAllOrderTransports = async (user: TAuthUser) => {
-  const result = await OrderTransport.findOne({ userId: user.userId })
+  const result = await OrderTransport.findOne({ userId: user.userId });
   return result;
 };
 
-
 export const OrderTransportService = {
   createOrderTransport,
-  getAllOrderTransports
+  getAllOrderTransports,
 };

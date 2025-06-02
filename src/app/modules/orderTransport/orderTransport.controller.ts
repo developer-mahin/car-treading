@@ -17,9 +17,10 @@ const createOrderTransport = catchAsync(async (req, res) => {
   });
 });
 
-
 const getAllOrderTransports = catchAsync(async (req, res) => {
-  const result = await OrderTransportService.getAllOrderTransports(req.user as TAuthUser);
+  const result = await OrderTransportService.getAllOrderTransports(
+    req.user as TAuthUser,
+  );
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -30,5 +31,5 @@ const getAllOrderTransports = catchAsync(async (req, res) => {
 
 export const OrderTransportController = {
   createOrderTransport,
-  getAllOrderTransports
+  getAllOrderTransports,
 };

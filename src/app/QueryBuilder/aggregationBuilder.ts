@@ -94,14 +94,13 @@ class AggregationQueryBuilder {
     return this;
   }
 
-
   rangeFilterForModel(fieldPair: [string, string]) {
     const queryObj = { ...this.query };
     const excludesField = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
     excludesField.forEach((field) => delete queryObj[field]);
 
     const fromField = fieldPair[0]; // e.g. "modelsFrom"
-    const toField = fieldPair[1];   // e.g. "modelsTo"
+    const toField = fieldPair[1]; // e.g. "modelsTo"
 
     const fromVal = queryObj[fromField];
     const toVal = queryObj[toField];
@@ -109,7 +108,8 @@ class AggregationQueryBuilder {
     if (fromVal !== undefined || toVal !== undefined) {
       const condition: Record<string, any> = {};
 
-      if (fromVal !== undefined) condition[fromField] = { $gte: Number(fromVal) };
+      if (fromVal !== undefined)
+        condition[fromField] = { $gte: Number(fromVal) };
       if (toVal !== undefined) condition[toField] = { $lte: Number(toVal) };
 
       this.aggregationPipeline.push({
@@ -126,7 +126,7 @@ class AggregationQueryBuilder {
     excludesField.forEach((field) => delete queryObj[field]);
 
     const fromField = fieldPair[0]; // e.g. "modelsFrom"
-    const toField = fieldPair[1];   // e.g. "modelsTo"
+    const toField = fieldPair[1]; // e.g. "modelsTo"
 
     const fromVal = queryObj[fromField];
     const toVal = queryObj[toField];
@@ -134,7 +134,8 @@ class AggregationQueryBuilder {
     if (fromVal !== undefined || toVal !== undefined) {
       const condition: Record<string, any> = {};
 
-      if (fromVal !== undefined) condition[fromField] = { $gte: Number(fromVal) };
+      if (fromVal !== undefined)
+        condition[fromField] = { $gte: Number(fromVal) };
       if (toVal !== undefined) condition[toField] = { $lte: Number(toVal) };
 
       this.aggregationPipeline.push({
@@ -144,7 +145,6 @@ class AggregationQueryBuilder {
 
     return this;
   }
-
 
   customPipeline(pipeline: any) {
     this.aggregationPipeline.push(...pipeline);
@@ -238,7 +238,6 @@ class AggregationQueryBuilder {
       throw new Error('Failed to get total count');
     }
   }
-
 }
 
 export default AggregationQueryBuilder;

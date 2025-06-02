@@ -167,9 +167,13 @@ const updateOfferCarContactPaper = async (
     throw new AppError(httpStatus.NOT_FOUND, 'SaleCar not found');
   }
 
-  const result = await OfferCar.findByIdAndUpdate(offerCarId, { ...payload }, {
-    new: true,
-  });
+  const result = await OfferCar.findByIdAndUpdate(
+    offerCarId,
+    { ...payload },
+    {
+      new: true,
+    },
+  );
 
   return result;
 };
@@ -272,5 +276,5 @@ export const OfferCarService = {
   offerCarAction,
   myOfferCarList,
   updateOfferCarContactPaper,
-  getEveryOfferContact
+  getEveryOfferContact,
 };

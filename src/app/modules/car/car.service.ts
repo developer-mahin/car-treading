@@ -92,13 +92,12 @@ const getCarList = async (query: Record<string, unknown>) => {
 
   const carAggregation = new AggregationQueryBuilder(query);
 
-
   const result = await carAggregation
     .customPipeline([
       {
         $match: {
           isSell: false,
-        }
+        },
       },
       {
         $lookup: {
@@ -134,10 +133,7 @@ const getCarList = async (query: Record<string, unknown>) => {
           localField: '_id',
           foreignField: 'carId',
           as: 'bids',
-          pipeline: [
-            { $sort: { bidAmount: -1 } },
-            { $limit: 1 },
-          ],
+          pipeline: [{ $sort: { bidAmount: -1 } }, { $limit: 1 }],
         },
       },
       {
@@ -193,8 +189,7 @@ const getCarList = async (query: Record<string, unknown>) => {
           totalBidCount: 1,
         },
       },
-    ]
-    )
+    ])
     .filter(['carModel.brand', 'carModel.fuelType'])
     .rangeFilter(['carModel.modelYear'])
     .paginate()
@@ -480,6 +475,7 @@ const getTotalPurchasedCars = async (
           _id: 1,
           // carId: '$car._id',
           customerDestination: 1,
+          isOrderTransport: 1,
           price: 1,
           status: 1,
           paymentStatus: 1,
