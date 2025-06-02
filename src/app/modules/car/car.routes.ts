@@ -55,6 +55,18 @@ router
     '/car_info',
     auth(USER_ROLE.private_user, USER_ROLE.dealer),
     CarController.getCarInfo,
+  )
+  .patch(
+    '/update/:carId',
+    auth(USER_ROLE.dealer, USER_ROLE.admin, USER_ROLE.private_user),
+    upload.fields([{ name: 'images', maxCount: 10 }]),
+    parseFormData,
+    CarController.updateCar,
+  )
+  .delete(
+    '/:carId',
+    auth(USER_ROLE.dealer, USER_ROLE.admin, USER_ROLE.private_user),
+    CarController.deleteCar,
   );
 
 export const CarRoutes = router;

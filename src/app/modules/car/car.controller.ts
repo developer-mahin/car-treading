@@ -115,6 +115,28 @@ const getCarInfo = catchAsync(async (req, res) => {
   });
 });
 
+const updateCar = catchAsync(async (req, res) => {
+  const result = await CarService.updateCar(req.params.carId, req.body);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Car updated successfully',
+    data: result,
+  });
+});
+
+const deleteCar = catchAsync(async (req, res) => {
+  const result = await CarService.deleteCar(req.params.carId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Car deleted successfully',
+    data: result,
+  });
+});
+
 export const CarController = {
   getCVR,
   getCarInfo,
@@ -123,6 +145,8 @@ export const CarController = {
   carListing,
   getMyBuyedCars,
   getCarDetails,
+  updateCar,
   getContactPaper,
   getTotalPurchasedCars,
+  deleteCar,
 };

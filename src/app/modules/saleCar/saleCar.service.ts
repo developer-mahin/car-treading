@@ -1,13 +1,12 @@
+import httpStatus from 'http-status';
 import mongoose from 'mongoose';
-import { TAuthUser } from '../../interface/authUser';
-import { TSaleCar } from './saleCar.interface';
-import SaleCar from './saleCar.model';
 import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
 import { months, USER_ROLE } from '../../constant';
-import Car from '../car/car.model';
+import { TAuthUser } from '../../interface/authUser';
 import AppError from '../../utils/AppError';
-import httpStatus from 'http-status';
-import QueryBuilder from '../../QueryBuilder/queryBuilder';
+import Car from '../car/car.model';
+import { TSaleCar } from './saleCar.interface';
+import SaleCar from './saleCar.model';
 
 const updateContactPaper = async (
   payload: Partial<TSaleCar>,
@@ -245,20 +244,67 @@ const saleCarAction = async (payload: {
 };
 
 const allCarList = async (query: Record<string, unknown>) => {
-  const carQuery = new QueryBuilder(
-    Car.find({})
-      .populate('carModelId')
-      .populate('companyId')
-      .populate('carOwner'),
+  const carQuery = new AggregationQueryBuilder(
     query,
   );
 
-  const result = await carQuery
-    .search(['carModelId.brand', 'carModelId.model'])
-    .paginate()
-    .sort().queryModel;
 
-  const pagination = await carQuery.countTotal();
+  const result = await carQuery
+    .customPipeline([
+      {
+        $match: {
+
+        }
+      },
+      {
+        $lookup: {
+          from: "carmodels",
+          localField: "carModelId",
+          foreignField: "_id",
+          as: "carModel",
+        }
+      },
+      {
+        $unwind: {
+          path: "$carModel",
+          preserveNullAndEmptyArrays: true,
+        }
+      },
+      {
+        $lookup: {
+          from: "companies",
+          localField: "companyId",
+          foreignField: "_id",
+          as: "company",
+        }
+      },
+      {
+        $unwind: {
+          path: "$company",
+          preserveNullAndEmptyArrays: true,
+        }
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "carOwner",
+          foreignField: "_id",
+          as: "carOwner",
+        }
+      },
+      {
+        $unwind: {
+          path: "$carOwner",
+          preserveNullAndEmptyArrays: true,
+        }
+      }
+    ])
+    .search(['carModel.brand', 'carModel.model'])
+    .paginate()
+    .sort()
+    .execute(Car);
+
+  const pagination = await carQuery.countTotal(Car);
 
   return {
     pagination,

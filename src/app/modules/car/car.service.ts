@@ -1,15 +1,15 @@
+import axios from 'axios';
 import httpStatus from 'http-status';
+import mongoose from 'mongoose';
+import config from '../../../config';
 import { TAuthUser } from '../../interface/authUser';
+import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
 import AppError from '../../utils/AppError';
 import CarModel from '../carModel/carModel.model';
 import Company from '../company/company.model';
-import Car from './car.model';
-import mongoose from 'mongoose';
-import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
-import SaleCar from '../saleCar/saleCar.model';
 import OfferCar from '../offerCar/offerCar.model';
-import axios from 'axios';
-import config from '../../../config';
+import SaleCar from '../saleCar/saleCar.model';
+import Car from './car.model';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const carListing = async (payload: any, user: TAuthUser) => {
@@ -222,143 +222,6 @@ const getCarList = async (query: Record<string, unknown>) => {
 
   return { pagination, result: filterCar ? filterCar : result };
 };
-
-// const getCarList = async (query: Record<string, unknown>) => {
-//   const { modelYearFrom, modelYearTo, drivenKmFrom, drivenKmTo } = query;
-
-//   const carAggregation = new AggregationQueryBuilder(query);
-//   const result = await carAggregation
-//     .customPipeline([
-//       {
-//         $match: {
-//           isSell: false,
-//         },
-//       },
-//       {
-//         $lookup: {
-//           from: 'carmodels',
-//           localField: 'carModelId',
-//           foreignField: '_id',
-//           as: 'carModel',
-//         },
-//       },
-//       {
-//         $unwind: {
-//           path: '$carModel',
-//           preserveNullAndEmptyArrays: true,
-//         },
-//       },
-//       {
-//         $lookup: {
-//           from: 'companies',
-//           localField: 'companyId',
-//           foreignField: '_id',
-//           as: 'company',
-//         },
-//       },
-//       {
-//         $unwind: {
-//           path: '$company',
-//           preserveNullAndEmptyArrays: true,
-//         },
-//       },
-//       // Lookup to get highest bid
-//       {
-//         $lookup: {
-//           from: 'bids',
-//           localField: '_id',
-//           foreignField: 'carId',
-//           as: 'bids',
-//           pipeline: [{ $sort: { bidAmount: -1 } }, { $limit: 1 }],
-//         },
-//       },
-//       {
-//         $unwind: {
-//           path: '$bids',
-//           preserveNullAndEmptyArrays: true,
-//         },
-//       },
-//       // Lookup to count total bids
-//       {
-//         $lookup: {
-//           from: 'bids',
-//           let: { carId: '$_id' },
-//           pipeline: [
-//             { $match: { $expr: { $eq: ['$carId', '$$carId'] } } },
-//             { $count: 'totalBids' },
-//           ],
-//           as: 'bidsCount',
-//         },
-//       },
-//       {
-//         $addFields: {
-//           totalBidCount: {
-//             $ifNull: [{ $arrayElemAt: ['$bidsCount.totalBids', 0] }, 0],
-//           },
-//         },
-//       },
-//       {
-//         $project: {
-//           _id: 1,
-//           carOwner: 1,
-//           carModelId: 1,
-//           companyId: 1,
-//           noOfKmDriven: 1,
-//           noOfVarnishField: 1,
-//           additionalEquipment: 1,
-//           condition: 1,
-//           comment: 1,
-//           expectedPrice: 1,
-//           registrationNumber: 1,
-//           vat: 1,
-//           carCategory: 1,
-//           milage: 1,
-//           firstRegistrationDate: 1,
-//           chassisNumber: 1,
-//           tax: 1,
-//           inspectionDate: 1,
-//           createdAt: 1,
-//           updatedAt: 1,
-//           isSell: 1,
-//           maxBidAmount: '$bids.bidAmount',
-//           carModel: 1,
-//           company: 1,
-//           totalBidCount: 1,
-//         },
-//       },
-//     ])
-//     .filter(['carModel.brand', 'carModel.fuelType'])
-//     // .rangeFilter(['carModel.modelYear'])
-//     .paginate()
-//     .sort()
-//     .execute(Car);
-
-//   const filterCar = result.filter((car: any) => {
-//     let matches = true;
-
-//     // Check model year filter
-//     if (modelYearFrom && modelYearTo) {
-//       matches =
-//         matches &&
-//         car.carModel.modelYear >= modelYearFrom &&
-//         car.carModel.modelYear <= modelYearTo;
-//     }
-
-//     // Check driven km filter
-//     if (drivenKmFrom && drivenKmTo) {
-//       matches =
-//         matches &&
-//         car.noOfKmDriven >= drivenKmFrom &&
-//         car.noOfKmDriven <= drivenKmTo;
-//     }
-
-//     return matches;
-//   });
-
-//   const pagination = await carAggregation.countTotal(Car);
-
-//   return { pagination, result: filterCar ? filterCar : result };
-// };
 
 const buyCar = async (payload: any, user: TAuthUser) => {
   const { carId } = payload;
@@ -765,6 +628,78 @@ const getCarInfo = async (query: Record<string, unknown>) => {
   return res.data;
 };
 
+const updateCar = async (carId: string, payload: any) => {
+  const car = {
+    noOfKmDriven: payload.noOfKmDriven,
+    noOfVarnishField: payload.noOfVarnishField,
+    additionalEquipment: payload.additionalEquipment,
+    condition: payload.condition,
+    comment: payload.comment,
+    expectedPrice: payload.expectedPrice,
+    registrationNumber: payload.registrationNumber,
+    vat: payload.vat,
+    carCategory: payload.carCategory,
+    milage: payload.milage,
+    firstRegistrationDate: payload.firstRegistrationDate,
+    chassisNumber: payload.chassisNumber,
+    tax: payload.tax,
+    inspectionDate: payload.inspectionDate,
+  };
+  const carModel = {
+    images: payload.images,
+    brand: payload.brand,
+    model: payload.model,
+    modelYear: payload.modelYear,
+    variant: payload.variant,
+    color: payload.color,
+    fuelType: payload.fuelType,
+    gearBox: payload.gearBox,
+    engineSize: payload.engineSize,
+    enginePerformance: payload.enginePerformance,
+    co2Emission: payload.co2Emission,
+    fuelConsumption: payload.fuelConsumption,
+    euroStandard: payload.euroStandard,
+    numberPlates: payload.numberPlates,
+  };
+
+  const company = {
+    companyName: payload.companyName,
+    cvrNumber: payload.cvrNumber,
+    postCode: payload.postCode,
+    city: payload.city,
+    first_name: payload.first_name,
+    last_name: payload.last_name,
+    phoneNumber: payload.phoneNumber,
+  };
+
+  const findCar = await Car.findById(carId);
+  if (!findCar) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Car not found');
+  }
+
+  await Car.findOneAndUpdate({ _id: carId }, car, { new: true });
+
+  await CarModel.findOneAndUpdate({ _id: findCar.carModelId }, carModel, {
+    new: true,
+  });
+
+  await Company.findOneAndUpdate({ _id: findCar.companyId }, company, {
+    new: true,
+  });
+};
+
+const deleteCar = async (carId: string) => {
+  const findCar = await Car.findById(carId);
+  if (!findCar) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Car not found');
+  }
+  await Car.findByIdAndDelete(carId);
+  await CarModel.findByIdAndDelete(findCar.carModelId);
+  await Company.findByIdAndDelete(findCar.companyId);
+
+  return findCar;
+};
+
 export const CarService = {
   getCVR,
   buyCar,
@@ -773,6 +708,8 @@ export const CarService = {
   getCarList,
   getMyBuyedCars,
   getCarDetails,
+  updateCar,
   getContactPaper,
   getTotalPurchasedCars,
+  deleteCar,
 };
