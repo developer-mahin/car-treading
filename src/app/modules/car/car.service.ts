@@ -544,6 +544,10 @@ const getContactPaper = async (carId: string) => {
           email: '$dealer.email',
           phoneNumber: '$profile.phoneNumber',
           profileImage: '$profile.profileImage',
+          address: "$profile.address",
+          city: "$profile.city",
+          zip: "$profile.zip",
+          websiteLink: "$profile.websiteLink",
         },
         privateUser: {
           _id: 1,
@@ -552,6 +556,10 @@ const getContactPaper = async (carId: string) => {
           email: '$privateUser.email',
           phoneNumber: '$privateUserProfile.phoneNumber',
           profileImage: '$privateUserProfile.profileImage',
+          address: "$privateUserProfile.address",
+          city: "$privateUserProfile.city",
+          zip: "$privateUserProfile.zip",
+          websiteLink: "$privateUserProfile.websiteLink",
         },
       },
     },
@@ -689,15 +697,30 @@ const updateCar = async (carId: string, payload: any) => {
 };
 
 const deleteCar = async (carId: string) => {
-  const findCar = await Car.findById(carId);
-  if (!findCar) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'Car not found');
-  }
-  await Car.findByIdAndDelete(carId);
-  await CarModel.findByIdAndDelete(findCar.carModelId);
-  await Company.findByIdAndDelete(findCar.companyId);
+  const session = await mongoose.startSession();
+  session.startTransaction();
 
-  return findCar;
+  try {
+    const findCar = await Car.findById(carId).session(session);
+    if (!findCar) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Car not found');
+    }
+
+    // Delete car and related docs inside the session
+    await Car.findByIdAndDelete(carId).session(session);
+    await CarModel.findByIdAndDelete(findCar.carModelId).session(session);
+    await Company.findByIdAndDelete(findCar.companyId).session(session);
+    await SaleCar.findOneAndDelete({ carId: carId }).session(session);
+
+    await session.commitTransaction();
+    session.endSession();
+
+    return findCar;
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    throw error;
+  }
 };
 
 export const CarService = {
