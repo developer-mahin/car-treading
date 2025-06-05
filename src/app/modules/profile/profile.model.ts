@@ -16,6 +16,7 @@ const profileSchema = new Schema<TProfile>(
     regNo: { type: String },
     kontoNr: { type: String },
     companyLogo: { type: String },
+    companyName: { type: String },
   },
   {
     timestamps: true,

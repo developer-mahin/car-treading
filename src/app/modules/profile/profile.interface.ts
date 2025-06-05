@@ -14,4 +14,5 @@ export type TProfile = {
   regNo?: string;
   kontoNr?: string;
   companyLogo?: string;
+  companyName?: string;
 };
