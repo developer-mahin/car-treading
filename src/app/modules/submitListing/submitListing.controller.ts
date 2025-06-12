@@ -1,4 +1,3 @@
-import { TAuthUser } from '../../interface/authUser';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { SubmitListingService } from './submitListing.service';
@@ -6,7 +5,7 @@ import { SubmitListingService } from './submitListing.service';
 const createSubmitListing = catchAsync(async (req, res) => {
   const result = await SubmitListingService.createSubmitListing(
     req.body,
-    req.user as TAuthUser,
+    // req.user as TAuthUser,
   );
   sendResponse(res, {
     success: true,

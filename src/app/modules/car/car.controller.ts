@@ -12,7 +12,7 @@ const carListing = catchAsync(async (req, res) => {
     req.body.images = images;
   });
 
-  const result = await CarService.carListing(req.body, req.user as TAuthUser);
+  const result = await CarService.carListing(req.body);
 
   sendResponse(res, {
     success: true,

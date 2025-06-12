@@ -2,17 +2,21 @@ import axios from 'axios';
 import httpStatus from 'http-status';
 import mongoose from 'mongoose';
 import config from '../../../config';
+import { USER_ROLE } from '../../constant';
 import { TAuthUser } from '../../interface/authUser';
 import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
 import AppError from '../../utils/AppError';
+import sendMail from '../../utils/sendMail';
 import CarModel from '../carModel/carModel.model';
 import Company from '../company/company.model';
 import OfferCar from '../offerCar/offerCar.model';
 import SaleCar from '../saleCar/saleCar.model';
+import User from '../user/user.model';
 import Car from './car.model';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const carListing = async (payload: any, user: TAuthUser) => {
+const carListing = async (payload: any) => {
+
   const carModel = {
     images: payload.images,
     brand: payload.brand,
@@ -38,11 +42,37 @@ const carListing = async (payload: any, user: TAuthUser) => {
     first_name: payload.first_name,
     last_name: payload.last_name,
     phoneNumber: payload.phoneNumber,
+    email: payload.email,
   };
+
+
 
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
+
+    let createdUser
+    if (!payload.userId) {
+      createdUser = await User.create([{
+        email: payload.email,
+        password: "hello123",
+        role: USER_ROLE.private_user,
+        first_name: payload.first_name,
+        last_name: payload.last_name,
+        phoneNumber: payload.phoneNumber,
+        needPasswordChange: true
+      }], { session });
+
+      await sendMail({
+        email: payload.email,
+        subject: "Change Your Password Please",
+        html: `
+      <h1>Change Your Password Your Default Password is hello123</h1>
+      `
+      })
+    }
+
+
     const createCarModel = await CarModel.create([carModel], { session });
     if (!createCarModel) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Car model creation failed');
@@ -52,8 +82,9 @@ const carListing = async (payload: any, user: TAuthUser) => {
       throw new AppError(httpStatus.BAD_REQUEST, 'Company creation failed');
     }
 
+
     const car = {
-      carOwner: user.userId,
+      carOwner: payload?.userId || createdUser?.[0]._id,
       carModelId: createCarModel[0]._id,
       companyId: createCompany[0]._id,
       noOfKmDriven: payload.noOfKmDriven,
@@ -71,6 +102,7 @@ const carListing = async (payload: any, user: TAuthUser) => {
       tax: payload.tax,
       inspectionDate: payload.inspectionDate,
     };
+
 
     const createCar = await Car.create([car], { session });
     if (!createCar) {

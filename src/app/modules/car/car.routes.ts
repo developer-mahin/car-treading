@@ -14,7 +14,7 @@ const router = Router();
 router
   .post(
     '/sale_car',
-    auth(USER_ROLE.dealer, USER_ROLE.private_user),
+    // auth(USER_ROLE.dealer, USER_ROLE.private_user),
     validateRequest(CarValidation.carListingValidationSchema),
     upload.fields([{ name: 'images', maxCount: 10 }]),
     parseFormData,

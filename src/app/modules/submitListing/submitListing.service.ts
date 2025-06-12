@@ -1,16 +1,39 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { TAuthUser } from '../../interface/authUser';
+import { USER_ROLE } from '../../constant';
 import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
+import sendMail from '../../utils/sendMail';
+import User from '../user/user.model';
 import { TSubmitListing } from './submitListing.interface';
 import SubmitListing from './submitListing.model';
 
 const createSubmitListing = async (
-  payload: Partial<TSubmitListing>,
-  user: TAuthUser,
+  payload: Partial<TSubmitListing> | any,
 ) => {
+
+  let createdUser
+  if (!payload.userId) {
+    createdUser = await User.create({
+      email: payload.email,
+      password: "hello123",
+      role: USER_ROLE.private_user,
+      first_name: payload.first_name,
+      last_name: payload.last_name,
+      phoneNumber: payload.phoneNumber,
+      needPasswordChange: true
+    });
+
+    await sendMail({
+      email: payload.email,
+      subject: "Welcome to Car Trading",
+      html: `
+        <h3>Change Your Password Your Default Password is hello123</h3>
+        `
+    })
+  }
+
   const result = await SubmitListing.create({
     ...payload,
-    userId: user.userId,
+    userId: payload.userId || createdUser?._id,
   });
   return result;
 };
