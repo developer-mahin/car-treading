@@ -1,4 +1,5 @@
 import { TAuthUser } from '../../interface/authUser';
+import User from '../user/user.model';
 import { TStaticContent } from './staticContent.interface';
 import StaticContent from './staticContent.model';
 
@@ -14,6 +15,19 @@ const createStaticContent = async (
     },
     { upsert: true, new: true },
   );
+
+  if (payload.type === 'terms-and-conditions') {
+    await User.updateMany(
+      { _id: { $ne: user.userId } },
+      { $set: { isTermAccepted: false } },
+    );
+  } else if (payload.type === 'privacy-policy') {
+    await User.updateMany(
+      { _id: { $ne: user.userId } },
+      { $set: { isPrivacyAccepted: false } },
+    );
+  }
+
   return result;
 };
 

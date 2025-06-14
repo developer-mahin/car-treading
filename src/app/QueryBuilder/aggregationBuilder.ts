@@ -154,7 +154,10 @@ class AggregationQueryBuilder {
   // Adds sorting to the aggregation pipeline
   sort() {
     const sort = this.query.sort || '-createdAt';
+
     this.aggregationPipeline.push({ $sort: this.parseSort(sort as string) });
+
+    console.log(this.aggregationPipeline, 'this.aggregationPipeline');
     return this;
   }
 

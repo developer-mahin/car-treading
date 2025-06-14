@@ -18,6 +18,8 @@ export type IUser = {
   needPasswordChange: boolean;
   isUseTransport: boolean;
   isTaskAssigned: boolean;
+  isTermAccepted: boolean;
+  isPrivacyAccepted: boolean;
 };
 
 export interface UserModel extends Model<IUser> {

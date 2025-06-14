@@ -95,6 +95,32 @@ const privateUserDetails = catchAsync(async (req, res) => {
   });
 });
 
+const updateTermAndPrivacy = catchAsync(async (req, res) => {
+  const result = await UserService.updateTermAndPrivacy(
+    req.user as TAuthUser,
+    req.body,
+  );
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'User details fetched successfully',
+    data: result,
+  });
+});
+
+const privateUserTotalCar = catchAsync(async (req, res) => {
+  const result = await UserService.privateUserTotalCar(
+    req.params.userId,
+    req.query,
+  );
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'User details fetched successfully',
+    data: result,
+  });
+});
+
 export const UserController = {
   getAllUsersList,
   userDetails,
@@ -104,4 +130,6 @@ export const UserController = {
   getTotalCount,
   getCustomerMap,
   privateUserDetails,
+  updateTermAndPrivacy,
+  privateUserTotalCar,
 };

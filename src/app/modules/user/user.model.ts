@@ -52,6 +52,14 @@ export const userSchema = new mongoose.Schema<IUser, UserModel>(
       type: Boolean,
       default: false,
     },
+    isPrivacyAccepted: {
+      type: Boolean,
+      default: false,
+    },
+    isTermAccepted: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

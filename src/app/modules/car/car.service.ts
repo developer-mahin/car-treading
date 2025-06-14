@@ -13,10 +13,10 @@ import OfferCar from '../offerCar/offerCar.model';
 import SaleCar from '../saleCar/saleCar.model';
 import User from '../user/user.model';
 import Car from './car.model';
+import Profile from '../profile/profile.model';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const carListing = async (payload: any) => {
-
   const carModel = {
     images: payload.images,
     brand: payload.brand,
@@ -45,33 +45,50 @@ const carListing = async (payload: any) => {
     email: payload.email,
   };
 
-
-
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
 
-    let createdUser
+    let createdUser;
     if (!payload.userId) {
-      createdUser = await User.create([{
-        email: payload.email,
-        password: "hello123",
-        role: USER_ROLE.private_user,
+      createdUser = await User.create(
+        [
+          {
+            email: payload.email,
+            password: 'hello123',
+            role: USER_ROLE.private_user,
+            needPasswordChange: true,
+          },
+        ],
+        { session },
+      );
+
+      const profileData = {
         first_name: payload.first_name,
         last_name: payload.last_name,
         phoneNumber: payload.phoneNumber,
-        needPasswordChange: true
-      }], { session });
+        userId: createdUser[0]._id,
+      };
+
+      const profile = await Profile.create([profileData], { session });
+      if (!profile || profile.length === 0) {
+        throw new AppError(httpStatus.BAD_REQUEST, 'Profile not created');
+      }
+
+      await User.findByIdAndUpdate(
+        createdUser[0]._id,
+        { profile: profile[0]._id },
+        { new: true, session },
+      );
 
       await sendMail({
         email: payload.email,
-        subject: "Change Your Password Please",
+        subject: 'Change Your Password Please',
         html: `
       <h1>Change Your Password Your Default Password is hello123</h1>
-      `
-      })
+      `,
+      });
     }
-
 
     const createCarModel = await CarModel.create([carModel], { session });
     if (!createCarModel) {
@@ -81,7 +98,6 @@ const carListing = async (payload: any) => {
     if (!createCompany) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Company creation failed');
     }
-
 
     const car = {
       carOwner: payload?.userId || createdUser?.[0]._id,
@@ -102,7 +118,6 @@ const carListing = async (payload: any) => {
       tax: payload.tax,
       inspectionDate: payload.inspectionDate,
     };
-
 
     const createCar = await Car.create([car], { session });
     if (!createCar) {
@@ -224,8 +239,8 @@ const getCarList = async (query: Record<string, unknown>) => {
     ])
     .filter(['carModel.brand', 'carModel.fuelType'])
     .rangeFilter(['carModel.modelYear'])
-    .paginate()
     .sort()
+    .paginate()
     .execute(Car);
 
   const filterCar = result.filter((car: any) => {
@@ -576,10 +591,10 @@ const getContactPaper = async (carId: string) => {
           email: '$dealer.email',
           phoneNumber: '$profile.phoneNumber',
           profileImage: '$profile.profileImage',
-          address: "$profile.address",
-          city: "$profile.city",
-          zip: "$profile.zip",
-          websiteLink: "$profile.websiteLink",
+          address: '$profile.address',
+          city: '$profile.city',
+          zip: '$profile.zip',
+          websiteLink: '$profile.websiteLink',
         },
         privateUser: {
           _id: 1,
@@ -588,10 +603,10 @@ const getContactPaper = async (carId: string) => {
           email: '$privateUser.email',
           phoneNumber: '$privateUserProfile.phoneNumber',
           profileImage: '$privateUserProfile.profileImage',
-          address: "$privateUserProfile.address",
-          city: "$privateUserProfile.city",
-          zip: "$privateUserProfile.zip",
-          websiteLink: "$privateUserProfile.websiteLink",
+          address: '$privateUserProfile.address',
+          city: '$privateUserProfile.city',
+          zip: '$privateUserProfile.zip',
+          websiteLink: '$privateUserProfile.websiteLink',
         },
       },
     },

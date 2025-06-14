@@ -48,12 +48,12 @@ router
   )
   .get(
     '/cvr',
-    auth(USER_ROLE.private_user, USER_ROLE.dealer),
+    // auth(USER_ROLE.private_user, USER_ROLE.dealer),
     CarController.getCVR,
   )
   .get(
     '/car_info',
-    auth(USER_ROLE.private_user, USER_ROLE.dealer),
+    // auth(USER_ROLE.private_user, USER_ROLE.dealer),
     CarController.getCarInfo,
   )
   .patch(

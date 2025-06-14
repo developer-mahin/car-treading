@@ -15,8 +15,17 @@ router
   .get('/user_ratio', auth(USER_ROLE.admin), UserController.getUserRatio)
   .get('/total_count', auth(USER_ROLE.admin), UserController.getTotalCount)
   .get('/customer_map', auth(USER_ROLE.admin), UserController.getCustomerMap)
-
+  .put(
+    '/update_term_and_privacy',
+    auth(USER_ROLE.dealer, USER_ROLE.private_user),
+    UserController.updateTermAndPrivacy,
+  )
   .get('/:userId', auth(USER_ROLE.admin), UserController.userDetails)
+  .get(
+    '/private_user_total_car/:userId',
+    auth(USER_ROLE.admin),
+    UserController.privateUserTotalCar,
+  )
   .get(
     '/private_user_details/:userId',
     auth(USER_ROLE.admin),

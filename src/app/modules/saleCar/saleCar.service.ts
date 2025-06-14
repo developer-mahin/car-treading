@@ -244,60 +244,55 @@ const saleCarAction = async (payload: {
 };
 
 const allCarList = async (query: Record<string, unknown>) => {
-  const carQuery = new AggregationQueryBuilder(
-    query,
-  );
-
+  const carQuery = new AggregationQueryBuilder(query);
 
   const result = await carQuery
     .customPipeline([
       {
-        $match: {
-
-        }
+        $match: {},
       },
       {
         $lookup: {
-          from: "carmodels",
-          localField: "carModelId",
-          foreignField: "_id",
-          as: "carModel",
-        }
+          from: 'carmodels',
+          localField: 'carModelId',
+          foreignField: '_id',
+          as: 'carModel',
+        },
       },
       {
         $unwind: {
-          path: "$carModel",
+          path: '$carModel',
           preserveNullAndEmptyArrays: true,
-        }
+        },
       },
       {
         $lookup: {
-          from: "companies",
-          localField: "companyId",
-          foreignField: "_id",
-          as: "company",
-        }
+          from: 'companies',
+          localField: 'companyId',
+          foreignField: '_id',
+          as: 'company',
+        },
       },
       {
         $unwind: {
-          path: "$company",
+          path: '$company',
           preserveNullAndEmptyArrays: true,
-        }
+        },
       },
       {
         $lookup: {
-          from: "users",
-          localField: "carOwner",
-          foreignField: "_id",
-          as: "carOwner",
-        }
+          from: 'users',
+          localField: 'carOwner',
+          foreignField: '_id',
+          as: 'carOwner',
+        },
       },
       {
         $unwind: {
-          path: "$carOwner",
+          path: '$carOwner',
           preserveNullAndEmptyArrays: true,
-        }
-      }
+        },
+      },
     ])
     .search(['carModel.brand', 'carModel.model'])
     .paginate()

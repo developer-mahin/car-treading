@@ -16,18 +16,53 @@ import SubmitListing from '../submitListing/submitListing.model';
 import OfferCar from '../offerCar/offerCar.model';
 
 const getAllUsersList = async (query: Record<string, unknown>) => {
-  const userAggregation = new QueryBuilder(
-    User.find({}).populate('profile'),
-    query,
-  );
+  // const userAggregation = new QueryBuilder(
+  //   User.find({}).populate('profile'),
+  //   query,
+  // );
+
+  // const result = await userAggregation
+  //   .search(['profile.first_name', 'last_name', 'email'])
+  //   .filter(['role', 'status'])
+  //   .paginate()
+  //   .sort().queryModel;
+
+  // const pagination = await userAggregation.countTotal();
+
+  const userAggregation = new AggregationQueryBuilder(query);
 
   const result = await userAggregation
-    .search(['first_name', 'last_name', 'email'])
+    .customPipeline([
+      {
+        $match: {},
+      },
+      {
+        $lookup: {
+          from: 'profiles',
+          localField: 'profile',
+          foreignField: '_id',
+          as: 'profile',
+        },
+      },
+      {
+        $unwind: {
+          path: '$profile',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $project: {
+          password: 0,
+        },
+      },
+    ])
+    .search(['profile.first_name', 'profile.last name', 'email'])
     .filter(['role', 'status'])
+    .sort()
     .paginate()
-    .sort().queryModel;
+    .execute(User);
 
-  const pagination = await userAggregation.countTotal();
+  const pagination = await userAggregation.countTotal(User);
 
   return {
     data: result,
@@ -184,6 +219,15 @@ const userAction = async (id: string, payload: Record<string, unknown>) => {
         { new: true },
       );
       break;
+
+    case 'unblock':
+      result = await User.findByIdAndUpdate(
+        id,
+        { $set: { status: USER_STATUS.active } },
+        { new: true },
+      );
+      break;
+
     case 'delete':
       result = await User.findByIdAndUpdate(
         id,
@@ -197,168 +241,6 @@ const userAction = async (id: string, payload: Record<string, unknown>) => {
 
   return result;
 };
-
-// const orderTransport = async (
-//   user: TAuthUser,
-//   payload: { carModel: string; userId: string, deliveryAddress: string; receiverPhone: string },
-// ) => {
-//   const findOrderTransport = await OrderTransport.findOne({
-//     userId: user.userId,
-//   });
-
-//   if (!findOrderTransport) {
-//     throw new Error('Order transport not found');
-//   }
-
-//   const carModel = await CarModel.findById(payload.carModel);
-
-//   if (!carModel) {
-//     throw new Error('Car model not found');
-//   }
-
-//   const carOwner = (await User.findById(payload.userId).populate(
-//     'profile',
-//   )) as any;
-
-//   const car = await Car.findOne({
-//     carModelId: payload.carModel
-//   }).populate('companyId') as any
-
-//   if (!carOwner) {
-//     throw new Error('Car owner not found');
-//   }
-
-//   await sendMail({
-//     email: findOrderTransport?.email,
-//     subject: 'Order Transport Request',
-//     html: `
-
-//     <!DOCTYPE html>
-// <html lang="en">
-// <head>
-//   <meta charset="UTF-8">
-//   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//   <title>Car Transport Request</title>
-//   <style>
-//     body {
-//       font-family: Arial, sans-serif;
-//       color: #333;
-//       background-color: #f4f4f4;
-//       padding: 20px;
-//     }
-//     .container {
-//       background-color: #fff;
-//       padding: 20px;
-//       border-radius: 8px;
-//       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-//       width: 600px;
-//       margin: 0 auto;
-//     }
-//     h1 {
-//       color: #2c3e50;
-//     }
-//     p {
-//       font-size: 16px;
-//     }
-//     .details {
-//       margin-top: 20px;
-//       padding: 10px;
-//       background-color: #ecf0f1;
-//       border-radius: 5px;
-//     }
-//     .details p {
-//       margin: 5px 0;
-//     }
-//     .footer {
-//       margin-top: 30px;
-//       font-size: 14px;
-//       color: #7f8c8d;
-//       text-align: center;
-//     }
-//   </style>
-// </head>
-// <body>
-//   <div class="container">
-//     <h1>Car Transport Request</h1>
-//     <p>Dear ${findOrderTransport?.companyName},</p>
-//     <p>I hope this message finds you well. We are requesting your services for transporting a car from the seller to the buyer. Please find the details below:</p>
-
-// <div class="details">
-//   <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
-//     <thead>
-//       <tr>
-//         <th colspan="2" style="text-align: left; background-color: #f2f2f2; padding: 10px; font-size: 16px;">Car Transport Details</th>
-//       </tr>
-//     </thead>
-//     <tbody>
-//       <tr>
-//         <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Car Details:</td>
-//         <td style="padding: 8px; border: 1px solid #ddd;">
-//           Brand - ${carModel?.brand}
-//           Model - ${carModel?.model}
-//           Year - ${carModel?.modelYear}
-//           Number Plates - ${carModel?.numberPlates}
-//         </td>
-//       </tr>
-//       <tr>
-//         <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">
-//           Seller Name:
-//         </td>
-//         <td style="padding: 8px; border: 1px solid #ddd;">
-//           ${car?.companyId?.first_name + ' ' + car?.companyId?.last_name}
-//         </td>
-//       </tr>
-//       <tr>
-//         <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Seller Address:</td>
-//         <td style="padding: 8px; border: 1px solid #ddd;">
-//           ${car?.companyId?.city}
-//         </td>
-//       </tr>
-//       <tr>
-//         <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Seller Phone:</td>
-//         <td style="padding: 8px; border: 1px solid #ddd;">
-//           ${car?.companyId?.phoneNumber}
-//         </td>
-//       </tr>
-
-//       <p>Delivery Details</p>
-//       <tr>
-//         <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">
-//           Delivery Address:
-//         </td>
-//         <td style="padding: 8px; border: 1px solid #ddd;">
-//           ${payload.deliveryAddress}
-//         </td>
-//       </tr>
-
-//        <tr>
-//         <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">
-//           Receiver Phone:
-//         </td>
-//         <td style="padding: 8px; border: 1px solid #ddd;">
-//           ${payload.receiverPhone}
-//         </td>
-//       </tr>
-//     </tbody>
-//   </table>
-// </div>
-//     <p>Please confirm if the transport service is available, and let us know the estimated cost and delivery time. If you need any more details, feel free to reach out.</p>
-//     <p>We look forward to working with you on this transport request.</p>
-
-//     <div class="footer">
-//       <p>Best regards,<br>
-//       Car Treading<br>
-//     </p>
-//     </div>
-//   </div>
-// </body>
-// </html>
-
-//     `,
-//   });
-
-//   return;
-// };
 
 const orderTransport = async (
   user: TAuthUser,
@@ -733,6 +615,75 @@ const privateUserDetails = async (
   return { meta, result, soldCarCount, saleCarCount };
 };
 
+const updateTermAndPrivacy = async (
+  user: TAuthUser,
+  data: {
+    isTermAccepted?: boolean;
+    isPrivacyAccepted?: boolean;
+  },
+) => {
+  return await User.findOneAndUpdate(
+    { _id: user.userId },
+    {
+      $set: {
+        isTermAccepted: data?.isTermAccepted,
+        isPrivacyAccepted: data?.isPrivacyAccepted,
+      },
+    },
+    { new: true },
+  );
+};
+
+const privateUserTotalCar = async (
+  userId: string,
+  query: Record<string, unknown>,
+) => {
+  const privateUserQuery = new AggregationQueryBuilder(query);
+
+  const result = await privateUserQuery
+    .customPipeline([
+      {
+        $match: {
+          carOwner: new mongoose.Types.ObjectId(String(userId)),
+        },
+      },
+      {
+        $lookup: {
+          from: 'carmodels',
+          localField: 'carModelId',
+          foreignField: '_id',
+          as: 'carModel',
+        },
+      },
+      {
+        $unwind: {
+          path: '$carModel',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: 'companies',
+          localField: 'companyId',
+          foreignField: '_id',
+          as: 'company',
+        },
+      },
+      {
+        $unwind: {
+          path: '$company',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+    ])
+    .sort()
+    .paginate()
+    .execute(Car);
+
+  const meta = await privateUserQuery.countTotal(Car);
+  return { meta, result };
+};
+
 export const UserService = {
   getAllUsersList,
   userDetails,
@@ -742,4 +693,6 @@ export const UserService = {
   getTotalCount,
   getCustomerMap,
   privateUserDetails,
+  updateTermAndPrivacy,
+  privateUserTotalCar,
 };
