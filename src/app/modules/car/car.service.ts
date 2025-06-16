@@ -14,6 +14,7 @@ import SaleCar from '../saleCar/saleCar.model';
 import User from '../user/user.model';
 import Car from './car.model';
 import Profile from '../profile/profile.model';
+import { create } from 'domain';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const carListing = async (payload: any) => {
@@ -398,6 +399,8 @@ const getTotalPurchasedCars = async (
           car: 1,
           expectedPrice: '$car.expectedPrice',
           carModel: 1,
+          createdAt: 1,
+          updatedAt: 1,
           carOwner: {
             _id: 1,
             first_name: '$profile.first_name',

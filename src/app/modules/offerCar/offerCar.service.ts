@@ -153,6 +153,8 @@ const myOfferCarList = async (
     .sort()
     .paginate()
     .execute(OfferCar);
+
+
   const pagination = await offerCarQuery.countTotal(OfferCar);
   return { meta: pagination, result };
 };
@@ -180,6 +182,7 @@ const updateOfferCarContactPaper = async (
 
 const getEveryOfferContact = async (query: Record<string, unknown>) => {
   const resultQuery = new AggregationQueryBuilder(query);
+
 
   const result = await resultQuery
     .customPipeline([
