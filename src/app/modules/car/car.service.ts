@@ -409,8 +409,8 @@ const getTotalPurchasedCars = async (
       },
     ])
     .search(['carOwner.first_name'])
-    .paginate()
     .sort()
+    .paginate()
     .execute(SaleCar);
   const pagination = await carAggregation.countTotal(SaleCar);
   return { meta: pagination, result };
@@ -647,8 +647,8 @@ const getMyBuyedCars = async (
         },
       },
     ])
-    .paginate()
     .sort()
+    .paginate()
     .execute(OfferCar);
 
   const pagination = await resultAggregation.countTotal(OfferCar);

@@ -96,8 +96,8 @@ const getTaskList = async (query: Record<string, unknown>) => {
       },
     ])
     .filter(['taskStatus'])
-    .paginate()
     .sort()
+    .paginate()
     .execute(Task);
 
   const pagination = await taskQuery.countTotal(Task);

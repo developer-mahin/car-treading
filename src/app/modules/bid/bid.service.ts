@@ -104,8 +104,8 @@ const getBidList = async (query: Record<string, unknown>, user: TAuthUser) => {
         },
       },
     ])
-    .paginate()
     .sort()
+    .paginate()
     .execute(Bid);
 
   const pagination = await resultAggregation.countTotal(Bid);

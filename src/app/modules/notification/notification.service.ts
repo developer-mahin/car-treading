@@ -17,7 +17,10 @@ const getMyNotifications = async (
     query,
   );
 
-  const result = await notificationQuery.paginate().sort().queryModel;
+  const result = await notificationQuery
+    .sort()
+    .paginate()
+    .queryModel;
 
   const pagination = await notificationQuery.countTotal();
   return { pagination, result };

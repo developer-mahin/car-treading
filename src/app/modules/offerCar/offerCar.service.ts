@@ -35,8 +35,8 @@ const getOfferCarList = async (
     }),
     query,
   )
+    .sort()
     .paginate()
-    .sort();
 
   const result = await resultQuery.queryModel;
   const pagination = await resultQuery.countTotal();
@@ -150,8 +150,8 @@ const myOfferCarList = async (
         },
       },
     ])
-    .paginate()
     .sort()
+    .paginate()
     .execute(OfferCar);
   const pagination = await offerCarQuery.countTotal(OfferCar);
   return { meta: pagination, result };
@@ -262,8 +262,8 @@ const getEveryOfferContact = async (query: Record<string, unknown>) => {
         },
       },
     ])
-    .paginate()
     .sort()
+    .paginate()
     .execute(OfferCar);
 
   const pagination = await resultQuery.countTotal(OfferCar);

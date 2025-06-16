@@ -44,9 +44,10 @@ const getSubmitListing = async (query: Record<string, unknown>) => {
       },
     ])
     .filter(['fuel', 'mark'])
-    .sort()
     .rangeFilterForModel(['modelsFrom', 'modelsTo'])
     .rangeFilterForDriven(['drivenKmFrom', 'drivenKmTo'])
+    .sort()
+    .paginate()
     .execute(SubmitListing);
 
   const pagination = await submitListingQuery.countTotal(SubmitListing);

@@ -163,8 +163,8 @@ const getSaleCarList = async (
       },
     ])
     .filter(['status'])
-    .paginate()
     .sort()
+    .paginate()
     .execute(SaleCar);
 
   const pagination = await resultAggregation.countTotal(SaleCar);
@@ -295,8 +295,8 @@ const allCarList = async (query: Record<string, unknown>) => {
       },
     ])
     .search(['carModel.brand', 'carModel.model'])
-    .paginate()
     .sort()
+    .paginate()
     .execute(Car);
 
   const pagination = await carQuery.countTotal(Car);
