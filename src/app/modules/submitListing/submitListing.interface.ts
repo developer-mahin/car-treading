@@ -30,4 +30,5 @@ export type TSubmitListing = {
   companyPostalCode: string;
   companyCity: string;
   companyPhoneNumber: string;
+  isOffer: boolean;
 };

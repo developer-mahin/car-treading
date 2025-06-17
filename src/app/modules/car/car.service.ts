@@ -279,6 +279,7 @@ const buyCar = async (payload: any, user: TAuthUser) => {
     throw new AppError(httpStatus.BAD_REQUEST, 'Car not found');
   }
 
+
   const saleCarData = {
     carId: carId,
     userId: car.carOwner,
@@ -294,7 +295,8 @@ const buyCar = async (payload: any, user: TAuthUser) => {
   }
 
   const result = await SaleCar.create(saleCarData);
-
+  car.isSell = true;
+  await car.save();
   return result;
 };
 

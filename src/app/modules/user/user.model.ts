@@ -60,6 +60,16 @@ export const userSchema = new mongoose.Schema<IUser, UserModel>(
       type: Boolean,
       default: false,
     },
+    isTransportAdd: {
+      type: Boolean,
+      default: false,
+    },
+    privacyDate: {
+      type: String,
+    },
+    termsDate: {
+      type: String,
+    },
   },
   {
     timestamps: true,

@@ -19,7 +19,9 @@ export type IUser = {
   isUseTransport: boolean;
   isTaskAssigned: boolean;
   isTermAccepted: boolean;
+  termsDate: string;
   isPrivacyAccepted: boolean;
+  privacyDate: string;
 };
 
 export interface UserModel extends Model<IUser> {

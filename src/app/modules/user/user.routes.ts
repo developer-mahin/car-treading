@@ -23,7 +23,7 @@ router
   .get('/:userId', auth(USER_ROLE.admin), UserController.userDetails)
   .get(
     '/private_user_total_car/:userId',
-    auth(USER_ROLE.admin),
+    auth(USER_ROLE.admin, USER_ROLE.private_user),
     UserController.privateUserTotalCar,
   )
   .get(

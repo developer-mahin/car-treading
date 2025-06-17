@@ -57,6 +57,21 @@ const offerCarAction = async (payload: {
   findOfferCar.status = payload.status;
   await findOfferCar.save();
 
+  if (payload.status === 'accept') {
+
+
+
+    await SubmitListing.findOneAndUpdate({
+      _id: findOfferCar.submitListingCarId,
+    }, {
+      $set: {
+        isOffer: true
+      }
+    }, {
+      new: true
+    })
+  }
+
   return findOfferCar;
 };
 

@@ -31,6 +31,7 @@ const submitListingSchema = new Schema<TSubmitListing>(
     companyName: { type: String },
     companyPhoneNumber: { type: String },
     cvrNumber: { type: String },
+    isOffer: { type: Boolean, default: false },
   },
   {
     timestamps: true,

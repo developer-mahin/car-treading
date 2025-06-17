@@ -539,6 +539,8 @@ const updateTermAndPrivacy = async (
   user: TAuthUser,
   data: {
     isTermAccepted?: boolean;
+    termsDate?: string;
+    privacyDate?: string;
     isPrivacyAccepted?: boolean;
   },
 ) => {
@@ -547,11 +549,15 @@ const updateTermAndPrivacy = async (
     {
       $set: {
         isTermAccepted: data?.isTermAccepted,
+        termsDate: data?.termsDate,
         isPrivacyAccepted: data?.isPrivacyAccepted,
+        privacyDate: data?.privacyDate,
       },
     },
     { new: true },
   );
+
+
 };
 
 const privateUserTotalCar = async (

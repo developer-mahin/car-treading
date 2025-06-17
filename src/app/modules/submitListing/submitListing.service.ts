@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { USER_ROLE } from '../../constant';
+import { TAuthUser } from '../../interface/authUser';
 import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
+import QueryBuilder from '../../QueryBuilder/queryBuilder';
 import sendMail from '../../utils/sendMail';
 import User from '../user/user.model';
 import { TSubmitListing } from './submitListing.interface';
@@ -40,7 +42,9 @@ const getSubmitListing = async (query: Record<string, unknown>) => {
   const result = await submitListingQuery
     .customPipeline([
       {
-        $match: {},
+        $match: {
+          isOffer: false,
+        },
       },
     ])
     .filter(['fuel', 'mark'])
@@ -55,7 +59,37 @@ const getSubmitListing = async (query: Record<string, unknown>) => {
   return { pagination, result };
 };
 
+const getMySubmitListing = async (user: TAuthUser, query: Record<string, unknown>) => {
+  const submitListingQuery = new QueryBuilder(
+    SubmitListing.find({ userId: user.userId }),
+    query,
+  )
+
+  const result = await submitListingQuery
+    .sort()
+    .paginate()
+    .queryModel
+
+  const pagination = await submitListingQuery.countTotal();
+  return { pagination, result };
+}
+
+const updateSubmitListing = async (id: string, payload: Partial<TSubmitListing>) => {
+  const result = await SubmitListing.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
+  return result;
+};
+
+const deleteSubmitListing = async (id: string) => {
+  const result = await SubmitListing.findByIdAndDelete(id);
+  return result;
+};
+
 export const SubmitListingService = {
   createSubmitListing,
   getSubmitListing,
+  getMySubmitListing,
+  updateSubmitListing,
+  deleteSubmitListing,
 };
