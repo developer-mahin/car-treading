@@ -7,7 +7,7 @@ import { CarValidation } from './car.validation';
 import parseFormData from '../../middleware/parsedData';
 import fileUpload from '../../utils/uploadImage';
 
-const upload = fileUpload('./public/uploads/images/');
+const upload = fileUpload('./public/uploads/brand/');
 
 const router = Router();
 
@@ -21,6 +21,8 @@ router
     CarController.carListing,
   )
   .post('/buy_car', auth(USER_ROLE.dealer), CarController.buyCar)
+  .post("/add_brand", upload.single("image"), parseFormData, CarController.addBrand)
+  .get("/get_brand",CarController.getBrand, )
   .get(
     '/sale_car_list',
     // auth(USER_ROLE.dealer, USER_ROLE.private_user, USER_ROLE.admin),

@@ -15,6 +15,8 @@ import User from '../user/user.model';
 import Car from './car.model';
 import Profile from '../profile/profile.model';
 import { create } from 'domain';
+import { TBrandModel } from '../brandModel/brandModel.interface';
+import BrandModel from '../brandModel/brandModel.model';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const carListing = async (payload: any) => {
@@ -775,8 +777,22 @@ const deleteCar = async (carId: string) => {
   }
 };
 
+const addBrand = async (payload: TBrandModel) => { 
+
+  return await BrandModel.create(payload)
+
+}
+
+const getBrand = async () => {
+
+  return await BrandModel.find({})
+  
+}
+
 export const CarService = {
   getCVR,
+  addBrand,
+  getBrand,
   buyCar,
   getCarInfo,
   carListing,

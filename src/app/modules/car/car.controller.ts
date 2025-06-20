@@ -137,9 +137,41 @@ const deleteCar = catchAsync(async (req, res) => {
   });
 });
 
+const addBrand = catchAsync(async (req, res) => {
+
+  if (req.file) {
+    req.body.image = req.file.path
+  }
+
+  const result = await CarService.addBrand(req.body);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Car deleted successfully',
+    data: result,
+  });
+});
+
+
+const getBrand = catchAsync(async (req, res) => {
+
+
+  const result = await CarService.getBrand();
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Car deleted successfully',
+    data: result,
+  });
+});
+
 export const CarController = {
   getCVR,
+  addBrand,
   getCarInfo,
+  getBrand,
   buyCar,
   getCarList,
   carListing,
