@@ -139,8 +139,133 @@ const deleteCar = catchAsync(async (req, res) => {
 
 const addBrand = catchAsync(async (req, res) => {
 
-  if (req.file) {
-    req.body.image = req.file.path
+  const brandName = [
+    "Abarth",
+    "AC",
+    "Aiways",
+    "Alfa Romeo",
+    "Alpina",
+    "Aston Martin",
+    "Audi",
+    "Austin",
+    "Austin Healey",
+    "Bentley",
+    "BMW",
+    "Borgward",
+    "Buick",
+    "BYD",
+    "Cadillac",
+    "Chevrolet",
+    "Chrysler",
+    "Citroën",
+    "Corvette",
+    "Cupra",
+    "Dacia",
+    "Daewoo",
+    "Dallara",
+    "Datsun",
+    "DeTomaso",
+    "DKW",
+    "Dodge",
+    "DS",
+    "Ferrari",
+    "Fiat",
+    "Fisker",
+    "Ford",
+    "Hillman",
+    "Honda",
+    "Hongqi",
+    "Hummer",
+    "Hyundai",
+    "Isuzu",
+    "JAC",
+    "Jaguar",
+    "Jeep",
+    "Kalmar",
+    "KGM",
+    "Kia",
+    "KTM",
+    "Lada",
+    "Lamborghini",
+    "Lancia",
+    "Land Rover",
+    "Lexus",
+    "Lincoln",
+    "Lloyd",
+    "Lotus",
+    "Lynk & Co",
+    "MAN",
+    "Maserati",
+    "Maxus",
+    "Maybach",
+    "Mazda",
+    "McLaren",
+    "Mercedes",
+    "Mercury",
+    "MG",
+    "MINI",
+    "Mitsubishi",
+    "Morgan",
+    "Morris",
+    "Navor",
+    "Nissan",
+    "NSU",
+    "Oldsmobile",
+    "Opel",
+    "Peugeot",
+    "Plymouth",
+    "Polestar",
+    "Pontiac",
+    "Porsche",
+    "Radical",
+    "Renault",
+    "Rivian",
+    "Rolls-Royce",
+    "Rover",
+    "Seat",
+    "Seres",
+    "Singer",
+    "Skoda",
+    "Smart",
+    "Ssangyong",
+    "Studebaker",
+    "Subaru",
+    "Sunbeam",
+    "Suzuki",
+    "Saab",
+    "Tesla",
+    "Toyota",
+    "Trabant",
+    "Triumph",
+    "Vauxhall",
+    "Volvo",
+    "Voyah",
+    "VW",
+    "Xpeng",
+    "Yugo"
+  ]
+
+  if (req.files) {
+    const imageFiles = Array.isArray(req.files) ? req.files : req.files?.images;
+    const carData: { name: string; image: string }[] = [];
+
+    imageFiles?.forEach((image) => {
+      const imagePath = image?.path?.toLowerCase();
+
+      // Find brand name that exists in the image path
+      const matchedBrand = brandName.find((brand) =>
+        imagePath.includes(brand.toLowerCase().replace(/ /g, ''))
+      );
+
+      if (matchedBrand) {
+        carData.push({
+          name: matchedBrand,
+          image: image.path,
+        });
+      }
+    });
+
+    req.body = carData; // Final result: matched name + image
   }
 
   const result = await CarService.addBrand(req.body);
