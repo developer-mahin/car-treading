@@ -31,4 +31,5 @@ export type TSubmitListing = {
   companyCity: string;
   companyPhoneNumber: string;
   isOffer: boolean;
+  brandImage: string;
 };

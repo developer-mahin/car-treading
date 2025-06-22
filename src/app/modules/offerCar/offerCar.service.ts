@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from 'http-status';
 import mongoose from 'mongoose';
 import { USER_ROLE } from '../../constant';
@@ -8,6 +9,8 @@ import AppError from '../../utils/AppError';
 import SubmitListing from '../submitListing/submitListing.model';
 import { TOfferCar } from './offerCar.interface';
 import OfferCar from './offerCar.model';
+import sendNotification from '../../../socket/sendNotification';
+import { NOTIFICATION_TYPE } from '../notification/notification.interface';
 
 const createOfferCar = async (payload: Partial<TOfferCar>, user: TAuthUser) => {
   const findSubmitListing = await SubmitListing.findOne({
@@ -22,6 +25,18 @@ const createOfferCar = async (payload: Partial<TOfferCar>, user: TAuthUser) => {
     userId: findSubmitListing.userId,
     dealerId: user.userId,
   });
+
+  const notification = {
+    senderId: user.userId,
+    receiverId: findSubmitListing.userId,
+    linkId: result._id,
+    message: `You have received an offer for your car listing: ${findSubmitListing.mark} ${findSubmitListing.model}`,
+    type: NOTIFICATION_TYPE.offer,
+    role: USER_ROLE.private_user,
+  };
+
+  await sendNotification(user, notification);
+
   return result;
 };
 
@@ -57,9 +72,8 @@ const offerCarAction = async (payload: {
   findOfferCar.status = payload.status;
   await findOfferCar.save();
 
+
   if (payload.status === 'accept') {
-
-
 
     await SubmitListing.findOneAndUpdate({
       _id: findOfferCar.submitListingCarId,
@@ -70,6 +84,24 @@ const offerCarAction = async (payload: {
     }, {
       new: true
     })
+
+    const notification = {
+      senderId: findOfferCar.userId,
+      receiverId: findOfferCar.dealerId,
+      linkId: findOfferCar._id,
+      message: `Your offer for the car has been accepted: ${findOfferCar.mark} ${findOfferCar.model}`,
+      type: NOTIFICATION_TYPE.offer,
+      role: USER_ROLE.private_user,
+    };
+
+    const user = {
+      userId: findOfferCar.userId,
+      role: USER_ROLE.private_user,
+    } as any;
+
+    await sendNotification(user, notification);
+
+
   }
 
   return findOfferCar;
@@ -191,6 +223,22 @@ const updateOfferCarContactPaper = async (
       new: true,
     },
   );
+
+  const notification = {
+    senderId: findSaleCar.dealerId,
+    receiverId: findSaleCar.userId,
+    linkId: offerCarId,
+    message: `Your offer contact paper has been updated for the car: ${findSaleCar.mark} ${findSaleCar.model}`,
+    type: NOTIFICATION_TYPE.offer,
+    role: USER_ROLE.private_user,
+  };
+
+  const user = {
+    userId: findSaleCar.userId,
+    role: USER_ROLE.private_user,
+  } as any;
+  await sendNotification(user, notification);
+
 
   return result;
 };

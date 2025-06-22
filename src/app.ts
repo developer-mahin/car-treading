@@ -20,6 +20,8 @@ app.use(
       'http://31.97.39.237:8001',
       'http://localhost:8001',
       'http://localhost:5173',
+      "http://engrosbasen.dk",
+      "https://engrosbasen.dk",
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],

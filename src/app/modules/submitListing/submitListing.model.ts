@@ -32,6 +32,7 @@ const submitListingSchema = new Schema<TSubmitListing>(
     companyPhoneNumber: { type: String },
     cvrNumber: { type: String },
     isOffer: { type: Boolean, default: false },
+    brandImage: { type: String },
   },
   {
     timestamps: true,
