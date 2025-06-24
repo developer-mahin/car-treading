@@ -7,16 +7,16 @@ import { TAuthUser } from '../../interface/authUser';
 import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
 import AppError from '../../utils/AppError';
 import sendMail from '../../utils/sendMail';
+import { TBrandModel } from '../brandModel/brandModel.interface';
+import BrandModel from '../brandModel/brandModel.model';
 import CarModel from '../carModel/carModel.model';
 import Company from '../company/company.model';
 import OfferCar from '../offerCar/offerCar.model';
+import Profile from '../profile/profile.model';
 import SaleCar from '../saleCar/saleCar.model';
 import User from '../user/user.model';
 import Car from './car.model';
-import Profile from '../profile/profile.model';
-import { create } from 'domain';
-import { TBrandModel } from '../brandModel/brandModel.interface';
-import BrandModel from '../brandModel/brandModel.model';
+import generateUID from '../../utils/generateUid';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const carListing = async (payload: any) => {
@@ -48,6 +48,9 @@ const carListing = async (payload: any) => {
     email: payload.email,
   };
 
+  const defaultPassword = Math.floor(100000 + Math.random() * 900000)
+
+
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
@@ -58,9 +61,10 @@ const carListing = async (payload: any) => {
         [
           {
             email: payload.email,
-            password: 'hello123',
+            password: defaultPassword,
             role: USER_ROLE.private_user,
             needPasswordChange: true,
+            uuid: await generateUID(),
           },
         ],
         { session },
@@ -88,7 +92,7 @@ const carListing = async (payload: any) => {
         email: payload.email,
         subject: 'Change Your Password Please',
         html: `
-      <h1>Change Your Password Your Default Password is hello123</h1>
+      <h1>Change Your Password Your Default Password is ${defaultPassword}</h1>
       `,
       });
     }
@@ -777,7 +781,7 @@ const deleteCar = async (carId: string) => {
   }
 };
 
-const addBrand = async (payload: TBrandModel) => { 
+const addBrand = async (payload: TBrandModel) => {
 
   return await BrandModel.create(payload)
 
@@ -786,7 +790,7 @@ const addBrand = async (payload: TBrandModel) => {
 const getBrand = async () => {
 
   return await BrandModel.find({})
-  
+
 }
 
 export const CarService = {

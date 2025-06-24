@@ -8,6 +8,7 @@ export type TGender = 'male' | 'female' | 'others';
 export type IUser = {
   email: string;
   password: string;
+  uuid: string;
   confirmPassword: string;
   role: TRole;
   status: TStatus;

@@ -17,6 +17,7 @@ import { TRegister, TUserCreateData } from './auth.interface';
 import { TaskService } from '../task/task.service';
 import { TTask } from '../task/task.interface';
 import generateTaskId from '../../utils/generateTaskId';
+import generateUID from '../../utils/generateUid';
 
 const registerUser = async (payload: TRegister) => {
   const isUserExist = await User.findOne({ email: payload.email });
@@ -56,6 +57,7 @@ const registerUser = async (payload: TRegister) => {
 };
 
 const createUser = async (payload: TUserCreateData) => {
+
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
@@ -64,6 +66,7 @@ const createUser = async (payload: TUserCreateData) => {
       password: config.default_password as string,
       role: payload.role,
       needPasswordChange: true,
+      uuid: await generateUID()
     };
 
     const user = await User.create([userData], { session });
@@ -82,6 +85,7 @@ const createUser = async (payload: TUserCreateData) => {
       profileImage: payload.profileImage,
       cvrNumber: payload.cvrNumber,
       userId: user[0]._id,
+
     };
 
     const profile = await Profile.create([profileData], { session });
@@ -138,6 +142,7 @@ const verifyEmail = async (token: string, otp: { otp: number }) => {
       password: decodedUser.password,
       role: decodedUser.role,
       isUseTransport: decodedUser.isUseTransport,
+      uuid: await generateUID(),
     };
 
     const user = await User.create([createUserData], { session });

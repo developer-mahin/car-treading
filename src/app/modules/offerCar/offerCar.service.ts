@@ -33,6 +33,7 @@ const createOfferCar = async (payload: Partial<TOfferCar>, user: TAuthUser) => {
     message: `You have received an offer for your car listing: ${findSubmitListing.mark} ${findSubmitListing.model}`,
     type: NOTIFICATION_TYPE.offer,
     role: USER_ROLE.private_user,
+    link:"/offer-car"
   };
 
   await sendNotification(user, notification);
@@ -92,6 +93,7 @@ const offerCarAction = async (payload: {
       message: `Your offer for the car has been accepted: ${findOfferCar.mark} ${findOfferCar.model}`,
       type: NOTIFICATION_TYPE.offer,
       role: USER_ROLE.private_user,
+      link:"/offer-car"
     };
 
     const user = {
@@ -231,6 +233,7 @@ const updateOfferCarContactPaper = async (
     message: `Your offer contact paper has been updated for the car: ${findSaleCar.mark} ${findSaleCar.model}`,
     type: NOTIFICATION_TYPE.offer,
     role: USER_ROLE.private_user,
+    link:"/offer-car"
   };
 
   const user = {

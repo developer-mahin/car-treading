@@ -12,22 +12,28 @@ const createTask = async (
   payload: Omit<TTask, 'taskStatus'>,
   user: TAuthUser,
 ) => {
+
+  const findUser = await User.findOne({
+    uuid: payload.uuid
+  });
+  if (!findUser) {
+    throw new Error('User not found');
+  }
+
   const taskId = await generateTaskId();
-  const task = new Task({ ...payload, taskId });
+  const task = new Task({ ...payload, assignTo: findUser._id, taskId });
 
   const notification = {
     senderId: user.userId || (user._id as any),
-    receiverId: payload.assignTo,
+    receiverId: findUser._id,
     linkId: task._id as any,
     message: `A new task has been created for you.`,
     type: NOTIFICATION_TYPE.task,
     role: user.role,
+    link: `/task/${task._id}`
   };
 
-  const findUser = await User.findById(payload.assignTo);
-  if (!findUser) {
-    throw new Error('User not found');
-  }
+
 
   findUser.isTaskAssigned = true;
   await sendNotification(user, notification);

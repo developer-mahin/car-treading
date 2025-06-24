@@ -3,6 +3,7 @@ import { USER_ROLE } from '../../constant';
 import { TAuthUser } from '../../interface/authUser';
 import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
 import QueryBuilder from '../../QueryBuilder/queryBuilder';
+import generateUID from '../../utils/generateUid';
 import sendMail from '../../utils/sendMail';
 import User from '../user/user.model';
 import { TSubmitListing } from './submitListing.interface';
@@ -10,22 +11,26 @@ import SubmitListing from './submitListing.model';
 
 const createSubmitListing = async (payload: Partial<TSubmitListing> | any) => {
   let createdUser;
+
+  const defaultPassword = Math.floor(100000 + Math.random() * 900000)
+
   if (!payload.userId || payload.userId === '') {
     createdUser = await User.create({
       email: payload.email,
-      password: 'hello123',
+      password: defaultPassword,
       role: USER_ROLE.private_user,
       first_name: payload.first_name,
       last_name: payload.last_name,
       phoneNumber: payload.phoneNumber,
       needPasswordChange: true,
+      uuid: await generateUID(),
     });
 
     await sendMail({
       email: payload.email,
       subject: 'Welcome to Car Trading',
       html: `
-        <h3>Change Your Password Your Default Password is hello123</h3>
+        <h3>Change Your Password Your Default Password is ${defaultPassword}</h3>
         `,
     });
   }

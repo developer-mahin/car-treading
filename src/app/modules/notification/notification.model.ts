@@ -22,7 +22,7 @@ const notificationSchema = new Schema<TNotification>(
     type: { type: String, enum: ['task', 'bid', 'offer'], required: true },
     message: { type: String, required: true },
     isRead: { type: Boolean, default: false },
-    link: { type: String, required: true },
+    link: { type: String },
   },
   {
     timestamps: true,

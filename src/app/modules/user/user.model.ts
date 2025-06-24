@@ -13,6 +13,13 @@ export const userSchema = new mongoose.Schema<IUser, UserModel>(
       lowercase: true,
       trim: true,
     },
+    uuid: {
+      type: String,
+      required: [true, 'UUID is required'],
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
     password: {
       type: String,
       minlength: [8, 'Password must be at least 8 characters long'],
@@ -108,7 +115,7 @@ userSchema.pre('aggregate', async function (next) {
 
 userSchema.statics.findLastUser = async function () {
   return await this.findOne({}, null, { bypassMiddleware: true })
-    .select('UID')
+    .select('uuid')
     .sort({ createdAt: -1 })
     .limit(1)
     .lean();
