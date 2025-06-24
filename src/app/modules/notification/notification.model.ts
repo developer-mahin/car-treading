@@ -19,9 +19,10 @@ const notificationSchema = new Schema<TNotification>(
       required: [true, 'Link id is required'],
     },
     role: { type: String, required: true },
-    type: { type: String, enum: ['task', 'bid'], required: true },
+    type: { type: String, enum: ['task', 'bid', 'offer'], required: true },
     message: { type: String, required: true },
     isRead: { type: Boolean, default: false },
+    link: { type: String, required: true },
   },
   {
     timestamps: true,

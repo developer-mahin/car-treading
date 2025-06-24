@@ -16,4 +16,5 @@ export type TNotification = {
   type: TType;
   message: string;
   isRead?: boolean;
+  link: string;
 };

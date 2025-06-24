@@ -26,4 +26,5 @@ export type TOfferCar = {
   isMoms: boolean;
   advancedPayment: number;
   isOrderTransport: boolean;
+  brandImage: string;
 };

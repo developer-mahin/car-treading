@@ -31,6 +31,7 @@ const offerCarSchema = new Schema<TOfferCar>(
     isMoms: { type: Boolean, default: false },
     advancedPayment: { type: Number, default: 0 },
     isOrderTransport: { type: Boolean, default: false },
+    brandImage: { type: String },
     status: {
       type: String,
       required: true,
