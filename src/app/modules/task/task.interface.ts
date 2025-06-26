@@ -7,5 +7,5 @@ export type TTask = {
   taskDescription: string;
   taskStatus: 'pending' | 'completed';
   deadline: Date;
-  uuid: string;
+  // uuid: string;
 };

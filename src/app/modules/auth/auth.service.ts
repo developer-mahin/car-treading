@@ -57,6 +57,11 @@ const registerUser = async (payload: TRegister) => {
 };
 
 const createUser = async (payload: any) => {
+
+  if (!payload) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'You did not fill the form');
+  }
+
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
@@ -81,13 +86,13 @@ const createUser = async (payload: any) => {
       regNo: payload.regNo,
       kontoNr: payload.kontoNr,
       websiteLink: payload.websiteLink,
-      profileImage: payload.profileImage,
       cvrNumber: payload.cvrNumber,
       userId: user[0]._id,
       street: payload.street,
       city: payload.city,
       zip: payload.zip,
       country: payload.country,
+      companyName: payload.companyName,
     };
 
     const profile = await Profile.create([profileData], { session });
