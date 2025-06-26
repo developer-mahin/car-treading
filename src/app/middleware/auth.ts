@@ -39,8 +39,8 @@ export const auth = (...requestedRole: TUserRole[]) => {
     }
 
     if (
-      user.status === USER_STATUS.BLOCKED ||
-      user.status === USER_STATUS.INACTIVATED
+      user.status === USER_STATUS.blocked ||
+      user.status === USER_STATUS.deactivated
     ) {
       throw new AppError(httpStatus.CONFLICT, 'You are a blocked user');
     }

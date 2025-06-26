@@ -9,7 +9,7 @@ import { TTask } from './task.interface';
 import Task from './task.model';
 
 const createTask = async (
-  payload: Omit<TTask, 'taskStatus'>,
+  payload: Omit<TTask, 'taskStatus'> & { uuid: string },
   user: TAuthUser,
 ) => {
   const findUser = await User.findOne({

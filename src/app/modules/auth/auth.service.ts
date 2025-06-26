@@ -198,7 +198,7 @@ const verifyEmail = async (token: string, otp: { otp: number }) => {
         taskId: await generateTaskId(),
       };
 
-      await TaskService.createTask(taskData, admin as any);
+      await TaskService.createTask(taskData as any, admin as any);
     }
 
     const generateAccessToken = generateToken(
