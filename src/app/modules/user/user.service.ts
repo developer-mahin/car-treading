@@ -440,18 +440,31 @@ const orderTransport = async (
 };
 
 const getTotalCount = async () => {
-  const offerCarSold = await OfferCar.countDocuments({ status: 'accept' });
-  const totalSell = await SaleCar.countDocuments({ status: 'sell' });
-  const totalSold = await SaleCar.countDocuments({ status: 'sold' });
-  const totalUser = await User.countDocuments({ role: USER_ROLE.private_user, isDeleted: false });
-  const totalDealer = await User.countDocuments({ role: USER_ROLE.dealer, isDeleted: false });
-
+  const [
+    offerCarSold,
+    totalSell,
+    totalSold,
+    totalUser,
+    totalDealer,
+    carForSell,
+    carForBuy
+  ] = await Promise.all([
+    OfferCar.countDocuments({ status: 'accept' }),
+    SaleCar.countDocuments({ status: 'sell' }),
+    SaleCar.countDocuments({ status: 'sold' }),
+    User.countDocuments({ role: USER_ROLE.private_user, isDeleted: false }),
+    User.countDocuments({ role: USER_ROLE.dealer, isDeleted: false }),
+    Car.countDocuments({ isSell: false }),
+    SubmitListing.countDocuments({ isOffer: false })
+  ]);
 
   return {
     totalSell,
     totalSold: totalSold + offerCarSold,
     totalUser,
     totalDealer,
+    carForSell,
+    carForBuy
   };
 };
 
