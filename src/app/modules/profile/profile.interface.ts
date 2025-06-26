@@ -8,6 +8,7 @@ export type TProfile = {
   profileImage?: string;
   cvrNumber?: string;
   address?: string;
+  street: string;
   city?: string;
   zip?: string;
   websiteLink?: string;

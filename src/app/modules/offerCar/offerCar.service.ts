@@ -33,7 +33,7 @@ const createOfferCar = async (payload: Partial<TOfferCar>, user: TAuthUser) => {
     message: `You have received an offer for your car listing: ${findSubmitListing.mark} ${findSubmitListing.model}`,
     type: NOTIFICATION_TYPE.offer,
     role: USER_ROLE.private_user,
-    link:"/offer-car"
+    link: '/offer-car',
   };
 
   await sendNotification(user, notification);
@@ -52,7 +52,7 @@ const getOfferCarList = async (
     query,
   )
     .sort()
-    .paginate()
+    .paginate();
 
   const result = await resultQuery.queryModel;
   const pagination = await resultQuery.countTotal();
@@ -73,18 +73,20 @@ const offerCarAction = async (payload: {
   findOfferCar.status = payload.status;
   await findOfferCar.save();
 
-
   if (payload.status === 'accept') {
-
-    await SubmitListing.findOneAndUpdate({
-      _id: findOfferCar.submitListingCarId,
-    }, {
-      $set: {
-        isOffer: true
-      }
-    }, {
-      new: true
-    })
+    await SubmitListing.findOneAndUpdate(
+      {
+        _id: findOfferCar.submitListingCarId,
+      },
+      {
+        $set: {
+          isOffer: true,
+        },
+      },
+      {
+        new: true,
+      },
+    );
 
     const notification = {
       senderId: findOfferCar.userId,
@@ -93,7 +95,7 @@ const offerCarAction = async (payload: {
       message: `Your offer for the car has been accepted: ${findOfferCar.mark} ${findOfferCar.model}`,
       type: NOTIFICATION_TYPE.offer,
       role: USER_ROLE.private_user,
-      link:"/offer-car"
+      link: '/offer-car',
     };
 
     const user = {
@@ -102,8 +104,6 @@ const offerCarAction = async (payload: {
     } as any;
 
     await sendNotification(user, notification);
-
-
   }
 
   return findOfferCar;
@@ -203,7 +203,6 @@ const myOfferCarList = async (
     .paginate()
     .execute(OfferCar);
 
-
   const pagination = await offerCarQuery.countTotal(OfferCar);
   return { meta: pagination, result };
 };
@@ -233,7 +232,7 @@ const updateOfferCarContactPaper = async (
     message: `Your offer contact paper has been updated for the car: ${findSaleCar.mark} ${findSaleCar.model}`,
     type: NOTIFICATION_TYPE.offer,
     role: USER_ROLE.private_user,
-    link:"/offer-car"
+    link: '/offer-car',
   };
 
   const user = {
@@ -242,13 +241,11 @@ const updateOfferCarContactPaper = async (
   } as any;
   await sendNotification(user, notification);
 
-
   return result;
 };
 
 const getEveryOfferContact = async (query: Record<string, unknown>) => {
   const resultQuery = new AggregationQueryBuilder(query);
-
 
   const result = await resultQuery
     .customPipeline([

@@ -16,6 +16,7 @@ const CompanySchema = new Schema<TCompany>(
     city: {
       type: String,
     },
+    street: { type: String },
     first_name: {
       type: String,
     },

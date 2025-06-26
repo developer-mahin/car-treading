@@ -21,8 +21,13 @@ router
     CarController.carListing,
   )
   .post('/buy_car', auth(USER_ROLE.dealer), CarController.buyCar)
-  .post("/add_brand", upload.fields([{ name: 'images', maxCount: 110 }]), parseFormData, CarController.addBrand)
-  .get("/get_brand",CarController.getBrand, )
+  .post(
+    '/add_brand',
+    upload.fields([{ name: 'images', maxCount: 110 }]),
+    parseFormData,
+    CarController.addBrand,
+  )
+  .get('/get_brand', CarController.getBrand)
   .get(
     '/sale_car_list',
     // auth(USER_ROLE.dealer, USER_ROLE.private_user, USER_ROLE.admin),

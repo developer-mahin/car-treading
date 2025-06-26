@@ -12,7 +12,11 @@ router
     SubmitListingController.createSubmitListing,
   )
   .get('/', SubmitListingController.getSubmitListing)
-  .get("/my_submit_listing", auth(USER_ROLE.private_user), SubmitListingController.getMySubmitListing)
+  .get(
+    '/my_submit_listing',
+    auth(USER_ROLE.private_user),
+    SubmitListingController.getMySubmitListing,
+  )
   .patch(
     '/update/:submitListingId',
     auth(USER_ROLE.private_user),

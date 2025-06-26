@@ -12,7 +12,7 @@ import SubmitListing from './submitListing.model';
 const createSubmitListing = async (payload: Partial<TSubmitListing> | any) => {
   let createdUser;
 
-  const defaultPassword = Math.floor(100000 + Math.random() * 900000)
+  const defaultPassword = Math.floor(100000 + Math.random() * 900000);
 
   if (!payload.userId || payload.userId === '') {
     createdUser = await User.create({
@@ -64,22 +64,25 @@ const getSubmitListing = async (query: Record<string, unknown>) => {
   return { pagination, result };
 };
 
-const getMySubmitListing = async (user: TAuthUser, query: Record<string, unknown>) => {
+const getMySubmitListing = async (
+  user: TAuthUser,
+  query: Record<string, unknown>,
+) => {
   const submitListingQuery = new QueryBuilder(
     SubmitListing.find({ userId: user.userId }),
     query,
-  )
+  );
 
-  const result = await submitListingQuery
-    .sort()
-    .paginate()
-    .queryModel
+  const result = await submitListingQuery.sort().paginate().queryModel;
 
   const pagination = await submitListingQuery.countTotal();
   return { pagination, result };
-}
+};
 
-const updateSubmitListing = async (id: string, payload: Partial<TSubmitListing>) => {
+const updateSubmitListing = async (
+  id: string,
+  payload: Partial<TSubmitListing>,
+) => {
   const result = await SubmitListing.findOneAndUpdate({ _id: id }, payload, {
     new: true,
   });

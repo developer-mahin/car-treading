@@ -48,7 +48,21 @@ const updateProfile = async (id: string, payload: Partial<TProfile>) => {
   return result;
 };
 
+const editProfile = async (id: string, payload: Partial<TProfile>) => {
+  const findProfile = await Profile.findOne({ _id: id });
+  if (!findProfile) {
+    throw new Error('Profile not found');
+  }
+
+  const result = await Profile.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
+
+  return result;
+};
+
 export const ProfileService = {
   updateProfile,
   getMyProfile,
+  editProfile,
 };

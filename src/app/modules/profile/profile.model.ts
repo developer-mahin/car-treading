@@ -11,6 +11,7 @@ const profileSchema = new Schema<TProfile>(
     cvrNumber: { type: String },
     address: { type: String },
     city: { type: String },
+    street: { type: String },
     zip: { type: String },
     websiteLink: { type: String },
     regNo: { type: String },

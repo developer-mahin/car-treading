@@ -42,14 +42,14 @@ const carListing = async (payload: any) => {
     cvrNumber: payload.cvrNumber,
     postCode: payload.postCode,
     city: payload.city,
+    street: payload.street,
     first_name: payload.first_name,
     last_name: payload.last_name,
     phoneNumber: payload.phoneNumber,
     email: payload.email,
   };
 
-  const defaultPassword = Math.floor(100000 + Math.random() * 900000)
-
+  const defaultPassword = Math.floor(100000 + Math.random() * 900000);
 
   const session = await mongoose.startSession();
   try {
@@ -284,7 +284,6 @@ const buyCar = async (payload: any, user: TAuthUser) => {
   if (!car) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Car not found');
   }
-
 
   const saleCarData = {
     carId: carId,
@@ -604,6 +603,7 @@ const getContactPaper = async (carId: string) => {
           profileImage: '$profile.profileImage',
           address: '$profile.address',
           city: '$profile.city',
+          street: '$profile.street',
           zip: '$profile.zip',
           websiteLink: '$profile.websiteLink',
         },
@@ -616,6 +616,7 @@ const getContactPaper = async (carId: string) => {
           profileImage: '$privateUserProfile.profileImage',
           address: '$privateUserProfile.address',
           city: '$privateUserProfile.city',
+          street: '$profile.street',
           zip: '$privateUserProfile.zip',
           websiteLink: '$privateUserProfile.websiteLink',
         },
@@ -733,6 +734,7 @@ const updateCar = async (carId: string, payload: any) => {
     cvrNumber: payload.cvrNumber,
     postCode: payload.postCode,
     city: payload.city,
+    street: payload.street,
     first_name: payload.first_name,
     last_name: payload.last_name,
     phoneNumber: payload.phoneNumber,
@@ -782,16 +784,12 @@ const deleteCar = async (carId: string) => {
 };
 
 const addBrand = async (payload: TBrandModel) => {
-
-  return await BrandModel.create(payload)
-
-}
+  return await BrandModel.create(payload);
+};
 
 const getBrand = async () => {
-
-  return await BrandModel.find({})
-
-}
+  return await BrandModel.find({});
+};
 
 export const CarService = {
   getCVR,

@@ -3,6 +3,7 @@ export type TCompany = {
   cvrNumber: string;
   postCode: string;
   city: string;
+  street: string;
   first_name: string;
   last_name: string;
   phoneNumber: string;

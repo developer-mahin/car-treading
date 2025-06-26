@@ -27,7 +27,10 @@ const getSubmitListing = catchAsync(async (req, res) => {
 });
 
 const getMySubmitListing = catchAsync(async (req, res) => {
-  const result = await SubmitListingService.getMySubmitListing(req.user as TAuthUser, req.query);
+  const result = await SubmitListingService.getMySubmitListing(
+    req.user as TAuthUser,
+    req.query,
+  );
   sendResponse(res, {
     success: true,
     statusCode: 200,
@@ -37,7 +40,10 @@ const getMySubmitListing = catchAsync(async (req, res) => {
 });
 
 const updateSubmitListing = catchAsync(async (req, res) => {
-  const result = await SubmitListingService.updateSubmitListing(req.params.submitListingId, req.body);
+  const result = await SubmitListingService.updateSubmitListing(
+    req.params.submitListingId,
+    req.body,
+  );
   sendResponse(res, {
     success: true,
     statusCode: 200,
@@ -47,7 +53,9 @@ const updateSubmitListing = catchAsync(async (req, res) => {
 });
 
 const deleteSubmitListing = catchAsync(async (req, res) => {
-  const result = await SubmitListingService.deleteSubmitListing(req.params.submitListingId);
+  const result = await SubmitListingService.deleteSubmitListing(
+    req.params.submitListingId,
+  );
   sendResponse(res, {
     success: true,
     statusCode: 200,

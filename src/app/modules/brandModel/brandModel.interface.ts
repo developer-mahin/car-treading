@@ -1,4 +1,4 @@
 export type TBrandModel = {
-    name: string;
-    image: string
-}
+  name: string;
+  image: string;
+};

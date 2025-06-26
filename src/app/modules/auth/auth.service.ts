@@ -8,16 +8,16 @@ import { forgotPasswordHtml } from '../../../shared/html/forgotPasswordHtml';
 import { USER_ROLE, USER_STATUS } from '../../constant';
 import AppError from '../../utils/AppError';
 import { decodeToken } from '../../utils/decodeToken';
+import generateTaskId from '../../utils/generateTaskId';
 import generateToken from '../../utils/generateToken';
+import generateUID from '../../utils/generateUid';
 import { OtpService } from '../otp/otp.service';
 import Profile from '../profile/profile.model';
+import { TTask } from '../task/task.interface';
+import { TaskService } from '../task/task.service';
 import { IUser } from '../user/user.interface';
 import User from '../user/user.model';
-import { TRegister, TUserCreateData } from './auth.interface';
-import { TaskService } from '../task/task.service';
-import { TTask } from '../task/task.interface';
-import generateTaskId from '../../utils/generateTaskId';
-import generateUID from '../../utils/generateUid';
+import { TRegister } from './auth.interface';
 
 const registerUser = async (payload: TRegister) => {
   const isUserExist = await User.findOne({ email: payload.email });
@@ -56,8 +56,7 @@ const registerUser = async (payload: TRegister) => {
   return { signUpToken };
 };
 
-const createUser = async (payload: TUserCreateData) => {
-
+const createUser = async (payload: any) => {
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
@@ -66,7 +65,7 @@ const createUser = async (payload: TUserCreateData) => {
       password: config.default_password as string,
       role: payload.role,
       needPasswordChange: true,
-      uuid: await generateUID()
+      uuid: await generateUID(),
     };
 
     const user = await User.create([userData], { session });
@@ -85,7 +84,10 @@ const createUser = async (payload: TUserCreateData) => {
       profileImage: payload.profileImage,
       cvrNumber: payload.cvrNumber,
       userId: user[0]._id,
-
+      street: payload.street,
+      city: payload.city,
+      zip: payload.zip,
+      country: payload.country,
     };
 
     const profile = await Profile.create([profileData], { session });

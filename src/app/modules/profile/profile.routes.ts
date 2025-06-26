@@ -15,6 +15,13 @@ router
     auth(USER_ROLE.admin, USER_ROLE.dealer, USER_ROLE.private_user),
     ProfileController.getMyProfile,
   )
+
+  .put(
+    '/update_profile/:profileId',
+    auth(USER_ROLE.private_user, USER_ROLE.admin, USER_ROLE.dealer),
+    ProfileController.editProfile,
+  )
+
   .patch(
     '/update_profile/:profileId',
     auth(USER_ROLE.private_user, USER_ROLE.admin, USER_ROLE.dealer),

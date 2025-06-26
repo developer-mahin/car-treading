@@ -42,7 +42,21 @@ const updateProfile = catchAsync(async (req, res) => {
   });
 });
 
+const editProfile = catchAsync(async (req, res) => {
+  const { profileId } = req.params;
+
+  const result = await ProfileService.editProfile(profileId, req.body);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: 'Profile updated successfully',
+    data: result,
+  });
+});
+
 export const ProfileController = {
   getMyProfile,
   updateProfile,
+  editProfile,
 };

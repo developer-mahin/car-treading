@@ -381,10 +381,11 @@ const orderTransport = async (
           Seller Name:
         </td>
         <td style="padding: 8px; border: 1px solid #ddd;">
-          ${payload.carModel
-        ? car?.companyId?.first_name + ' ' + car?.companyId?.last_name
-        : car?.firstName + ' ' + car?.lastName
-      }
+          ${
+            payload.carModel
+              ? car?.companyId?.first_name + ' ' + car?.companyId?.last_name
+              : car?.firstName + ' ' + car?.lastName
+          }
         </td>
       </tr>
       <tr>
@@ -447,7 +448,7 @@ const getTotalCount = async () => {
     totalUser,
     totalDealer,
     carForSell,
-    carForBuy
+    carForBuy,
   ] = await Promise.all([
     OfferCar.countDocuments({ status: 'accept' }),
     SaleCar.countDocuments({ status: 'sell' }),
@@ -455,7 +456,7 @@ const getTotalCount = async () => {
     User.countDocuments({ role: USER_ROLE.private_user, isDeleted: false }),
     User.countDocuments({ role: USER_ROLE.dealer, isDeleted: false }),
     Car.countDocuments({ isSell: false }),
-    SubmitListing.countDocuments({ isOffer: false })
+    SubmitListing.countDocuments({ isOffer: false }),
   ]);
 
   return {
@@ -464,7 +465,7 @@ const getTotalCount = async () => {
     totalUser,
     totalDealer,
     carForSell,
-    carForBuy
+    carForBuy,
   };
 };
 
@@ -531,8 +532,7 @@ const privateUserDetails = async (
     .search(['status'])
     .filter(['status'])
     .sort()
-    .paginate()
-    .queryModel;
+    .paginate().queryModel;
 
   const soldCarCount = await SaleCar.countDocuments({
     userId: new mongoose.Types.ObjectId(userId),
@@ -570,8 +570,6 @@ const updateTermAndPrivacy = async (
     },
     { new: true },
   );
-
-
 };
 
 const privateUserTotalCar = async (

@@ -40,7 +40,7 @@ const createBid = async (payload: Partial<TBid>, user: TAuthUser) => {
     type: NOTIFICATION_TYPE.bid,
     role: user.role,
     count: unreadNotification + 1,
-    link:"/bid-car"
+    link: '/bid-car',
   };
 
   await sendNotification(user, notification);
@@ -143,7 +143,7 @@ const bidAction = async (payload: {
       message: `You bid has been accepted`,
       type: NOTIFICATION_TYPE.bid,
       role: USER_ROLE.private_user,
-      link:"/bid-car"
+      link: '/bid-car',
     };
 
     const user = {

@@ -25,6 +25,7 @@ const submitListingSchema = new Schema<TSubmitListing>(
     lastName: { type: String },
     phoneNumber: { type: String },
     city: { type: String },
+    street: { type: String },
     postalCode: { type: String },
     companyCity: { type: String },
     companyPostalCode: { type: String },

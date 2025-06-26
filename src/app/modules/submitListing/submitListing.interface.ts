@@ -24,6 +24,7 @@ export type TSubmitListing = {
   lastName: string;
   postalCode: string;
   city: string;
+  street: string;
   phoneNumber: string;
   companyName: string;
   cvrNumber: string;
