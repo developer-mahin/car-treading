@@ -26,6 +26,7 @@ async function main() {
     await mongoose.connect(config.database_url as string);
     console.log(colors.yellow('✅ Database connected successfully').bold);
 
+
     // Start Express server
     server = app.listen(Number(config.port), () => {
       console.log(
