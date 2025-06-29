@@ -12,7 +12,7 @@ import SubmitListing from './submitListing.model';
 const createSubmitListing = async (payload: Partial<TSubmitListing> | any) => {
   let createdUser;
 
-  const defaultPassword = Math.floor(100000 + Math.random() * 900000);
+  const defaultPassword = Math.floor(10000000 + Math.random() * 90000000);
 
   if (!payload.userId || payload.userId === '') {
     createdUser = await User.create({
