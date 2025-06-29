@@ -34,7 +34,9 @@ const getAllUsersList = async (query: Record<string, unknown>) => {
   const result = await userAggregation
     .customPipeline([
       {
-        $match: {},
+        $match: {
+          role: { $in: [USER_ROLE.dealer, USER_ROLE.private_user] },
+        },
       },
       {
         $lookup: {
