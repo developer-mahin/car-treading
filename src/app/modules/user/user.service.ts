@@ -229,10 +229,8 @@ const userAction = async (id: string, payload: Record<string, unknown>) => {
       break;
 
     case 'delete':
-      result = await User.findByIdAndUpdate(
-        id,
-        { $set: { isDeleted: true } },
-        { new: true },
+      result = await User.findOneAndDelete(
+        { _id: id },
       );
       break;
     default:
@@ -381,11 +379,10 @@ const orderTransport = async (
           Seller Name:
         </td>
         <td style="padding: 8px; border: 1px solid #ddd;">
-          ${
-            payload.carModel
-              ? car?.companyId?.first_name + ' ' + car?.companyId?.last_name
-              : car?.firstName + ' ' + car?.lastName
-          }
+          ${payload.carModel
+        ? car?.companyId?.first_name + ' ' + car?.companyId?.last_name
+        : car?.firstName + ' ' + car?.lastName
+      }
         </td>
       </tr>
       <tr>
