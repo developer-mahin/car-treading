@@ -65,4 +65,4 @@ venv/
 env/
 .vercel
 .vercel
-public/
+# public/

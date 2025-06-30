@@ -206,6 +206,7 @@ const verifyEmail = async (token: string, otp: { otp: number }) => {
         email: user[0].email,
         userId: userId,
         role: user[0].role,
+        profile: profile[0]._id,
       },
       config.jwt.access_token as Secret,
       config.jwt.access_expires_in as string,

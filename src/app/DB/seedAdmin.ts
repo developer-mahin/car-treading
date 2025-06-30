@@ -6,10 +6,12 @@ import { USER_ROLE } from '../constant';
 import Profile from '../modules/profile/profile.model';
 import User from '../modules/user/user.model';
 import AppError from '../utils/AppError';
+import generateUID from '../utils/generateUid';
 
 const seedAdmin = async () => {
   // if admin is not exist
   const admin = {
+    uuid: await generateUID(),
     email: config.admin.admin_email,
     password: config.admin.admin_password,
     role: USER_ROLE.admin,
