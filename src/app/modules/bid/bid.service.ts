@@ -40,7 +40,7 @@ const createBid = async (payload: Partial<TBid>, user: TAuthUser) => {
     type: NOTIFICATION_TYPE.bid,
     role: user.role,
     count: unreadNotification + 1,
-    link: '/bid-car',
+    link: '/dashboard/bid-car',
   };
 
   await sendNotification(user, notification);
@@ -153,9 +153,28 @@ const bidAction = async (payload: {
 
     await sendNotification(user, notification);
 
+    console.log(findBidCar);
     if (!updateCar) {
       throw new AppError(httpStatus.NOT_FOUND, 'Car not found');
     }
+  } else if (payload.status === "rejected") {
+    const notification = {
+      senderId: findBidCar.userId,
+      receiverId: findBidCar.dealerId,
+      linkId: payload.bidCarId as any,
+      message: `You bid has been rejected`,
+      type: NOTIFICATION_TYPE.bid,
+      role: USER_ROLE.private_user,
+      link: "/dashboard/my-bids",
+    };
+    console.log(notification, "notification");
+
+    const user = {
+      userId: findBidCar.userId,
+      role: USER_ROLE.private_user,
+    } as any;
+
+    await sendNotification(user, notification);
   }
 
   await Bid.findOneAndUpdate(

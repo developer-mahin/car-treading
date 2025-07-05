@@ -9,6 +9,7 @@ import Car from '../car/car.model';
 import { TSaleCar } from './saleCar.interface';
 import SaleCar from './saleCar.model';
 import sendNotification from '../../../socket/sendNotification';
+import { NOTIFICATION_TYPE } from '../notification/notification.interface';
 
 const updateContactPaper = async (
   payload: Partial<TSaleCar>,
@@ -45,12 +46,12 @@ const updateContactPaper = async (
     receiverId: receiverId,
     linkId: findSaleCar.carId,
     message: `Contact paper has been updated for the car`,
-    type: 'saleCar',
+    type: NOTIFICATION_TYPE.car,
     role: USER_ROLE.private_user,
     link
   };
 
-  sendNotification(user, notification);
+  await sendNotification(user, notification);
 
   const result = await SaleCar.findByIdAndUpdate(saleCarId, payload, {
     new: true,

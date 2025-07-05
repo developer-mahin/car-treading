@@ -22,6 +22,16 @@ import sendNotification from '../../../socket/sendNotification';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const carListing = async (payload: any) => {
+
+  const findCar = await Car.findOne({
+    registrationNumber: payload.registrationNumber,
+    isSell: false,
+  });
+
+  if (findCar) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Car already listed');
+  }
+
   const carModel = {
     images: payload.images,
     brand: payload.brand,
@@ -310,8 +320,8 @@ const buyCar = async (payload: any, user: TAuthUser) => {
     receiverId: car.carOwner,
     linkId: result._id,
     message: `Congratulations! your car has been sell`,
-    type: NOTIFICATION_TYPE.offer,
-    role: USER_ROLE.private_user,
+    type: NOTIFICATION_TYPE.car,
+    role: USER_ROLE.dealer,
     link: "/dashboard/total-private-car-sell",
   };
 
