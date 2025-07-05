@@ -36,7 +36,7 @@ const createBid = async (payload: Partial<TBid>, user: TAuthUser) => {
     senderId: user.userId,
     receiverId: car.carOwner,
     linkId: result._id as any,
-    message: `You have received a bid on ${Car.modelName}`,
+    message: `You have received a bid on ${Car.modelName}. And Bid amount is ${payload.bidAmount}`,
     type: NOTIFICATION_TYPE.bid,
     role: user.role,
     count: unreadNotification + 1,

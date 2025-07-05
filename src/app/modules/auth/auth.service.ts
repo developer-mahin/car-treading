@@ -62,6 +62,11 @@ const createUser = async (payload: any) => {
     throw new AppError(httpStatus.BAD_REQUEST, 'You did not fill the form');
   }
 
+  const findUser = await User.findOne({ email: payload.email });
+  if (findUser) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'User already exist');
+  }
+
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
@@ -109,10 +114,10 @@ const createUser = async (payload: any) => {
     await session.commitTransaction();
     session.endSession();
     return user;
-  } catch (error) {
+  } catch (error: any) {
     session.abortTransaction();
     session.endSession();
-    throw new AppError(httpStatus.BAD_REQUEST, 'User not created');
+    throw new AppError(httpStatus.BAD_REQUEST, error);
   }
 };
 
