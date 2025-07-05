@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from 'http-status';
 import mongoose from 'mongoose';
 import AggregationQueryBuilder from '../../QueryBuilder/aggregationBuilder';
@@ -7,10 +8,12 @@ import AppError from '../../utils/AppError';
 import Car from '../car/car.model';
 import { TSaleCar } from './saleCar.interface';
 import SaleCar from './saleCar.model';
+import sendNotification from '../../../socket/sendNotification';
 
 const updateContactPaper = async (
   payload: Partial<TSaleCar>,
   saleCarId: string,
+  user: TAuthUser
 ) => {
   const findSaleCar = await SaleCar.findById(saleCarId);
 
@@ -33,6 +36,21 @@ const updateContactPaper = async (
       },
     );
   }
+
+  const receiverId = user.role === USER_ROLE.dealer ? findSaleCar.userId : findSaleCar.dealerId
+  const link = user.role === USER_ROLE.dealer ? '/dashboard/total-private-car-sell' : '/dashboard/total-dealer-car-sell'
+
+  const notification = {
+    senderId: user.userId,
+    receiverId: receiverId,
+    linkId: findSaleCar.carId,
+    message: `Contact paper has been updated for the car`,
+    type: 'saleCar',
+    role: USER_ROLE.private_user,
+    link
+  };
+
+  sendNotification(user, notification);
 
   const result = await SaleCar.findByIdAndUpdate(saleCarId, payload, {
     new: true,

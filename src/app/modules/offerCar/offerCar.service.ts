@@ -33,7 +33,7 @@ const createOfferCar = async (payload: Partial<TOfferCar>, user: TAuthUser) => {
     message: `You have received an offer for your car listing: ${findSubmitListing.mark} ${findSubmitListing.model}`,
     type: NOTIFICATION_TYPE.offer,
     role: USER_ROLE.private_user,
-    link: '/offer-car',
+    link: '/dashboard/offer-car',
   };
 
   await sendNotification(user, notification);
@@ -95,7 +95,7 @@ const offerCarAction = async (payload: {
       message: `Your offer for the car has been accepted: ${findOfferCar.mark} ${findOfferCar.model}`,
       type: NOTIFICATION_TYPE.offer,
       role: USER_ROLE.private_user,
-      link: '/offer-car',
+      link: "/dashboard/dealer-offer-car-aggrement",
     };
 
     const user = {
@@ -210,6 +210,7 @@ const myOfferCarList = async (
 const updateOfferCarContactPaper = async (
   payload: Partial<TOfferCar>,
   offerCarId: string,
+  user: TAuthUser
 ) => {
   const findSaleCar = await OfferCar.findById(offerCarId);
 
@@ -225,20 +226,19 @@ const updateOfferCarContactPaper = async (
     },
   );
 
+  const receiverId = user.role === USER_ROLE.dealer ? findSaleCar.userId : findSaleCar.dealerId
+  const link = user.role === USER_ROLE.dealer ? '/dashboard/private-offer-car-aggrement' : '/dashboard/dealer-offer-car-aggrement'
+
   const notification = {
     senderId: findSaleCar.dealerId,
-    receiverId: findSaleCar.userId,
+    receiverId,
     linkId: offerCarId,
     message: `Your offer contact paper has been updated for the car: ${findSaleCar.mark} ${findSaleCar.model}`,
     type: NOTIFICATION_TYPE.offer,
     role: USER_ROLE.private_user,
-    link: '/offer-car',
+    link,
   };
 
-  const user = {
-    userId: findSaleCar.userId,
-    role: USER_ROLE.private_user,
-  } as any;
   await sendNotification(user, notification);
 
   return result;

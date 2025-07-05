@@ -143,7 +143,7 @@ const bidAction = async (payload: {
       message: `You bid has been accepted`,
       type: NOTIFICATION_TYPE.bid,
       role: USER_ROLE.private_user,
-      link: '/bid-car',
+      link: "/dashboard/total-dealer-car-sell",
     };
 
     const user = {
@@ -157,6 +157,7 @@ const bidAction = async (payload: {
       throw new AppError(httpStatus.NOT_FOUND, 'Car not found');
     }
   }
+
   await Bid.findOneAndUpdate(
     { _id: payload.bidCarId },
     { status: payload.status },
@@ -164,8 +165,61 @@ const bidAction = async (payload: {
   );
 };
 
+const myBidList = async (query: Record<string, unknown>, user: TAuthUser) => {
+  const resultAggregation = new AggregationQueryBuilder(query);
+
+  const matchStage: any = {}
+  if (user.role === USER_ROLE.private_user) {
+    matchStage['userId'] = new mongoose.Types.ObjectId(String(user.userId));
+  } else {
+    matchStage['dealerId'] = new mongoose.Types.ObjectId(String(user.userId));
+  }
+
+  const result = await resultAggregation
+    .customPipeline([
+      { $match: matchStage },
+      {
+        $lookup: {
+          from: 'cars',
+          localField: 'carId',
+          foreignField: '_id',
+          as: 'car',
+        },
+      },
+      { $unwind: { path: '$car', preserveNullAndEmptyArrays: true } },
+      {
+        $lookup: {
+          from: 'carmodels',
+          localField: 'car.carModelId',
+          foreignField: '_id',
+          as: 'carModel',
+        },
+      },
+      { $unwind: { path: '$carModel', preserveNullAndEmptyArrays: true } },
+      {
+        $project: {
+          carName: '$carModel.brand',
+          modelYear: '$carModel.modelYear',
+          userId: 1,
+          bidAmount: 1,
+          carId: 1,
+          status: 1,
+          createdAt: 1,
+        },
+      },
+    ])
+    .sort()
+    .paginate()
+    .execute(Bid);
+
+  const pagination = await resultAggregation.countTotal(Bid);
+  return { pagination, result };
+}
+
+
 export const BidService = {
   createBid,
   getBidList,
   bidAction,
+  myBidList
 };

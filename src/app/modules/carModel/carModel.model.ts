@@ -52,7 +52,7 @@ const CarModelSchema = new Schema<TCarModel>(
     numberPlates: {
       type: String,
       required: [true, 'Number plates are required'],
-      unique: true, // Ensure unique number plates
+      // unique: true, // Ensure unique number plates
     },
   },
   { timestamps: true },

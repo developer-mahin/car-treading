@@ -17,6 +17,8 @@ import SaleCar from '../saleCar/saleCar.model';
 import User from '../user/user.model';
 import Car from './car.model';
 import generateUID from '../../utils/generateUid';
+import { NOTIFICATION_TYPE } from '../notification/notification.interface';
+import sendNotification from '../../../socket/sendNotification';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const carListing = async (payload: any) => {
@@ -50,8 +52,6 @@ const carListing = async (payload: any) => {
   };
 
   const defaultPassword = Math.floor(10000000 + Math.random() * 90000000);
-
-  console.log(defaultPassword);
 
   const session = await mongoose.startSession();
   try {
@@ -304,6 +304,21 @@ const buyCar = async (payload: any, user: TAuthUser) => {
   const result = await SaleCar.create(saleCarData);
   car.isSell = true;
   await car.save();
+
+  const notification = {
+    senderId: user.userId,
+    receiverId: car.carOwner,
+    linkId: result._id,
+    message: `Congratulations! your car has been sell`,
+    type: NOTIFICATION_TYPE.offer,
+    role: USER_ROLE.private_user,
+    link: "/dashboard/total-private-car-sell",
+  };
+
+  await sendNotification(user, notification);
+
+
+
   return result;
 };
 

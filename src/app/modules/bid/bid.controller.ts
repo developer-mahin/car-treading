@@ -33,8 +33,19 @@ const bidAction = catchAsync(async (req, res) => {
   });
 });
 
+const myBidList = catchAsync(async (req, res) => {
+  const result = await BidService.myBidList(req.query, req.user as TAuthUser);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Bids fetched successfully',
+    data: result,
+  });
+});
+
 export const BidController = {
   createBid,
   getBidList,
   bidAction,
+  myBidList
 };
