@@ -27,4 +27,5 @@ export type TOfferCar = {
   advancedPayment: number;
   isOrderTransport: boolean;
   brandImage: string;
+  chassisNumber: string;
 };

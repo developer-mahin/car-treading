@@ -15,7 +15,7 @@ const createTask = async (
   const findUser = await User.findOne({
     uuid: payload.uuid,
   });
-  
+
   if (!findUser) {
     throw new Error('User not found');
   }

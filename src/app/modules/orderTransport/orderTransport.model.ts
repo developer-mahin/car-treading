@@ -8,6 +8,8 @@ const orderTransportSchema = new Schema<TOrderTransport>(
     address: { type: String, required: true },
     contactPerson: { type: String, required: true },
     phone: { type: String, required: true },
+    city: { type: String, required: true },
+    zip: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     additional: { type: String, required: true },
     cvr: { type: String, required: true, unique: true },

@@ -22,7 +22,6 @@ import sendNotification from '../../../socket/sendNotification';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const carListing = async (payload: any) => {
-
   const findCar = await Car.findOne({
     registrationNumber: payload.registrationNumber,
     isSell: false,
@@ -322,12 +321,10 @@ const buyCar = async (payload: any, user: TAuthUser) => {
     message: `Congratulations! your car has been sell`,
     type: NOTIFICATION_TYPE.car,
     role: USER_ROLE.dealer,
-    link: "/dashboard/total-private-car-sell",
+    link: '/dashboard/total-private-car-sell',
   };
 
   await sendNotification(user, notification);
-
-
 
   return result;
 };
@@ -630,6 +627,7 @@ const getContactPaper = async (carId: string) => {
           profileImage: '$profile.profileImage',
           address: '$profile.address',
           city: '$profile.city',
+          cvrNumber: '$profile.cvrNumber',
           street: '$profile.street',
           zip: '$profile.zip',
           websiteLink: '$profile.websiteLink',
@@ -643,6 +641,7 @@ const getContactPaper = async (carId: string) => {
           profileImage: '$privateUserProfile.profileImage',
           address: '$privateUserProfile.address',
           city: '$privateUserProfile.city',
+          cvrNumber: '$privateUserProfile.cvrNumber',
           street: '$profile.street',
           zip: '$privateUserProfile.zip',
           websiteLink: '$privateUserProfile.websiteLink',

@@ -57,7 +57,6 @@ const registerUser = async (payload: TRegister) => {
 };
 
 const createUser = async (payload: any) => {
-
   if (!payload) {
     throw new AppError(httpStatus.BAD_REQUEST, 'You did not fill the form');
   }

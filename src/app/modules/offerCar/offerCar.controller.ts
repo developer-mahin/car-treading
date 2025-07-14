@@ -81,7 +81,7 @@ const updateOfferCarContactPaper = catchAsync(async (req, res) => {
   const result = await OfferCarService.updateOfferCarContactPaper(
     req.body,
     req.params.offerCarId,
-    req.user as TAuthUser
+    req.user as TAuthUser,
   );
   sendResponse(res, {
     success: true,

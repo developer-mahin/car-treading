@@ -14,6 +14,7 @@ import QueryBuilder from '../../QueryBuilder/queryBuilder';
 import Car from '../car/car.model';
 import SubmitListing from '../submitListing/submitListing.model';
 import OfferCar from '../offerCar/offerCar.model';
+import { orderTransportHtml } from '../../../shared/html/orderTransportHtml';
 
 const getAllUsersList = async (query: Record<string, unknown>) => {
   // const userAggregation = new QueryBuilder(
@@ -231,9 +232,7 @@ const userAction = async (id: string, payload: Record<string, unknown>) => {
       break;
 
     case 'delete':
-      result = await User.findOneAndDelete(
-        { _id: id },
-      );
+      result = await User.findOneAndDelete({ _id: id });
       break;
     default:
       break;
@@ -248,21 +247,24 @@ const orderTransport = async (
     carModel: string;
     offerCarId: string;
     userId?: string;
-    deliveryAddress: string;
-    receiverPhone: string;
+    deliveryAddress?: string;
+    receiverPhone?: string;
+    comments: string;
   },
 ) => {
   const findOrderTransport = await OrderTransport.findOne({
     userId: user.userId,
   });
 
+  const dealer = await User.findById(user.userId).populate('profile');
+
   if (!findOrderTransport) {
     throw new Error('Order transport not found');
   }
 
-  let carModel;
+  let carModel: any;
   // let carOwner
-  let car;
+  let car: any;
 
   if (payload.carModel) {
     carModel = (await CarModel.findById(payload.carModel)) as any;
@@ -270,14 +272,11 @@ const orderTransport = async (
     if (!carModel) {
       throw new Error('Car model not found');
     }
-
-    // carOwner = (await User.findById(payload.userId).populate(
-    //   'profile',
-    // )) as any;
-
     car = (await Car.findOne({
       carModelId: payload.carModel,
-    }).populate('companyId')) as any;
+    })
+      .populate('companyId')
+      .populate('carOwner')) as any;
 
     const saleCar = await SaleCar.findOne({
       carId: car._id,
@@ -285,14 +284,16 @@ const orderTransport = async (
 
     saleCar!.isOrderTransport = true;
     saleCar!.save();
-
-    // if (!carOwner) {
-    //   throw new Error('Car owner not found');
-    // }
   }
 
   if (payload.offerCarId) {
-    carModel = (await OfferCar.findById(payload.offerCarId)) as any;
+    carModel = (await OfferCar.findById(payload.offerCarId)
+      .populate({
+        path: 'dealerId',
+        populate: {
+          path: 'profile',
+        },
+      })) as any;
 
     if (!carModel) {
       throw new Error('Offer car not found');
@@ -301,139 +302,36 @@ const orderTransport = async (
     carModel.save();
     car = await SubmitListing.findOne({
       _id: carModel.submitListingCarId,
+    }).populate({
+      path: 'userId',
+      populate: {
+        path: 'profile',
+      },
     });
   }
 
-  await sendMail({
-    email: findOrderTransport?.email,
-    subject: 'Order Transport Request',
-    html: `
-  
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Car Transport Request</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      color: #333;
-      background-color: #f4f4f4;
-      padding: 20px;
-    }
-    .container {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      width: 600px;
-      margin: 0 auto;
-    }
-    h1 {
-      color: #2c3e50;
-    }
-    p {
-      font-size: 16px;
-    }
-    .details {
-      margin-top: 20px;
-      padding: 10px;
-      background-color: #ecf0f1;
-      border-radius: 5px;
-    }
-    .details p {
-      margin: 5px 0;
-    }
-    .footer {
-      margin-top: 30px;
-      font-size: 14px;
-      color: #7f8c8d;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Car Transport Request</h1>
-    <p>Dear ${findOrderTransport?.companyName},</p>
-    <p>I hope this message finds you well. We are requesting your services for transporting a car from the seller to the buyer. Please find the details below:</p>
+  const emails = [
+    { email: payload.carModel ? car?.carOwner?.email : car?.userId?.email },
+    { email: dealer?.email },
+    { email: findOrderTransport?.email },
+  ];
 
-<div class="details">
-  <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
-    <thead>
-      <tr>
-        <th colspan="2" style="text-align: left; background-color: #f2f2f2; padding: 10px; font-size: 16px;">Car Transport Details</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Car Details:</td>
-        <td style="padding: 8px; border: 1px solid #ddd;">
-          Brand - ${carModel?.brand || carModel?.mark}
-          Model - ${carModel?.model}
-          Year - ${carModel?.modelYear || carModel?.modelsYear}
-          Number Plates - ${carModel?.numberPlates || 'N/A'}
-        </td>
-      </tr>
-      <tr>
-        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">
-          Seller Name:
-        </td>
-        <td style="padding: 8px; border: 1px solid #ddd;">
-          ${payload.carModel
-        ? car?.companyId?.first_name + ' ' + car?.companyId?.last_name
-        : car?.firstName + ' ' + car?.lastName
-      }
-        </td>
-      </tr>
-      <tr>
-        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Seller Address:</td>
-        <td style="padding: 8px; border: 1px solid #ddd;">
-          ${car?.companyId?.city || car?.city}
-        </td>
-      </tr>
-      <tr>
-        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Seller Phone:</td>
-        <td style="padding: 8px; border: 1px solid #ddd;">
-          ${car?.companyId?.phoneNumber || car?.phoneNumber}
-        </td>
-      </tr>
+  console.log(carModel);
 
-      <p>Delivery Details</p>
-      <tr>
-        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">
-          Receiver Address:
-        </td>
-        <td style="padding: 8px; border: 1px solid #ddd;">
-          ${payload.deliveryAddress}
-        </td>
-      </tr>
+  return
 
-       <tr>
-        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">
-          Receiver Phone:
-        </td>
-        <td style="padding: 8px; border: 1px solid #ddd;">
-          ${payload.receiverPhone}
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-    <p>Please confirm if the transport service is available, and let us know the estimated cost and delivery time. If you need any more details, feel free to reach out.</p>
-    <p>We look forward to working with you on this transport request.</p>
-
-    <div class="footer">
-      <p>Best regards,<br>
-      Car Treading<br>
-    </p>
-    </div>
-  </div>
-</body>
-</html>
-
-    `,
+  emails.forEach(async (email) => {
+    await sendMail({
+      email: email.email,
+      subject: 'Order Transport Request',
+      html: orderTransportHtml(
+        findOrderTransport,
+        car,
+        carModel,
+        dealer,
+        payload,
+      ),
+    });
   });
 
   return;

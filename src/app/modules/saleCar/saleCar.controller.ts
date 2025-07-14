@@ -18,7 +18,7 @@ const updateContactPaper = catchAsync(async (req, res) => {
   const result = await SaleCarService.updateContactPaper(
     req.body,
     req.params.saleCarId,
-    req.user as TAuthUser
+    req.user as TAuthUser,
   );
   sendResponse(res, {
     success: true,

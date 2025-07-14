@@ -14,7 +14,7 @@ import { NOTIFICATION_TYPE } from '../notification/notification.interface';
 const updateContactPaper = async (
   payload: Partial<TSaleCar>,
   saleCarId: string,
-  user: TAuthUser
+  user: TAuthUser,
 ) => {
   const findSaleCar = await SaleCar.findById(saleCarId);
 
@@ -38,8 +38,12 @@ const updateContactPaper = async (
     );
   }
 
-  const receiverId = user.role === USER_ROLE.dealer ? findSaleCar.userId : findSaleCar.dealerId
-  const link = user.role === USER_ROLE.dealer ? '/dashboard/total-private-car-sell' : '/dashboard/total-dealer-car-sell'
+  const receiverId =
+    user.role === USER_ROLE.dealer ? findSaleCar.userId : findSaleCar.dealerId;
+  const link =
+    user.role === USER_ROLE.dealer
+      ? '/dashboard/total-private-car-sell'
+      : '/dashboard/total-dealer-car-sell';
 
   const notification = {
     senderId: user.userId,
@@ -48,7 +52,7 @@ const updateContactPaper = async (
     message: `Contact paper has been updated for the car`,
     type: NOTIFICATION_TYPE.car,
     role: USER_ROLE.private_user,
-    link
+    link,
   };
 
   await sendNotification(user, notification);

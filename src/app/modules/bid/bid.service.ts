@@ -143,7 +143,7 @@ const bidAction = async (payload: {
       message: `You bid has been accepted`,
       type: NOTIFICATION_TYPE.bid,
       role: USER_ROLE.private_user,
-      link: "/dashboard/total-dealer-car-sell",
+      link: '/dashboard/total-dealer-car-sell',
     };
 
     const user = {
@@ -157,7 +157,7 @@ const bidAction = async (payload: {
     if (!updateCar) {
       throw new AppError(httpStatus.NOT_FOUND, 'Car not found');
     }
-  } else if (payload.status === "rejected") {
+  } else if (payload.status === 'rejected') {
     const notification = {
       senderId: findBidCar.userId,
       receiverId: findBidCar.dealerId,
@@ -165,9 +165,9 @@ const bidAction = async (payload: {
       message: `You bid has been rejected`,
       type: NOTIFICATION_TYPE.bid,
       role: USER_ROLE.private_user,
-      link: "/dashboard/my-bids",
+      link: '/dashboard/my-bids',
     };
-    console.log(notification, "notification");
+    console.log(notification, 'notification');
 
     const user = {
       userId: findBidCar.userId,
@@ -187,7 +187,7 @@ const bidAction = async (payload: {
 const myBidList = async (query: Record<string, unknown>, user: TAuthUser) => {
   const resultAggregation = new AggregationQueryBuilder(query);
 
-  const matchStage: any = {}
+  const matchStage: any = {};
   if (user.role === USER_ROLE.private_user) {
     matchStage['userId'] = new mongoose.Types.ObjectId(String(user.userId));
   } else {
@@ -233,12 +233,11 @@ const myBidList = async (query: Record<string, unknown>, user: TAuthUser) => {
 
   const pagination = await resultAggregation.countTotal(Bid);
   return { pagination, result };
-}
-
+};
 
 export const BidService = {
   createBid,
   getBidList,
   bidAction,
-  myBidList
+  myBidList,
 };

@@ -47,5 +47,5 @@ export const BidController = {
   createBid,
   getBidList,
   bidAction,
-  myBidList
+  myBidList,
 };
