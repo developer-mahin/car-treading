@@ -287,13 +287,7 @@ const orderTransport = async (
   }
 
   if (payload.offerCarId) {
-    carModel = (await OfferCar.findById(payload.offerCarId)
-      .populate({
-        path: 'dealerId',
-        populate: {
-          path: 'profile',
-        },
-      })) as any;
+    carModel = (await OfferCar.findById(payload.offerCarId)) as any;
 
     if (!carModel) {
       throw new Error('Offer car not found');
@@ -316,9 +310,6 @@ const orderTransport = async (
     { email: findOrderTransport?.email },
   ];
 
-  console.log(carModel);
-
-  return
 
   emails.forEach(async (email) => {
     await sendMail({

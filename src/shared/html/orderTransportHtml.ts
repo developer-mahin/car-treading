@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const orderTransportHtml = (
-  findOrderTransport: any,
-  car: any,
-  carModel: any,
-  dealer: any,
-  payload: any,
+    findOrderTransport: any,
+    car: any,
+    carModel: any,
+    dealer: any,
+    payload: any,
 ) => {
-  return `
+    return `
     <!DOCTYPE html>
 <html lang="en">
 
@@ -80,302 +80,353 @@ export const orderTransportHtml = (
                         ${carModel?.brand || carModel?.mark} ${carModel?.model}
                     </td>
                 </tr>
-               
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd;font-weight: 700;" >
-        Biltype
-        </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${car?.carCategory || 'N/A'}
-</td>
-    </tr>
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd;font-weight: 700;" >
-        Kilometer
-        </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${car?.noOfKmDriven || carModel?.DrivenKm + 'KM' || 'N/A'}
-</td>
-    </tr>
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd; font-weight: 700;" >
-        Brændstof
-        </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${carModel?.fuelType || carModel?.fuel || 'N/A'}
-</td>
-    </tr>
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd ; font-weight: 700;" >
-        Chassisnummer
-        </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${car?.chassisNumber || carModel?.chassisNumber || 'N/A'}
-</td>
-    </tr>
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd; font-weight: 700;" >
-        Registreringsnummer
-        </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${car?.registrationNumber || carModel?.carLicensePlateNumber || 'N/A'}
-</td>
-    </tr>
 
-    </table>
-
-    < table style = "width: 100%; border-collapse: collapse; margin-top: 20px;" >
-
-        <h1
-                    style="text-align: left; background-color: #f2f2f2; padding: 10px 10px 0 0 ; font-size: 16px; font-weight: 900;" >
-    From Address:
-</h1>
-
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd; font-weight: 700;" >
-        Fornavn
-        </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${payload.carModel && car?.companyId?.first_name}
-</td>
-    </tr>
-
-
-
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd ; font-weight: 700;" >
-        Efternavn
-        </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${payload.carModel && car?.companyId?.last_name}
-</td>
-
-
-
-    </tr>
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd; font-weight: 700;" > Address: </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${car?.companyId?.street}
-</td>
-    </tr>
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;" > Postnr.</td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${car?.companyId?.postCode}
-</td>
-    </tr>
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;" > By: </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${car?.companyId?.city}
-</td>
-    </tr>
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;" > Telefon: </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${car?.companyId?.phoneNumber}
-</td>
-    </tr>
-
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;" > Privatperson / Virksomhed CVR:
-</td>
-    < td style = "padding: 8px; border: 1px solid #ddd;" >
-        ${
-          car?.companyId?.cvrNumber ? car?.companyId?.cvrNumber : 'Privatperson'
-        }
-</td>
-    </tr>
-
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;" > Email: </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${car?.carOwner?.email}
-</td>
-    </tr>
-
-    </table>
-
-
-    < table style = "width: 100%; border-collapse: collapse; margin-top: 20px;" >
-
-        <h1
-                    style="text-align: left; background-color: #f2f2f2; padding: 10px 10px 0 0 ; font-size: 16px; font-weight: 900;" >
-    To Address:
-</h1>
-
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd; font-weight: 700;" >
-        Fornavn
-        </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${dealer?.profile?.first_name}
-</td>
-    </tr>
-
-
-
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd ; font-weight: 700;" >
-        Efternavn
-        </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${dealer?.profile?.last_name}
-</td>
-
-
-
-    </tr>
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd; font-weight: 700;" > Address: </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${dealer?.profile?.street}
-</td>
-    </tr>
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;" > Postnr.</td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${dealer?.profile?.zip}
-</td>
-    </tr>
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;" > By: </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${dealer?.profile?.city}
-</td>
-    </tr>
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;" > Telefon: </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${dealer?.profile?.phoneNumber}
-</td>
-    </tr>
-
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;" > Privatperson / Virksomhed CVR:
-</td>
-    < td style = "padding: 8px; border: 1px solid #ddd;" >
-        ${
-          dealer?.profile?.cvrNumber
-            ? dealer?.profile?.cvrNumber
-            : 'Privatperson'
-        }
-</td>
-    </tr>
-
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;" > Email: </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${dealer?.email}
-</td>
-    </tr>
-
-    </table>
-
-
-    < table style = "width: 100%; border-collapse: collapse; margin-top: 20px;" >
-
-        <h1
-                    style="text-align: left; background-color: #f2f2f2; padding: 10px 10px 0 0 ; font-size: 16px; font-weight: 900;" >
-    Comments:
-</h1>
-
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd; font-weight: 700;" >
-        ${payload?.comments ? payload?.comments : 'No comments'}
-</td>
-
-    </tr>
-
-
-    </table>
-    < table style = "width: 100%; border-collapse: collapse; margin-top: 20px;" >
-
-        <h1
-                    style="text-align: left; background-color: #f2f2f2; padding: 10px 10px 0 0 ; font-size: 16px; font-weight: 900;" >
-    Transportør Company Details:
-</h1>
-
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd; font-weight: 700;" >
-        companyName
-        </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${findOrderTransport?.companyName}
-</td>
-    </tr>
-
-
-
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd ; font-weight: 700;" >
-        Address
-        </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${findOrderTransport?.street}
-</td>
-    </tr>
-
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd ; font-weight: 700;" >
-        Postnr.
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd;font-weight: 700;">
+                        Biltype
                     </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${findOrderTransport?.zip}
-</td>
-    </tr>
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd ; font-weight: 700;" >
-        By
-        </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${findOrderTransport?.address}
-</td>
-    </tr>
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd ; font-weight: 700;" >
-        Telefon
-        </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${findOrderTransport?.phone}
-</td>
-    </tr>
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd ; font-weight: 700;" >
-        Email
-        </td>
-        < td style = "padding: 8px; border: 1px solid #ddd;" >
-            ${findOrderTransport?.email}
-</td>
-    </tr>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${car?.carCategory || 'N/A'}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd;font-weight: 700;">
+                        Kilometer
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${car?.noOfKmDriven || carModel?.DrivenKm + "KM" || 'N/A'}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: 700;">
+                        Brændstof
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${carModel?.fuelType || carModel?.fuel || 'N/A'}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd ; font-weight: 700;">
+                        Chassisnummer
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${car?.chassisNumber || carModel?.chassisNumber || 'N/A'}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: 700;">
+                        Registreringsnummer
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${car?.registrationNumber || carModel?.carLicensePlateNumber ||
+        'N/A'}
+                    </td>
+                </tr>
 
-    < tr >
-    <td style="padding: 8px; border: 1px solid #ddd ; font-weight: 700;" >
-        Contact Person
-            </td>
-            < td style = "padding: 8px; border: 1px solid #ddd;" >
-                ${findOrderTransport?.contactPerson}
-</td>
-    </tr>
+            </table>
 
 
-    </table>
+            <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+
+                <h1
+                    style="text-align: left; background-color: #f2f2f2; padding: 10px 10px 0 0 ; font-size: 16px; font-weight: 900;">
+                    From Address
+                </h1>
+
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: 700;">
+                        Fornavn
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${payload?.carModel
+            ? car?.companyId?.first_name : dealer?.profile?.first_name
+        }
+                    </td>
+                </tr>
 
 
+
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd ; font-weight: 700;">
+                        Efternavn
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${payload?.carModel
+            ? car?.companyId?.last_name : dealer?.profile?.last_name
+        }
+                    </td>
+
+
+
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: 700;"> Address: </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${payload?.carModel
+            ? car?.companyId?.street : dealer?.profile?.street
+        }
+
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">
+                        Postnr.</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${payload?.carModel
+            ? car?.companyId?.postCode : dealer?.profile?.zip
+        }
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">
+                        By: </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${payload?.carModel
+            ? car?.companyId?.city : dealer?.profile?.city
+        }
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">
+                        Telefon: </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${payload?.carModel
+            ? car?.companyId?.phoneNumber : dealer?.profile?.phoneNumber
+        }
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">
+                        Privatperson / Virksomhed CVR:
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${!payload?.offerCarId ? car?.companyId?.cvrNumber ?
+            car?.companyId?.cvrNumber : 'Privatperson'
+            : dealer?.profile?.cvrNumber ? dealer?.profile?.cvrNumber :
+                'Privatperson'
+        }
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">
+                        Email: </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${payload?.carModel
+            ? car?.carOwner?.email : dealer?.email
+        }
+                    </td>
+                </tr>
+
+            </table>
+
+            <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+
+                <h1
+                    style="text-align: left; background-color: #f2f2f2; padding: 10px 10px 0 0 ; font-size: 16px; font-weight: 900;">
+
+                    To Address
+
+                </h1>
+
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: 700;">
+                        Fornavn
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${payload?.carModel ? dealer?.profile?.first_name : car?.userId?.profile?.first_name}
+                    </td>
+                </tr>
+
+
+
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd ; font-weight: 700;">
+                        Efternavn
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                       
+                          ${payload?.carModel ? dealer?.profile?.last_name : car?.userId?.profile?.last_name}
+                    </td>
+
+
+
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: 700;">
+                        Address:
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                       
+                        ${payload?.carModel ? dealer?.profile?.street : car?.userId?.profile?.street}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">
+                        Postnr.
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                      
+                         ${payload?.carModel ? dealer?.profile?.zip : car?.userId?.profile?.zip}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">
+                        By:
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        
+                             ${payload?.carModel ? dealer?.profile?.city : car?.userId?.profile?.city}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">
+                        Telefon:
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        
+                         ${payload?.carModel ? dealer?.profile?.phoneNumber : car?.userId?.profile?.phoneNumber}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">
+                        Privatperson
+                        /
+                        Virksomhed
+                        CVR:
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${payload?.carModel ? dealer?.profile?.cvrNumber ? dealer?.profile?.cvrNumber : 'Privatperson' : car?.userId?.profile?.cvrNumber ? car?.userId?.profile?.cvrNumber : 'Privatperson'}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">
+                        Email:
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        
+                        ${payload?.carModel ? dealer?.email : car?.userId?.email}
+                    </td>
+                </tr>
+
+            </table>
+
+
+            <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+
+                <h1
+                    style="text-align: left; background-color: #f2f2f2; padding: 10px 10px 0 0 ; font-size: 16px; font-weight: 900;">
+                    Comments:
+                </h1>
+
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: 700;">
+                        ${payload?.comments
+            ?
+            payload?.comments
+            :
+            'No comments'}
+                    </td>
+
+                </tr>
+
+
+            </table>
+
+
+            <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+
+                <h1
+                    style="text-align: left; background-color: #f2f2f2; padding: 10px 10px 0 0 ; font-size: 16px; font-weight: 900;">
+                    Transportør Company Details:
+                </h1>
+
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: 700;">
+                        companyName
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${findOrderTransport?.companyName}
+                    </td>
+                </tr>
+
+
+
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd ; font-weight: 700;">
+                        Address
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${findOrderTransport?.address}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd ; font-weight: 700;">
+                        Postnr.
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${findOrderTransport?.zip}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd ; font-weight: 700;">
+                        By
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${findOrderTransport?.address}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd ; font-weight: 700;">
+                        Telefon
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${findOrderTransport?.phone}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd ; font-weight: 700;">
+                        Email
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${findOrderTransport?.email}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd ; font-weight: 700;">
+                        Contact
+                        Person
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        ${findOrderTransport?.contactPerson}
+                    </td>
+                </tr>
+
+
+            </table>
+
+
+        </div>
+        <p> Please confirm if the transport service is available, and let us know the estimated cost and delivery time.
+            If you need any more details, feel free to reach out.</p>
+        <p> We look forward to working with you on this transport request.</p>
+
+        <div class="footer">
+            <p>Best regards, <br>
+                Car Treading < br>
+            </p>
+        </div>
     </div>
-    < p > Please confirm if the transport service is available, and let us know the estimated cost and delivery time.
-        If you need any more details, feel free to reach out.</p>
-            < p > We look forward to working with you on this transport request.</p>
+</body>
 
-                < div class="footer" >
-                    <p>Best regards, <br>
-                        Car Treading < br >
-                            </p>
-                            </div>
-                            </div>
-                            </body>
+</html>
+    
+    
+    `
 
-                            </html>
-                                `;
-};
+}
