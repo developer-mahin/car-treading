@@ -1,5 +1,5 @@
-import Redis, { Redis as RedisClient } from 'ioredis';
 import colors from 'colors';
+import Redis, { Redis as RedisClient } from 'ioredis';
 
 // Define the type for cache data
 interface CacheData {

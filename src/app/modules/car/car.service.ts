@@ -19,6 +19,7 @@ import Car from './car.model';
 import generateUID from '../../utils/generateUid';
 import { NOTIFICATION_TYPE } from '../notification/notification.interface';
 import sendNotification from '../../../socket/sendNotification';
+import { cacheData, getCachedData } from '../../../redis';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const carListing = async (payload: any) => {
@@ -333,6 +334,16 @@ const getTotalPurchasedCars = async (
   user: TAuthUser,
   query: Record<string, unknown>,
 ) => {
+
+  const cacheKey = `purchasedCars:${user.userId}:${JSON.stringify(query)}`;
+
+  // Try to fetch from Redis cache first
+  const cached = await getCachedData<{ meta: any; result: any }>(cacheKey);
+  if (cached) {
+    console.log('🚀 Serving from Redis cache');
+    return cached;
+  }
+
   const carAggregation = new AggregationQueryBuilder(query);
   // return
   const result = await carAggregation
@@ -447,7 +458,13 @@ const getTotalPurchasedCars = async (
     .paginate()
     .execute(SaleCar);
   const pagination = await carAggregation.countTotal(SaleCar);
-  return { meta: pagination, result };
+
+  const dataToCache = { meta: pagination, result };
+
+  // Cache result for 60 seconds (you can change the TTL)
+  await cacheData(cacheKey, dataToCache, 60);
+
+  return dataToCache;
 };
 
 const getCarDetails = async (carId: string) => {

@@ -9,6 +9,7 @@ import socketIO from './socket/socket';
 
 const socketServer = createServer(); // HTTP server for Socket.IO
 
+
 // Initialize Socket.IO with type safety
 let server: Server;
 export const IO: SocketIOServer = new SocketIOServer(socketServer, {
@@ -41,7 +42,7 @@ async function main() {
         ).bold,
       );
     });
-
+    // await redis.connect();
     // Pass Socket.IO instance to socketIO module
     socketIO(IO);
     globalThis.io = IO; // Store io in global for access throughout your app
@@ -74,3 +75,4 @@ process.on('uncaughtException', (err) => {
     });
   }
 });
+
