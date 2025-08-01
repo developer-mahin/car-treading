@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: car-treading-app
+    ports:
+      - '8010:8010' # Server port
+      - '8001:8001' # Socket port
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - car-treading-net
+
+  redis:
+    image: redis:latest
+    container_name: car-treading-redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    networks:
+      - car-treading-net
+
+volumes:
+  redis-data:
+
+networks:
+  car-treading-net:
