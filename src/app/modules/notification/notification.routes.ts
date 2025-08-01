@@ -17,7 +17,7 @@ router
     NotificationController.getNotificationCount,
   )
   .patch(
-    '/action/',
+    '/action',
     auth(USER_ROLE.private_user, USER_ROLE.dealer, USER_ROLE.admin),
     NotificationController.notificationAction,
   );
