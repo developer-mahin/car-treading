@@ -23,7 +23,7 @@ router
   .post('/buy_car', auth(USER_ROLE.dealer), CarController.buyCar)
   .post(
     '/add_brand',
-    upload.fields([{ name: 'images', maxCount: 110 }]),
+    upload.single("image"),
     parseFormData,
     CarController.addBrand,
   )
