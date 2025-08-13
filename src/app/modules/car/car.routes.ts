@@ -74,6 +74,6 @@ router
     '/:carId',
     auth(USER_ROLE.dealer, USER_ROLE.admin, USER_ROLE.private_user),
     CarController.deleteCar,
-  );
+  ).delete("/delete_brand/:brandId", CarController.deleteBrand);
 
 export const CarRoutes = router;

@@ -834,6 +834,10 @@ const getBrand = async () => {
   return await BrandModel.find({});
 };
 
+const deleteBrand  = async (brandId: string) => {
+  return await BrandModel.findByIdAndDelete(brandId);
+};
+
 export const CarService = {
   getCVR,
   addBrand,
@@ -848,4 +852,5 @@ export const CarService = {
   getContactPaper,
   getTotalPurchasedCars,
   deleteCar,
+  deleteBrand
 };

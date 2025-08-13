@@ -292,6 +292,17 @@ const getBrand = catchAsync(async (req, res) => {
   });
 });
 
+const deleteBrand = catchAsync(async (req, res) => {
+  const result = await CarService.deleteBrand(req.params.brandId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Car deleted successfully',
+    data: result,
+  });
+});
+
 export const CarController = {
   getCVR,
   addBrand,
@@ -306,4 +317,5 @@ export const CarController = {
   getContactPaper,
   getTotalPurchasedCars,
   deleteCar,
+  deleteBrand,
 };

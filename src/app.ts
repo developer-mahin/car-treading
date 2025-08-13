@@ -18,7 +18,8 @@ app.use(
     origin: [
       'https://dashboard.engrobasen.dk',
       'https://engrobasen.dk',
-      "http://localhost:8001"
+      "http://localhost:5173",
+      "http://localhost:5174"
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
