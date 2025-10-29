@@ -14,19 +14,19 @@ export const forgotPasswordHtml = (title: string, otp: number) => {
   </head>
    <body>
     <div class="preheader">
-      Reset your password for your LOCAL MARGIN account.
+      Reset your password for your CAT-TREADING account.
     </div>
     <div class="email-container">
       <!-- Header -->
       <div class="email-header">
-        <img src="https://image.similarpng.com/file/similarpng/very-thumbnail/2020/05/Solutions-website-logo-png.png" alt="The Local Margin Logo" />
+        <img src="https://image.similarpng.com/file/similarpng/very-thumbnail/2020/05/Solutions-website-logo-png.png" alt="The CAT-TREADING Logo" />
         <h1>Reset Your Password</h1>
       </div>
       <!-- Content -->
       <div class="email-content">
         <h2>Hello!</h2>
         <p>
-          We received a request to reset the password for your <strong>LOCAL MARGIN</strong> account.
+          We received a request to reset the password for your <strong>CAT-TREADING</strong> account.
           If you did not make this request, you can safely ignore this email.
         </p>
         <p>Please use the One Time Password (OTP) below to proceed:</p>
@@ -37,12 +37,12 @@ export const forgotPasswordHtml = (title: string, otp: number) => {
         </p>
         <p>
           Sincerely,<br />
-          The <strong>LOCAL MARGIN</strong> Team
+          The <strong>CAT-TREADING</strong> Team
         </p>
       </div>
       <!-- Footer -->
       <div class="email-footer">
-        &copy; ${new Date().getFullYear()} <strong>LOCAL MARGIN</strong>. All rights reserved.
+        &copy; ${new Date().getFullYear()} <strong>CAT-TREADING</strong>. All rights reserved.
       </div>
     </div>
   </body>
